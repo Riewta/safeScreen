@@ -2,8 +2,6 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useRef } from "react";
-import { ChevronLeft, ChevronRight } from "lucide-react";
 import { FEATURED_PROMO } from "@/lib/mock-data";
 import { ProductCard } from "@/components/product/ProductCard";
 import { useLang } from "@/contexts/lang";
@@ -11,21 +9,6 @@ import { useLang } from "@/contexts/lang";
 export function PromoScroll() {
   const { pages: t } = useLang();
   const promo = FEATURED_PROMO;
-  const scrollRef = useRef<HTMLDivElement>(null);
-
-  const scroll = (direction: "left" | "right") => {
-    if (scrollRef.current) {
-      const scrollAmount = 300;
-      const scrollTo = direction === "left" 
-        ? scrollRef.current.scrollLeft - scrollAmount 
-        : scrollRef.current.scrollLeft + scrollAmount;
-      
-      scrollRef.current.scrollTo({
-        left: scrollTo,
-        behavior: "smooth",
-      });
-    }
-  };
 
   return (
     <section className="pt-4 pb-4 md:pt-4 md:pb-6 bg-white">
@@ -83,30 +66,13 @@ export function PromoScroll() {
         </div>
 
         {/* ── Products — horizontal scroll ── */}
-        <div className="relative group/scroll">
-          {/* Navigation Arrows (Sides) */}
-          <div className="absolute inset-y-0 left-1/2 -translate-x-1/2 w-full max-w-7xl px-4 md:px-6 pointer-events-none z-20">
-            <button 
-              onClick={() => scroll("left")}
-              className="hidden md:flex absolute left-4 top-1/2 -translate-y-1/2 -translate-x-1/2 pointer-events-auto w-12 h-12 bg-white rounded-full shadow-xl border border-[var(--km-border)] items-center justify-center text-[var(--km-text)] hover:bg-[var(--km-text)] hover:text-white transition-all opacity-0 group-hover/scroll:opacity-100 group-hover/scroll:translate-x-0"
-              aria-label="Previous products"
-            >
-              <ChevronLeft size={24} />
-            </button>
-            
-            <button 
-              onClick={() => scroll("right")}
-              className="hidden md:flex absolute right-4 top-1/2 -translate-y-1/2 translate-x-1/2 pointer-events-auto w-12 h-12 bg-white rounded-full shadow-xl border border-[var(--km-border)] items-center justify-center text-[var(--km-text)] hover:bg-[var(--km-text)] hover:text-white transition-all opacity-0 group-hover/scroll:opacity-100 group-hover/scroll:translate-x-0"
-              aria-label="Next products"
-            >
-              <ChevronRight size={24} />
-            </button>
-          </div>
-
-          <div 
-            ref={scrollRef}
-            className="overflow-x-auto scrollbar-none scroll-smooth -mx-4 md:-mx-6"
-          >
+        <div
+          className="overflow-x-auto scrollbar-none scroll-smooth -mx-4 md:-mx-6"
+          style={{
+            WebkitMaskImage: "linear-gradient(to right, transparent 0px, black max(80px, calc((100vw - 1280px) / 2 + 80px)), black calc(100% - max(80px, calc((100vw - 1280px) / 2 + 80px))), transparent 100%)",
+            maskImage: "linear-gradient(to right, transparent 0px, black max(80px, calc((100vw - 1280px) / 2 + 80px)), black calc(100% - max(80px, calc((100vw - 1280px) / 2 + 80px))), transparent 100%)",
+          }}
+        >
             <div className="flex gap-4 md:gap-5 w-max pb-4 px-4 md:px-6">
               {promo.products.map((p) => (
                 <div key={p.id} className="w-[160px] md:w-[220px] flex-shrink-0">
@@ -123,7 +89,6 @@ export function PromoScroll() {
                 </div>
               ))}
             </div>
-          </div>
         </div>
 
         {/* ── Mobile CTA button (Bottom) ── */}
