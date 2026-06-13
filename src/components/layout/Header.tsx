@@ -32,7 +32,6 @@ type HeaderConfig = {
 };
 
 type RouteConfigEntry = { pattern: RegExp | string; config: HeaderConfig };
-
 function buildRouteConfigs(t: Translations["header"]): RouteConfigEntry[] {
   return [
     // ── Checkout flow ──

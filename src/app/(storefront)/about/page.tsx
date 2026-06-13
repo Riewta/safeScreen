@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function AboutPage() {
   return (
     <main className="bg-white min-h-screen">
@@ -156,12 +158,12 @@ export default function AboutPage() {
           เลือกฟิล์มที่เหมาะกับคุณ หรือสอบถามทีมงานได้เลย
         </p>
         <div className="flex flex-col sm:flex-row gap-3 justify-center">
-          <a
+          <Link
             href="/products"
             className="inline-block bg-white text-[#2D2D2D] font-semibold px-8 py-3 rounded-full text-sm hover:bg-gray-100 transition-colors"
           >
             🛒 ดูสินค้าทั้งหมด →
-          </a>
+          </Link>
           <a
             href="https://line.me/ti/p/~@safescreenofficial"
             target="_blank"

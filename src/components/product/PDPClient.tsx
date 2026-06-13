@@ -1504,9 +1504,9 @@ export function PDPClient({ product, related }: Props) {
       <div className="hidden md:block">
         <div className="max-w-7xl mx-auto px-6 py-3">
           <nav className="text-xs text-[var(--km-text-muted)] flex items-center gap-1.5">
-            <a href="/" className="hover:text-[var(--km-text)] transition-colors">หน้าแรก</a>
+            <Link href="/" className="hover:text-[var(--km-text)] transition-colors">หน้าแรก</Link>
             <ChevronRight size={10} />
-            <a href="/products" className="hover:text-[var(--km-text)] transition-colors">สินค้าทั้งหมด</a>
+            <Link href="/products" className="hover:text-[var(--km-text)] transition-colors">สินค้าทั้งหมด</Link>
             <ChevronRight size={10} />
             <span className="text-[var(--km-text)] line-clamp-1">{product.name}</span>
           </nav>

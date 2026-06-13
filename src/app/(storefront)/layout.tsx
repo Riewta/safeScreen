@@ -8,7 +8,6 @@ import { SearchOverlay } from "@/components/layout/SearchOverlay";
 import { CheckoutSlideWrapper } from "@/components/layout/CheckoutSlideWrapper";
 import { CookieBanner } from "@/components/layout/CookieBanner";
 import { ScrollToTop } from "@/components/layout/ScrollToTop";
-import { RegionSelectorModal } from "@/components/layout/RegionSelectorModal";
 import { CartDrawer } from "@/components/cart/CartDrawer";
 import { NotifDrawer } from "@/components/layout/NotifDrawer";
 import { SplashScreen } from "@/components/layout/SplashScreen";
@@ -36,7 +35,6 @@ export default async function StorefrontLayout({ children }: { children: React.R
       <LiveChat />
       <SearchOverlay />
       <CookieBanner />
-      <RegionSelectorModal />
       <CartDrawer />
       <NotifDrawer />
     </LangProvider>

@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className="min-h-screen bg-gray-50">
@@ -7,8 +9,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           <span className="text-xs bg-gray-100 text-gray-500 px-2 py-1 rounded">CMS</span>
         </div>
         <nav className="flex items-center gap-4">
-          <a href="/admin/products" className="text-sm text-gray-600 hover:text-gray-900">Products</a>
-          <a href="/" className="text-sm text-gray-400 hover:text-gray-600">← Back to Store</a>
+          <Link href="/admin/products" className="text-sm text-gray-600 hover:text-gray-900">Products</Link>
+          <Link href="/" className="text-sm text-gray-400 hover:text-gray-600">← Back to Store</Link>
         </nav>
       </div>
       <main>{children}</main>
