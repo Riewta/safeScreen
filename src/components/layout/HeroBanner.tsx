@@ -122,7 +122,7 @@ export function HeroBanner({
   };
 
   return (
-    <div className="select-none w-full">
+    <div className="select-none w-full overflow-hidden" suppressHydrationWarning>
     <div className="pb-[42%] md:pb-[22%]" style={{ position: "relative", overflow: "hidden" }}>
       {/* Slides track */}
       <div
