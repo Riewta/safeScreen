@@ -118,12 +118,12 @@ export function FlashDeal() {
         </div>
       </div>
 
-      {/* Product horizontal scroll with edge fade */}
+      {/* Product horizontal scroll with viewport-aware edge fade */}
       <div
         className="overflow-x-auto scrollbar-none scroll-smooth"
         style={{
-          WebkitMaskImage: "linear-gradient(to right, transparent 0px, black 80px, black calc(100% - 80px), transparent 100%)",
-          maskImage: "linear-gradient(to right, transparent 0px, black 80px, black calc(100% - 80px), transparent 100%)",
+          WebkitMaskImage: "linear-gradient(to right, transparent 0px, black max(80px, calc((100vw - 1280px) / 2 + 80px)), black calc(100% - max(80px, calc((100vw - 1280px) / 2 + 80px))), transparent 100%)",
+          maskImage: "linear-gradient(to right, transparent 0px, black max(80px, calc((100vw - 1280px) / 2 + 80px)), black calc(100% - max(80px, calc((100vw - 1280px) / 2 + 80px))), transparent 100%)",
         }}
       >
         <div className="flex gap-4 md:gap-5 w-max pb-4 px-20 md:px-[max(80px,calc((100vw-1280px)/2+80px))]">
