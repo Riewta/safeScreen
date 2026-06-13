@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Image from "next/image";
 
 export function SplashScreen() {
   const [visible, setVisible] = useState(false);
@@ -37,22 +38,16 @@ export function SplashScreen() {
           animation: "splashPop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards",
         }}
       >
-        {/* Shield icon */}
-        <div className="w-16 h-16 rounded-2xl bg-[var(--km-text)] flex items-center justify-center shadow-lg">
-          <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
-            <path
-              d="M12 2L3 6v6c0 5.25 3.75 10.15 9 11.25C17.25 22.15 21 17.25 21 12V6L12 2z"
-              fill="white"
-              opacity="0.9"
-            />
-            <path
-              d="M9 12l2 2 4-4"
-              stroke="black"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
+        {/* Brand logo */}
+        <div className="w-20 h-20 flex items-center justify-center">
+          <Image
+            src="/logo-icon.png"
+            alt="SafeScreen Tech"
+            width={80}
+            height={80}
+            className="object-contain"
+            priority
+          />
         </div>
 
         <div className="text-center">
