@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useEffect } from "react";
-import { Loader2 } from "lucide-react";
+import { SpinnerGap } from "@phosphor-icons/react";
 
 interface OtpBoxInputProps {
   digits?: number;
@@ -28,22 +28,22 @@ export function OtpBoxInput({
   submitLabel = "ยืนยันรหัส OTP",
   autoFocus = true,
 }: OtpBoxInputProps) {
-  const refs = Array.from({ length: digits }, () => useRef<HTMLInputElement>(null));
+  const refsContainer = useRef<(HTMLInputElement | null)[]>([]);
 
   useEffect(() => {
-    if (autoFocus) setTimeout(() => refs[0].current?.focus(), 100);
-  }, []);
+    if (autoFocus) setTimeout(() => refsContainer.current[0]?.focus(), 100);
+  }, [autoFocus]);
 
   const handleChange = (i: number, val: string) => {
     if (!/^\d?$/.test(val)) return;
     const next = [...value];
     next[i] = val;
     onChange(next);
-    if (val && i < digits - 1) refs[i + 1].current?.focus();
+    if (val && i < digits - 1) refsContainer.current[i + 1]?.focus();
   };
 
   const handleKeyDown = (i: number, e: React.KeyboardEvent) => {
-    if (e.key === "Backspace" && !value[i] && i > 0) refs[i - 1].current?.focus();
+    if (e.key === "Backspace" && !value[i] && i > 0) refsContainer.current[i - 1]?.focus();
   };
 
   const isFilled = value.every(Boolean);
@@ -54,7 +54,7 @@ export function OtpBoxInput({
         {value.map((digit, i) => (
           <input
             key={i}
-            ref={refs[i]}
+            ref={(el) => { refsContainer.current[i] = el; }}
             type="text"
             inputMode="numeric"
             maxLength={1}
@@ -86,7 +86,7 @@ export function OtpBoxInput({
           disabled={!isFilled || loading}
           className="w-full h-12 rounded-full bg-[var(--km-text)] text-white text-[14px] font-medium flex items-center justify-center gap-2 active:scale-[0.98] transition-all disabled:opacity-50"
         >
-          {loading ? <Loader2 className="animate-spin" size={20} /> : submitLabel}
+          {loading ? <SpinnerGap className="animate-spin" size={20} /> : submitLabel}
         </button>
       )}
     </div>

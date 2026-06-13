@@ -12,8 +12,8 @@ import { ConfirmDialog } from "@/components/ui/ConfirmDialog";
 const PAYMENT_WINDOW_MS = 24 * 60 * 60 * 1000;
 
 function useCountdown(createdAt: string) {
-  const deadline = new Date(createdAt).getTime() + PAYMENT_WINDOW_MS;
-  const [remaining, setRemaining] = useState(deadline - Date.now());
+  const deadline = createdAt ? new Date(createdAt).getTime() + PAYMENT_WINDOW_MS : 0;
+  const [remaining, setRemaining] = useState(() => deadline - Date.now());
   useEffect(() => {
     const timer = setInterval(() => setRemaining(deadline - Date.now()), 1000);
     return () => clearInterval(timer);
@@ -63,6 +63,8 @@ export default function OrderDetailPage() {
     }
   }, [order?.id, order?.status, order?.createdAt, updateStatus]);
 
+  const countdown = useCountdown(order?.createdAt ?? "");
+
   if (!order) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[60vh] text-[var(--km-text-muted)]">
@@ -73,7 +75,6 @@ export default function OrderDetailPage() {
   }
 
   const statusColor = STATUS_COLOR[order.status];
-  const countdown   = useCountdown(order.createdAt);
 
   return (
     <div className="pb-32">

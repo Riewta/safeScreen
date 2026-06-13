@@ -193,7 +193,7 @@ export function DealCard({ product: p }: { product: DealProduct }) {
       {/* Badge - Absolute to the whole card to avoid clipping */}
       <div className="absolute top-3 left-3 z-20">
         {p.badge === "hot" && (
-          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-[12px] font-normal bg-white border border-[#171717] text-[#171717]">
+          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-[12px] font-normal bg-yellow-400 text-yellow-900">
             ยอดฮิต
           </span>
         )}

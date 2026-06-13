@@ -13,6 +13,7 @@ import { useUIStore } from "@/stores/ui.store";
 import { useAuthStore } from "@/stores/auth.store";
 import { ConfirmDialog } from "@/components/ui/ConfirmDialog";
 import { useLang } from "@/contexts/lang";
+import { PRODUCTS } from "@/lib/mock-data";
 
 const SHIPPING_FEE      = 60;
 const FREE_SHIPPING_THR = 590;
@@ -29,15 +30,15 @@ interface BundleSuggestion {
 }
 
 const BUNDLE_SUGGESTIONS: BundleSuggestion[] = [
-  { id: "7", name: "Anti-Blue Light Film — MacBook Air 13.6\"", price: 1190, triggerCategories: ["magnetic-privacy"] },
-  { id: "1", name: "Magnetic Privacy Film — MacBook Air 13.3\"", price: 1190, triggerCategories: ["anti-blue"] },
-  { id: "8", name: "Anti-Blue Light Film — Universal 14\"", price: 890, triggerCategories: ["nano"] },
+  { id: "2",  name: 'NanoSnap Privacy Screen — MacBook Air 13.6" (M2/M3/M4)', price: 1390, triggerCategories: ["magnetic-privacy"] },
+  { id: "11", name: 'NanoSnap Privacy Screen — Universal 15.6" (16:9)',        price: 1090, triggerCategories: ["anti-blue"] },
+  { id: "8",  name: 'NanoSnap Privacy Screen — Universal 14" (16:9)',          price: 1090, triggerCategories: ["nano"] },
 ];
 
 const DEFAULT_BUNDLE: BundleSuggestion = {
-  id: "7",
-  name: "Anti-Blue Light Film — MacBook Air 13.6\"",
-  price: 1190,
+  id: "2",
+  name: 'NanoSnap Privacy Screen — MacBook Air 13.6" (M2/M3/M4)',
+  price: 1390,
   triggerCategories: [],
 };
 
@@ -76,13 +77,14 @@ function BundleUpsell({ cartItems }: { cartItems: { productId: string; name: str
   const savings = suggestion.price - discountedPrice;
 
   const handleAdd = () => {
+    const productData = PRODUCTS.find((p) => p.id === suggestion.id);
     addItem({
       productId: suggestion.id,
       name: suggestion.name,
       brand: "SafeScreen",
       price: discountedPrice,
       originalPrice: suggestion.price,
-      image: "/product/image.png",
+      image: productData?.image ?? "/products/nano-macbook/nano-macbook-air-13-6.jpg",
       variant: "",
       quantity: 1,
     });
@@ -103,13 +105,13 @@ function BundleUpsell({ cartItems }: { cartItems: { productId: string; name: str
         </button>
       </div>
       <div className="px-4 py-3 flex items-center gap-3">
-        <div className="w-14 h-14 rounded-lg overflow-hidden bg-white border border-amber-200 flex-shrink-0">
+        <div className="w-14 h-14 rounded-lg overflow-hidden bg-white border border-amber-200 flex-shrink-0 relative">
           <Image
-            src="/product/image.png"
+            src={PRODUCTS.find((p) => p.id === suggestion.id)?.image ?? "/products/nano-macbook/nano-macbook-air-13-6.jpg"}
             alt={suggestion.name}
-            width={56}
-            height={56}
-            className="object-cover w-full h-full"
+            fill
+            className="object-cover"
+            sizes="56px"
           />
         </div>
         <div className="flex-1 min-w-0">
@@ -738,28 +740,6 @@ export function CartClient({ drawerMode = false, onClose }: { drawerMode?: boole
           onClose?.();
           router.push("/checkout");
         }}
-        giftNudge={(() => {
-          const hasEligibleItem = items.some(i => FREE_GIFT_ELIGIBLE_IDS.includes(i.productId));
-          const hasSelectedGift = items.some(i => i.freeGifts && i.freeGifts.some(g => g.isThreshold));
-          if (!hasEligibleItem || subtotal < FREE_GIFT_THRESHOLD || hasSelectedGift) return undefined;
-          return (
-            <button
-              onClick={() => setGiftSheetCampaignId('free-gift')}
-              className="w-full flex items-center justify-between gap-3 bg-[#fff2f5] border border-[#ffe2e8] rounded-2xl px-4 py-3.5 hover:bg-[#ffe2e8]/60 transition-colors"
-            >
-              <div className="flex items-center gap-3">
-                <div className="w-9 h-9 rounded-full bg-[#ffe2e8] flex items-center justify-center text-[#e05275] shrink-0">
-                  <Gift size={16} />
-                </div>
-                <div className="text-left">
-                  <p className="text-[13px] font-medium text-[var(--km-text)] leading-tight">คุณได้รับสิทธิ์ของแถมฟรี 1 ชิ้น!</p>
-                  <p className="text-[11px] font-normal text-[#e05275] mt-0.5">กดที่นี่เพื่อเลือกของแถมสุดพิเศษของคุณ</p>
-                </div>
-              </div>
-              <ChevronRight size={16} className="text-[#e05275] shrink-0" />
-            </button>
-          );
-        })()}
       />
 
       <CouponSheet

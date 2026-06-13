@@ -697,20 +697,20 @@ export function CheckoutClient() {
     if (bank) {
       paymentLabel = THAI_BANKS.find(tb => tb.id === bank.bankId)?.name || "บัญชีธนาคาร";
       paymentRight = `*${bank.accountNo.slice(-4)}`;
-      PaymentIcon = () => (
+      PaymentIcon = function BankPaymentIcon() { return (
         <div className="w-6 h-6 flex items-center justify-center flex-shrink-0">
           <BankChip bankId={bank.bankId} size="sm" />
         </div>
-      );
+      ); };
     } else if (card) {
       paymentLabel = `บัตรเครดิต ${card.brand ? card.brand.toUpperCase() : ""}`;
       paymentRight = `*${card.last4}`;
-      PaymentIcon = () => <CardBrandLogo brand={card.brand} className="w-9 h-6 flex-shrink-0" />;
+      PaymentIcon = function CardPaymentIcon() { return <CardBrandLogo brand={card.brand} className="w-9 h-6 flex-shrink-0" />; };
     } else if (opt) {
       paymentLabel = opt.label;
-      PaymentIcon = () => opt.id === "promptpay"
+      PaymentIcon = function OptPaymentIcon() { return opt.id === "promptpay"
         ? <PromptPayLogo className="w-9 h-6 flex-shrink-0" />
-        : <Banknote size={16} className="text-[var(--km-text-secondary)] flex-shrink-0" />;
+        : <Banknote size={16} className="text-[var(--km-text-secondary)] flex-shrink-0" />; };
     }
 
     const paymentRow = (onClick: () => void, extraClass = "") => (

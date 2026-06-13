@@ -25,6 +25,8 @@ export function AccountAddressesClient() {
   const [confirmDelete, setConfirmDelete] = useState<string | null>(null);
   const [saveCallback, setSaveCallback] = useState<(() => void) | null>(null);
 
+  useEffect(() => () => { setHeaderTitleOverride(null); setBackOverride(null); }, [setHeaderTitleOverride, setBackOverride]);
+
   if (!isLoggedIn) return null;
 
   const switchMode = (m: Mode) => {
@@ -33,8 +35,6 @@ export function AccountAddressesClient() {
     if (m.type === "detail") { setHeaderTitleOverride("แก้ไขที่อยู่"); setBackOverride(() => switchMode({ type: "list" })); }
     if (m.type === "list")   { setHeaderTitleOverride(null); setBackOverride(null); }
   };
-
-  useEffect(() => () => { setHeaderTitleOverride(null); setBackOverride(null); }, []);
 
   if (mode.type === "add") {
     return (
