@@ -194,6 +194,7 @@ export function Header() {
     <header
       ref={headerRef}
       className="fixed top-0 left-0 right-0 z-[200] bg-white/80 backdrop-blur-xl border-b border-[var(--km-border)] shadow-sm"
+      suppressHydrationWarning
     >
 
       {/* Announcement bar */}

@@ -12,11 +12,13 @@ export function SplashScreen() {
     if (typeof window === "undefined") return;
     if (sessionStorage.getItem("ss_splash_shown")) return;
 
-    sessionStorage.setItem("ss_splash_shown", "1");
     setVisible(true);
 
     const hideTimer = setTimeout(() => setHiding(true), 1400);
-    const removeTimer = setTimeout(() => setVisible(false), 1900);
+    const removeTimer = setTimeout(() => {
+      setVisible(false);
+      sessionStorage.setItem("ss_splash_shown", "1");
+    }, 1900);
 
     return () => {
       clearTimeout(hideTimer);
