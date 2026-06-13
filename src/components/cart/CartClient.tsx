@@ -451,7 +451,7 @@ export function CartClient({ drawerMode = false, onClose }: { drawerMode?: boole
               id: `gift-${item.id}-${gift.productId}`,
               productId: gift.productId,
               name: gift.name,
-              brand: (gift.brand || "Clinique").toUpperCase(),
+              brand: (gift.brand || "SafeScreen").toUpperCase(),
               price: 0,
               originalPrice: gift.originalPrice,
               image: gift.image,

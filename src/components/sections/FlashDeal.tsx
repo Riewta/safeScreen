@@ -118,8 +118,14 @@ export function FlashDeal() {
         </div>
       </div>
 
-      {/* Product horizontal scroll */}
-      <div className="overflow-x-auto scrollbar-none scroll-smooth">
+      {/* Product horizontal scroll with edge fade */}
+      <div
+        className="overflow-x-auto scrollbar-none scroll-smooth"
+        style={{
+          WebkitMaskImage: "linear-gradient(to right, transparent 0px, black max(24px, calc((100vw - 1280px) / 2 + 24px)), black calc(100% - max(24px, calc((100vw - 1280px) / 2 + 24px))), transparent 100%)",
+          maskImage: "linear-gradient(to right, transparent 0px, black max(24px, calc((100vw - 1280px) / 2 + 24px)), black calc(100% - max(24px, calc((100vw - 1280px) / 2 + 24px))), transparent 100%)",
+        }}
+      >
         <div className="flex gap-4 md:gap-5 w-max pb-4 px-4 md:px-[max(24px,calc((100vw-1280px)/2+24px))]">
           {DEAL_PRODUCTS.map((p) => (
             <div key={p.id} className="w-[160px] md:w-[220px] flex-shrink-0">

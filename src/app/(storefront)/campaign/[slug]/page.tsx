@@ -2,14 +2,33 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { Zap } from "lucide-react";
 import { PRODUCTS, FLASH_DEAL_PRODUCTS } from "@/lib/mock-data";
 import { ProductCard } from "@/components/product/ProductCard";
 import { useParams } from "next/navigation";
 import { useUIStore } from "@/stores/ui.store";
 
-const CAMPAIGNS: Record<string, { title: string; description: string; hero: string }> = {
+// Load admin-managed campaigns from localStorage and merge with defaults
+function loadAdminCampaigns(): Record<string, { title: string; description: string; hero: string }> {
+  if (typeof window === "undefined") return {};
+  try {
+    const raw = localStorage.getItem("safescreen-campaigns");
+    if (!raw) return {};
+    const list = JSON.parse(raw) as Array<{
+      slug: string; title: string; description: string; hero: string; status: string;
+    }>;
+    return Object.fromEntries(
+      list
+        .filter((c) => c.status === "active")
+        .map((c) => [c.slug, { title: c.title, description: c.description, hero: c.hero }])
+    );
+  } catch {
+    return {};
+  }
+}
+
+const DEFAULT_CAMPAIGNS: Record<string, { title: string; description: string; hero: string }> = {
   "flash-sale": {
     title: "Flash Sale",
     description: "ดีลสุดคุ้มที่อัปเดตทุกวัน สินค้าความงามคัดสรรกว่า 200 รายการ ลดสูงสุด 70% มีจำนวนจำกัด — หมดแล้วหมดเลย",
@@ -35,22 +54,23 @@ const CAMPAIGNS: Record<string, { title: string; description: string; hero: stri
     description: "รวมผลิตภัณฑ์ความงามที่เพิ่งวางจำหน่ายใหม่จากแบรนด์ชั้นนำทั่วโลก อัปเดตทุกต้นเดือน เพื่อให้คุณได้สัมผัสสิ่งใหม่ก่อนใคร",
     hero: "/banner_promotions/image copy.png",
   },
-  "skincare-routine": {
-    title: "Skincare Routine ครบจบในชุดเดียว เพื่อผิวสุขภาพดีทุกวัน",
-    description: "เราคัดสรร Routine การดูแลผิวแบบครบวงจร ตั้งแต่ Cleanser, Toner, Serum ไปจนถึง Moisturizer และ SPF เพียงทำตามขั้นตอน ผิวสุขภาพดีเห็นผลจริง",
+  "ipad-bundle": {
+    title: "iPad Bundle Deal — ซื้อ Paper Like + Privacy ราคาพิเศษ",
+    description: "รวม 2 ฟิล์มในชุดเดียว Paper Like สำหรับการวาด + Privacy สำหรับปกป้องความเป็นส่วนตัว เหมาะสำหรับ iPad ทุกรุ่น ถอดติดได้ง่าย ไม่ทิ้งคราบ",
     hero: "/banner_promotions/image copy 2.png",
   },
-  "brand-day-the-ordinary": {
-    title: "The Ordinary Brand Day ลดพิเศษสูงสุด 40% เฉพาะวันนี้เท่านั้น",
-    description: "The Ordinary แบรนด์ Skincare Science ชื่อดังจากแคนาดา ที่ขึ้นชื่อเรื่องส่วนผสมบริสุทธิ์และราคาที่เข้าถึงได้ วันนี้ลดพิเศษทุกรายการในร้าน อย่าพลาด",
+  "brand-day-safescreen": {
+    title: "SafeScreen Brand Day ลดพิเศษสูงสุด 40% เฉพาะวันนี้เท่านั้น",
+    description: "ฟิล์มกันมองแม่เหล็ก NanoSnap ทุกรุ่น ลดพิเศษ 40% ทั้ง MacBook, iPad และ Universal ถอดติดได้ทันที ไม่ทิ้งคราบ รับประกัน 1 ปี",
     hero: "/banner_promotions/image copy 3.png",
   },
-  "summer-glow": {
-    title: "Summer Glow Collection รวมสินค้าเพื่อผิวสว่างใสรับซัมเมอร์",
-    description: "รับซัมเมอร์ด้วยผิวที่เปล่งประกาย กลุ่มผลิตภัณฑ์ที่คัดสรรมาเพื่อเพิ่มความกระจ่างใสและปกป้องผิวจากแสงแดด พร้อมให้คุณ Glow ได้ทุกวัน",
+  "work-from-home": {
+    title: "Work From Home Bundle — ปกป้องความเป็นส่วนตัวในทุกที่",
+    description: "ชุดฟิล์ม Privacy สำหรับคนทำงาน MacBook + Universal Screen ครบครัน ทำงานได้ทุกที่โดยไม่ต้องกังวลคนมองหน้าจอ",
     hero: "/banner_promotions/image copy 4.png",
   },
 };
+// Alias — used as base; merged with admin overrides at runtime inside the component
 
 const DEAL_END = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
 const DEAL_NEXT_START = new Date(Date.now() + 14 * 24 * 60 * 60 * 1000);
@@ -114,6 +134,13 @@ export default function CampaignPage() {
   const nextCD = useCountdown(DEAL_NEXT_START);
   const { days, hours, minutes, seconds, mounted } = activeTab === "current" ? currentCD : nextCD;
   const { setHeaderTitleOverride: setHeaderTitle } = useUIStore();
+
+  // Merge DEFAULT_CAMPAIGNS with admin-managed overrides from localStorage
+  const CAMPAIGNS = useMemo(
+    () => ({ ...DEFAULT_CAMPAIGNS, ...loadAdminCampaigns() }),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [mounted] // re-evaluate after hydration
+  );
 
   const campaign = CAMPAIGNS[slug] ?? CAMPAIGNS["flash-sale"];
   const isFlashSale = slug === "flash-sale";

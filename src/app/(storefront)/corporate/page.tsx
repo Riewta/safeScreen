@@ -96,23 +96,16 @@ export default function CorporatePage() {
           <div className="w-20 h-20 rounded-full bg-green-100 flex items-center justify-center mx-auto mb-6">
             <CheckCircle size={40} className="text-green-600" />
           </div>
-          <h2 className="text-2xl font-bold text-[var(--km-text)] mb-3">
-            ส่งใบเสนอราคาเรียบร้อยแล้ว!
-          </h2>
-          <p className="text-[var(--km-text-secondary)] mb-2">
-            ทีม B2B ของเราจะติดต่อกลับภายใน 1 วันทำการ
-          </p>
+          <h2 className="text-2xl font-bold text-[var(--km-text)] mb-3">{t.corpFormSuccess}</h2>
+          <p className="text-[var(--km-text-secondary)] mb-2">{t.corpFormSuccessDesc}</p>
           <p className="text-[var(--km-text-secondary)] text-sm mb-8">
-            อีเมล: <span className="font-medium text-[var(--km-text)]">{form.email}</span>
+            {t.corpFormSuccessEmail} <span className="font-medium text-[var(--km-text)]">{form.email}</span>
           </p>
           <button
-            onClick={() => {
-              setForm(INITIAL_FORM);
-              setSubmitted(false);
-            }}
+            onClick={() => { setForm(INITIAL_FORM); setSubmitted(false); }}
             className="inline-flex items-center gap-2 px-6 py-3 bg-[var(--km-brand)] text-white font-semibold rounded-full hover:opacity-90 transition-opacity"
           >
-            ส่งใบเสนอราคาใหม่
+            {t.corpFormResubmit}
           </button>
         </div>
       </div>
@@ -230,174 +223,90 @@ export default function CorporatePage() {
 
       {/* Quotation form */}
       <div className="max-w-4xl mx-auto px-4 py-12">
-        <div className="max-w-2xl mx-auto">
-          <h2 className="text-2xl font-bold text-[var(--km-text)] mb-2">
-            ขอใบเสนอราคา
-          </h2>
-          <p className="text-[var(--km-text-secondary)] mb-8">
-            กรอกข้อมูลด้านล่าง ทีม B2B จะติดต่อกลับภายใน 1 วันทำการ
-          </p>
+        <div>
+          <h2 className="text-2xl font-bold text-[var(--km-text)] mb-2">{t.corpFormTitle}</h2>
+          <p className="text-[var(--km-text-secondary)] mb-8">{t.corpFormSubtitle}</p>
 
           <form onSubmit={handleSubmit} noValidate className="space-y-5">
-            {/* Company & Contact */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-medium text-[var(--km-text)] mb-1.5">
-                  ชื่อบริษัท <span className="text-[var(--km-error)]">*</span>
+                  {t.corpFormCompany} <span className="text-[var(--km-error)]">*</span>
                 </label>
-                <input
-                  type="text"
-                  name="companyName"
-                  value={form.companyName}
-                  onChange={handleChange}
-                  placeholder="บริษัท ABC จำกัด"
-                  className={fieldClass("companyName")}
-                />
-                {errors.companyName && (
-                  <p className="text-xs text-[var(--km-error)] mt-1">{errors.companyName}</p>
-                )}
+                <input type="text" name="companyName" value={form.companyName} onChange={handleChange} placeholder={t.corpFormCompanyPH} className={fieldClass("companyName")} />
+                {errors.companyName && <p className="text-xs text-[var(--km-error)] mt-1">{errors.companyName}</p>}
               </div>
               <div>
                 <label className="block text-sm font-medium text-[var(--km-text)] mb-1.5">
-                  ชื่อผู้ติดต่อ <span className="text-[var(--km-error)]">*</span>
+                  {t.corpFormContact} <span className="text-[var(--km-error)]">*</span>
                 </label>
-                <input
-                  type="text"
-                  name="contactName"
-                  value={form.contactName}
-                  onChange={handleChange}
-                  placeholder="คุณสมชาย ใจดี"
-                  className={fieldClass("contactName")}
-                />
-                {errors.contactName && (
-                  <p className="text-xs text-[var(--km-error)] mt-1">{errors.contactName}</p>
-                )}
+                <input type="text" name="contactName" value={form.contactName} onChange={handleChange} placeholder={t.corpFormContactPH} className={fieldClass("contactName")} />
+                {errors.contactName && <p className="text-xs text-[var(--km-error)] mt-1">{errors.contactName}</p>}
               </div>
             </div>
 
-            {/* Email & Phone */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-medium text-[var(--km-text)] mb-1.5">
-                  อีเมล <span className="text-[var(--km-error)]">*</span>
+                  {t.corpFormEmail} <span className="text-[var(--km-error)]">*</span>
                 </label>
-                <input
-                  type="email"
-                  name="email"
-                  value={form.email}
-                  onChange={handleChange}
-                  placeholder="somchai@company.com"
-                  className={fieldClass("email")}
-                />
-                {errors.email && (
-                  <p className="text-xs text-[var(--km-error)] mt-1">{errors.email}</p>
-                )}
+                <input type="email" name="email" value={form.email} onChange={handleChange} placeholder="somchai@company.com" className={fieldClass("email")} />
+                {errors.email && <p className="text-xs text-[var(--km-error)] mt-1">{errors.email}</p>}
               </div>
               <div>
                 <label className="block text-sm font-medium text-[var(--km-text)] mb-1.5">
-                  เบอร์โทรศัพท์ <span className="text-[var(--km-error)]">*</span>
+                  {t.corpFormPhone} <span className="text-[var(--km-error)]">*</span>
                 </label>
-                <input
-                  type="tel"
-                  name="phone"
-                  value={form.phone}
-                  onChange={handleChange}
-                  placeholder="081-xxx-xxxx"
-                  className={fieldClass("phone")}
-                />
-                {errors.phone && (
-                  <p className="text-xs text-[var(--km-error)] mt-1">{errors.phone}</p>
-                )}
+                <input type="tel" name="phone" value={form.phone} onChange={handleChange} placeholder="081-xxx-xxxx" className={fieldClass("phone")} />
+                {errors.phone && <p className="text-xs text-[var(--km-error)] mt-1">{errors.phone}</p>}
               </div>
             </div>
 
-            {/* Device type & Quantity */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-medium text-[var(--km-text)] mb-1.5">
-                  ประเภทอุปกรณ์ <span className="text-[var(--km-error)]">*</span>
+                  {t.corpFormDevice} <span className="text-[var(--km-error)]">*</span>
                 </label>
-                <select
-                  name="deviceType"
-                  value={form.deviceType}
-                  onChange={handleChange}
-                  className={fieldClass("deviceType")}
-                >
-                  <option value="">-- เลือกประเภท --</option>
+                <select name="deviceType" value={form.deviceType} onChange={handleChange} className={fieldClass("deviceType")}>
+                  <option value="">{t.corpFormDevicePH}</option>
                   <option value="MacBook">MacBook (13" / 14" / 16")</option>
-                  <option value="Universal">Universal Laptop (ทุกแบรนด์)</option>
-                  <option value="Both">ทั้งสองประเภท (Mixed)</option>
+                  <option value="Universal">Universal Laptop</option>
+                  <option value="Both">Mixed</option>
                 </select>
-                {errors.deviceType && (
-                  <p className="text-xs text-[var(--km-error)] mt-1">{errors.deviceType}</p>
-                )}
+                {errors.deviceType && <p className="text-xs text-[var(--km-error)] mt-1">{errors.deviceType}</p>}
               </div>
               <div>
                 <label className="block text-sm font-medium text-[var(--km-text)] mb-1.5">
-                  จำนวน (ชิ้น) <span className="text-[var(--km-error)]">*</span>
+                  {t.corpFormQty} <span className="text-[var(--km-error)]">*</span>
                 </label>
-                <input
-                  type="number"
-                  name="quantity"
-                  value={form.quantity}
-                  onChange={handleChange}
-                  placeholder="ขั้นต่ำ 5 ชิ้น"
-                  min={5}
-                  className={fieldClass("quantity")}
-                />
-                {errors.quantity && (
-                  <p className="text-xs text-[var(--km-error)] mt-1">{errors.quantity}</p>
-                )}
+                <input type="number" name="quantity" value={form.quantity} onChange={handleChange} placeholder={t.corpFormQtyPH} min={5} className={fieldClass("quantity")} />
+                {errors.quantity && <p className="text-xs text-[var(--km-error)] mt-1">{errors.quantity}</p>}
               </div>
             </div>
 
-            {/* Film type */}
             <div>
               <label className="block text-sm font-medium text-[var(--km-text)] mb-1.5">
-                ประเภทฟิล์ม <span className="text-[var(--km-error)]">*</span>
+                {t.corpFormFilm} <span className="text-[var(--km-error)]">*</span>
               </label>
-              <select
-                name="filmType"
-                value={form.filmType}
-                onChange={handleChange}
-                className={fieldClass("filmType")}
-              >
-                <option value="">-- เลือกประเภทฟิล์ม --</option>
-                <option value="Privacy">Privacy — กันเสือก (มุมมองแคบ)</option>
-                <option value="Anti-Blue">Anti-Blue — กรองแสงสีฟ้า</option>
-                <option value="Nano">Nano — กันรอยขีดข่วน</option>
-                <option value="Mixed">Mixed — หลายประเภทผสมกัน</option>
+              <select name="filmType" value={form.filmType} onChange={handleChange} className={fieldClass("filmType")}>
+                <option value="">{t.corpFormFilmPH}</option>
+                <option value="Privacy">Privacy — Anti-Peep</option>
+                <option value="Anti-Blue">Anti-Blue Light</option>
+                <option value="Nano">Nano — Anti-Scratch</option>
+                <option value="Mixed">Mixed</option>
               </select>
-              {errors.filmType && (
-                <p className="text-xs text-[var(--km-error)] mt-1">{errors.filmType}</p>
-              )}
+              {errors.filmType && <p className="text-xs text-[var(--km-error)] mt-1">{errors.filmType}</p>}
             </div>
 
-            {/* Notes */}
             <div>
-              <label className="block text-sm font-medium text-[var(--km-text)] mb-1.5">
-                รายละเอียดเพิ่มเติม
-              </label>
-              <textarea
-                name="notes"
-                value={form.notes}
-                onChange={handleChange}
-                rows={4}
-                placeholder="เช่น รุ่นของ MacBook ที่ใช้ในองค์กร, ต้องการติดตั้งเองหรือให้ทีมงานติดตั้ง, วันที่ต้องการรับสินค้า ฯลฯ"
-                className={`${fieldClass("notes")} resize-none`}
-              />
+              <label className="block text-sm font-medium text-[var(--km-text)] mb-1.5">{t.corpFormNotes}</label>
+              <textarea name="notes" value={form.notes} onChange={handleChange} rows={4} placeholder={t.corpFormNotesPH} className={`${fieldClass("notes")} resize-none`} />
             </div>
 
-            <button
-              type="submit"
-              className="w-full py-4 bg-[var(--km-brand)] text-white font-bold rounded-xl hover:opacity-90 transition-opacity text-base"
-            >
-              ส่งใบเสนอราคา
+            <button type="submit" className="w-full py-4 bg-[var(--km-brand)] text-white font-bold rounded-xl hover:opacity-90 transition-opacity text-base">
+              {t.corpFormSubmit}
             </button>
-
-            <p className="text-xs text-[var(--km-text-muted)] text-center">
-              ข้อมูลของคุณจะถูกเก็บเป็นความลับ ใช้เพื่อการติดต่อทางธุรกิจเท่านั้น
-            </p>
+            <p className="text-xs text-[var(--km-text-muted)] text-center">{t.corpFormPrivacy}</p>
           </form>
         </div>
       </div>

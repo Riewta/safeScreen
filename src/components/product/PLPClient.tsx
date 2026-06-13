@@ -156,36 +156,6 @@ export function PLPClient({ products, initialParams }: Props) {
 
   return (
     <div className="min-h-screen bg-white">
-      {/* ── Category Pill Filter ── */}
-      <div className="bg-white border-b border-[var(--km-border)]">
-        <div className="max-w-7xl mx-auto overflow-x-auto no-scrollbar py-3 px-4 md:px-6">
-          <div className="flex flex-nowrap gap-2">
-            {MOCK_CATEGORIES.map((cat) => {
-              const catValue = cat.href.includes("=") ? cat.href.split("category=")[1] : null;
-              const isActive = catValue ? filters.categories.includes(catValue) : filters.categories.length === 0;
-              return (
-                <button
-                  key={cat.href}
-                  onClick={() => setFilters((f) => ({
-                    ...f,
-                    categories: catValue
-                      ? (f.categories.includes(catValue) ? [] : [catValue])
-                      : [],
-                  }))}
-                  className={`shrink-0 px-4 py-2 rounded-full text-[13px] whitespace-nowrap transition-colors ${
-                    isActive
-                      ? "bg-[var(--km-text)] text-white"
-                      : "bg-[var(--km-surface)] text-[var(--km-text-secondary)] hover:bg-[#E8E8ED] hover:text-[var(--km-text)]"
-                  }`}
-                >
-                  {cat.label}
-                </button>
-              );
-            })}
-          </div>
-        </div>
-      </div>
-
       <div className="max-w-7xl mx-auto px-4 md:px-6 pt-1 pb-10 md:py-10">
         <div className="flex flex-col md:flex-row gap-10">
           <aside className="hidden w-64 flex-shrink-0">
@@ -195,11 +165,35 @@ export function PLPClient({ products, initialParams }: Props) {
           </aside>
 
           <div className="flex-1 min-w-0">
-            <div className="flex items-center justify-between py-2 mb-2">
-              <div className="text-[14px] font-normal text-[var(--km-text)]">
-                {visible.length.toLocaleString()} <span className="font-normal text-[var(--km-text-secondary)] ml-1">{t.plpItems}</span>
+            <div className="flex items-center justify-between py-3 mb-2 border-b border-[var(--km-border)]">
+              {/* Category pills */}
+              <div className="overflow-x-auto no-scrollbar flex-1 mr-3">
+                <div className="flex flex-nowrap gap-2">
+                  {MOCK_CATEGORIES.map((cat) => {
+                    const catValue = cat.href.includes("=") ? cat.href.split("category=")[1] : null;
+                    const isActive = catValue ? filters.categories.includes(catValue) : filters.categories.length === 0;
+                    return (
+                      <button
+                        key={cat.href}
+                        onClick={() => setFilters((f) => ({
+                          ...f,
+                          categories: catValue
+                            ? (f.categories.includes(catValue) ? [] : [catValue])
+                            : [],
+                        }))}
+                        className={`shrink-0 px-4 py-1.5 rounded-full text-[13px] whitespace-nowrap transition-colors ${
+                          isActive
+                            ? "bg-[var(--km-text)] text-white"
+                            : "bg-[var(--km-surface)] text-[var(--km-text-secondary)] hover:bg-[#E8E8ED] hover:text-[var(--km-text)]"
+                        }`}
+                      >
+                        {cat.label}
+                      </button>
+                    );
+                  })}
+                </div>
               </div>
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-3 shrink-0">
                 <div className="relative">
                   <button onClick={() => setSortOpen((v) => !v)} className="flex items-center gap-1 text-[13px] font-normal text-[var(--km-text)]">
                     {sortLabel} <ChevronDown size={14} className="text-[var(--km-text-secondary)]" />
@@ -218,11 +212,6 @@ export function PLPClient({ products, initialParams }: Props) {
                     </>
                   )}
                 </div>
-                <div className="w-[1px] h-3.5 bg-[var(--km-border-strong)]" />
-                <button onClick={() => setSheetOpen(true)} className="relative p-1">
-                  <SlidersHorizontal size={20} />
-                  {activeCount > 0 && <span className="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-[var(--km-brand)]" />}
-                </button>
               </div>
             </div>
 

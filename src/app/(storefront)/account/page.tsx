@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import {
   CreditCard, Package, Truck, Star, RotateCcw, User, ChevronRight, ChevronLeft, Pencil,
-  Heart, MapPin, Wallet, Gift, Shield, HelpCircle, LogOut, FileText, Globe,
+  Heart, MapPin, Wallet, Gift, Shield, LogOut, FileText, Globe,
   Coins
 } from "lucide-react";
 import { useProfile } from "@/stores/user.store";
@@ -111,7 +111,6 @@ export default function AccountPage() {
           value: activeCurrencyLabel,
           href: "/account/preferences?type=currency", 
         },
-        { label: "ช่วยเหลือ / ติดต่อ",   icon: HelpCircle,    href: "/account/help"          },
       ],
     },
   ];

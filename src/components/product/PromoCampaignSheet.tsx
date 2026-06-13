@@ -10,11 +10,6 @@ import { type ProductCardProps } from "@/components/product/ProductCard";
 import { type PromoCampaign, type PromoProduct } from "@/lib/campaigns";
 
 
-const MOCK_VARIANTS = [
-  { label: "30 ml",  image: "/product/image copy 3.png",  price: 129, originalPrice: 189 },
-  { label: "50 ml",  image: "/product/image copy 7.png",  price: 249, originalPrice: 349 },
-  { label: "100 ml", image: "/product/image copy 11.png", price: 399, originalPrice: 499 },
-];
 interface PromoCampaignSheetProps {
   campaign: PromoCampaign | null;
   onClose: () => void;
@@ -97,8 +92,9 @@ export function PromoCampaignSheet({
     return { price: v.price, originalPrice: v.originalPrice, label: v.label };
   };
 
-  const mainVariant = MOCK_VARIANTS.find((v) => v.label === currentProductVariant) ?? MOCK_VARIANTS[0];
-  const mainPrice = mainVariant.price;
+  const mainPrice = product.price;
+  const mainImage = product.image;
+  const mainOriginalPrice = product.originalPrice;
 
   const total = useMemo(() => {
     if (!campaign) return 0;
@@ -129,7 +125,7 @@ export function PromoCampaignSheet({
       : undefined;
 
     if (mainQty > 0) {
-      addItem({ productId: product.id, name: product.name, brand: product.brand, image: mainVariant.image, price: mainPrice, originalPrice: mainVariant.originalPrice, variant: currentProductVariant, quantity: mainQty, freeGifts });
+      addItem({ productId: product.id, name: product.name, brand: product.brand, image: mainImage, price: mainPrice, originalPrice: mainOriginalPrice, variant: currentProductVariant, quantity: mainQty, freeGifts });
     }
     campaign.products.forEach((item) => {
       const q = quantities[item.id] ?? 0;
@@ -283,7 +279,7 @@ export function PromoCampaignSheet({
                     {/* Main product */}
                     <div className="flex items-center gap-3">
                       <div className="relative w-16 h-16 rounded-lg overflow-hidden bg-[var(--km-surface)] flex-shrink-0 border border-[var(--km-border)]">
-                        <Image src={mainVariant.image} alt={product.name} fill sizes="64px" className="object-cover" />
+                        <Image src={mainImage} alt={product.name} fill sizes="64px" className="object-cover" />
                       </div>
                       <div className="flex-1 min-w-0">
                         <p className="text-sm font-semibold text-[var(--km-text-secondary)] uppercase tracking-wider">{product.brand}</p>
@@ -291,7 +287,7 @@ export function PromoCampaignSheet({
                         <div className="text-[13px] font-normal text-[var(--km-text-muted)] border border-[var(--km-border)] rounded-full px-2.5 py-0.5 w-fit mt-1.5 bg-white">{currentProductVariant}</div>
                         <div className="flex items-baseline gap-1.5 mt-1.5">
                           <span className="text-sm font-normal text-[var(--km-text)]">฿{mainPrice.toLocaleString()}</span>
-                          {mainVariant.originalPrice && <span className="text-xs font-normal text-[var(--km-text-muted)] line-through">฿{mainVariant.originalPrice.toLocaleString()}</span>}
+                          {mainOriginalPrice && <span className="text-xs font-normal text-[var(--km-text-muted)] line-through">฿{mainOriginalPrice.toLocaleString()}</span>}
                         </div>
                       </div>
                       <div className="w-24 flex justify-end flex-shrink-0">
