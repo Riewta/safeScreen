@@ -122,11 +122,11 @@ export function FlashDeal() {
       <div
         className="overflow-x-auto scrollbar-none scroll-smooth"
         style={{
-          WebkitMaskImage: "linear-gradient(to right, transparent 0px, black 40px, black calc(100% - 40px), transparent 100%)",
-          maskImage: "linear-gradient(to right, transparent 0px, black 40px, black calc(100% - 40px), transparent 100%)",
+          WebkitMaskImage: "linear-gradient(to right, transparent 0px, black 80px, black calc(100% - 80px), transparent 100%)",
+          maskImage: "linear-gradient(to right, transparent 0px, black 80px, black calc(100% - 80px), transparent 100%)",
         }}
       >
-        <div className="flex gap-4 md:gap-5 w-max pb-4 px-8 md:px-[max(40px,calc((100vw-1280px)/2+40px))]">
+        <div className="flex gap-4 md:gap-5 w-max pb-4 px-20 md:px-[max(80px,calc((100vw-1280px)/2+80px))]">
           {DEAL_PRODUCTS.map((p) => (
             <div key={p.id} className="w-[160px] md:w-[220px] flex-shrink-0">
               <DealCard product={p} />
