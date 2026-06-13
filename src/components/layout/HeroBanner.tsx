@@ -130,7 +130,7 @@ export function HeroBanner({
           position: "absolute",
           inset: 0,
           display: "flex",
-          transform: `translateX(calc(-${index} * 100%))`,
+          transform: `translateX(${-index * 100}%)`,
           transition: animated ? "transform 0.7s cubic-bezier(0.32, 0.72, 0, 1)" : "none",
           willChange: "transform",
         }}
