@@ -66,13 +66,7 @@ export function PromoScroll() {
         </div>
 
         {/* ── Products — horizontal scroll ── */}
-        <div
-          className="overflow-x-auto scrollbar-none scroll-smooth -mx-4 md:-mx-6"
-          style={{
-            WebkitMaskImage: "linear-gradient(to right, transparent 0px, black max(80px, calc((100vw - 1280px) / 2 + 80px)), black calc(100% - max(80px, calc((100vw - 1280px) / 2 + 80px))), transparent 100%)",
-            maskImage: "linear-gradient(to right, transparent 0px, black max(80px, calc((100vw - 1280px) / 2 + 80px)), black calc(100% - max(80px, calc((100vw - 1280px) / 2 + 80px))), transparent 100%)",
-          }}
-        >
+        <div className="overflow-x-auto scrollbar-none scroll-smooth -mx-4 md:-mx-6">
             <div className="flex gap-4 md:gap-5 w-max pb-4 px-4 md:px-6">
               {promo.products.map((p) => (
                 <div key={p.id} className="w-[160px] md:w-[220px] flex-shrink-0">
