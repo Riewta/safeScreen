@@ -111,7 +111,6 @@ const MOCK_GIFTS: { id: string; name: string; image: string; brand: string; orig
 
 const SECTIONS = [
   { id: "detail", label: "รายละเอียด" },
-  { id: "review", label: "รีวิว"      },
 ] as const;
 
 type SectionId = typeof SECTIONS[number]["id"];
@@ -1819,115 +1818,6 @@ export function PDPClient({ product, related }: Props) {
           "https://images.unsplash.com/photo-1571781926291-c477ebfd024b?w=800&q=80",
         ]} />
 
-        <section id="review" ref={setSectionRef("review")} className="py-10 md:py-12">
-          <div className="w-full">
-            {(() => {
-              const allReviews = [
-                ...userReviews.map((r) => ({
-                  id: r.id,
-                  user: "คุณ (รีวิวของฉัน)",
-                  avatar: r.avatar,
-                  rating: r.rating,
-                  date: new Date(r.createdAt).toLocaleDateString("th-TH", { day: "numeric", month: "short", year: "numeric" }),
-                  comment: r.comment,
-                  images: r.images,
-                  isOwn: true,
-                })),
-                ...MOCK_REVIEWS.map((r) => ({ ...r, isOwn: false })),
-              ];
-              const totalCount = allReviews.length;
-              const avgRating = totalCount > 0
-                ? allReviews.reduce((sum, r) => sum + r.rating, 0) / totalCount
-                : (product.rating ?? 0);
-
-              return (
-                <>
-                  <div className="mb-6">
-                    <SectionTitle>รีวิวจากผู้ใช้จริง</SectionTitle>
-                  </div>
-                  <div className="flex items-center gap-5 mb-8">
-                    {/* Left: Large Rating Score */}
-                    <div className="text-5xl font-medium tracking-tight text-[var(--km-text)]">
-                      {avgRating.toFixed(1)}
-                    </div>
-                    {/* Divider line */}
-                    <div className="w-[1px] h-10 bg-[var(--km-border)]" />
-                    {/* Right: Stars and Review Count Stack */}
-                    <div className="flex flex-col justify-center gap-1">
-                      <div className="flex items-center gap-0.5">
-                        {Array.from({ length: 5 }).map((_, i) => (
-                          <Star
-                            key={i}
-                            size={24}
-                            strokeWidth={0}
-                            style={{
-                              fill: i < Math.floor(avgRating)
-                                ? "var(--km-magenta)"
-                                : "var(--km-border-strong)"
-                            }}
-                          />
-                        ))}
-                      </div>
-                      <p className="text-[13px] font-normal text-[var(--km-text-secondary)]">
-                        รีวิวทั้งหมด {totalCount.toLocaleString()} รีวิว
-                      </p>
-                    </div>
-                  </div>
-                  <div className="flex flex-col">
-                    {allReviews.slice(0, 3).map((r) => (
-                      <div key={r.id} className="py-5 border-b border-[var(--km-border)] last:border-0">
-                        <div className="flex items-start justify-between mb-3">
-                          <div className="flex items-center gap-3">
-                            <div className="w-10 h-10 rounded-full overflow-hidden bg-[var(--km-surface)] border border-[var(--km-border)] flex-shrink-0">
-                              {r.avatar ? (
-                                <Image src={r.avatar} alt={r.user} width={40} height={40} className="object-cover" />
-                              ) : (
-                                <div className="w-full h-full flex items-center justify-center text-[var(--km-text-muted)] text-sm font-bold bg-[var(--km-surface)]">
-                                  {r.user.charAt(0)}
-                                </div>
-                              )}
-                            </div>
-                            <div>
-                              <div className="flex items-center gap-2">
-                                <p className="text-sm font-medium text-[var(--km-text)]">{r.user}</p>
-                              </div>
-                              <p className="text-[13px] text-[var(--km-text-muted)]">{r.date}</p>
-                            </div>
-                          </div>
-                          <div className="flex items-center gap-1 mt-1">
-                            <Star size={12} strokeWidth={1.5} strokeLinejoin="round" stroke="var(--km-magenta)" style={{ fill: "var(--km-magenta)" }} />
-                            <span className="text-[13px] font-medium text-[var(--km-text)]">{r.rating.toFixed(1)}</span>
-                          </div>
-                        </div>
-                        <p className="text-sm text-[var(--km-text-secondary)] leading-relaxed">{r.comment}</p>
-                        {r.images && r.images.length > 0 && (
-                          <div className="flex gap-2 mt-3 overflow-x-auto pb-1 no-scrollbar">
-                            {r.images.map((img, i) => (
-                              <div key={i} className="relative w-20 h-20 rounded-lg overflow-hidden border border-[var(--km-border)] flex-shrink-0 cursor-pointer active:scale-95 transition-transform">
-                                <Image src={img} alt="review" fill className="object-cover" />
-                              </div>
-                            ))}
-                          </div>
-                        )}
-                      </div>
-                    ))}
-                  </div>
-
-                  {totalCount > 3 && (
-                    <div className="mt-8 flex justify-center">
-                      <Link
-                        href={`/products/${product.id}/reviews`}
-                        className="flex items-center gap-2 px-8 py-2.5 rounded-full border border-[var(--km-border-strong)] text-sm font-medium text-[var(--km-text)] hover:bg-[var(--km-surface)] transition-all"
-                      >
-                        ดูรีวิวทั้งหมด ({totalCount})
-                      </Link>
-                    </div>
-                  )}
-                </>
-              );
-            })()}
-          </div>
-        </section>
 
         {/* ── สินค้าที่เคยดู (Recently Viewed) ── */}
         {recentlyViewed.length > 0 && (

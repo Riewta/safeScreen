@@ -199,7 +199,7 @@ export function Header() {
       {/* Announcement bar */}
       {(announcement || showAnnouncement) && (
         <div className={`
-          ${showAnnouncement ? (announcement ? "hidden md:block" : "hidden") : "hidden"}
+          ${showAnnouncement ? (announcement ? "block" : "hidden") : "hidden"}
           relative bg-[var(--km-surface-dark)]/90 text-[var(--km-text-inverse)] text-xs text-center py-2 tracking-wide backdrop-blur-md overflow-hidden h-9 flex items-center justify-center
         `}>
           <div className="h-5 overflow-hidden relative flex-1 flex justify-center items-center">
@@ -255,7 +255,7 @@ export function Header() {
         <div className="flex-1 flex items-center h-full">
           {/* Logo */}
           <Link href="/" className={`${title ? "hidden md:flex" : "flex"} md:static md:translate-x-0 md:mr-6 items-center flex-shrink-0`}>
-            <Image src="/logo.png" alt="SafeScreen" width={90} height={24} className="h-6 w-auto" priority />
+            <Image src="/logo.png" alt="SafeScreen" width={90} height={24} className="h-4 md:h-6 w-auto" priority />
           </Link>
 
           {/* Desktop Nav */}

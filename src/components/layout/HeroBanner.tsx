@@ -123,7 +123,7 @@ export function HeroBanner({
 
   return (
     <div className="select-none w-full">
-    <div style={{ paddingTop: "22%", position: "relative", overflow: "hidden" }}>
+    <div className="pb-[42%] md:pb-[22%]" style={{ position: "relative", overflow: "hidden" }}>
       {/* Slides track */}
       <div
         style={{
