@@ -16,7 +16,7 @@ export function TopHit() {
     { key: "global", label: "Universal", getData: getTopHitGlobal },
   ] as const;
 
-  const products = TABS.find((tab) => tab.key === active)!.getData();
+  const products = TABS.find((tab) => tab.key === active)!.getData().slice(0, 4);
 
   return (
     <section className="pt-4 pb-4 md:pt-4 md:pb-6 bg-white">
@@ -31,7 +31,7 @@ export function TopHit() {
             onChange={(key) => setActive(key as "th" | "global")}
           />
         </div>
-        <div className="grid grid-cols-2 md:grid-cols-4 xl:grid-cols-5 gap-3 md:gap-5 mt-2">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-5 mt-2">
           {products.map((p) => (
             <ProductCard key={p.id} {...p} rank={undefined} badge="hot" />
           ))}
