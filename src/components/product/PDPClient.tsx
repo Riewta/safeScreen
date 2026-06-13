@@ -1448,7 +1448,6 @@ export function PDPClient({ product, related }: Props) {
 
   const sectionRefs = useRef<Record<SectionId, HTMLElement | null>>({
     detail: null,
-    review: null,
   });
 
   const flashDeal = FLASH_DEAL_PRODUCTS.find((f) => f.id === product.id) ?? null;

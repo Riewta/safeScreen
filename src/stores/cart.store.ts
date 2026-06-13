@@ -206,12 +206,13 @@ export const useCartStore = create<CartStore>()(
     {
       name: "karmart-cart",
       version: 4,
-      migrate: () => ({ items: [], selectedIds: [], buyNowItem: null }),
+      migrate: (): { items: CartItem[]; selectedIds: string[]; buyNowItem: CartItem | null; coupon: string | null; couponDiscount: number } => ({ items: [], selectedIds: [], buyNowItem: null, coupon: null, couponDiscount: 0 }),
       partialize: (s) => ({
         items:          s.items,
         selectedIds:    s.selectedIds,
         coupon:         s.coupon,
         couponDiscount: s.couponDiscount,
+        buyNowItem:     s.buyNowItem,
       }),
     }
   )
