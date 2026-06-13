@@ -123,7 +123,7 @@ export function HeroBanner({
 
   return (
     <div className="select-none overflow-hidden" suppressHydrationWarning>
-    <div className="pb-[42%] md:pb-[22%]" style={{ position: "relative", overflow: "hidden" }}>
+    <div className="pb-[100%] md:pb-[22%]" style={{ position: "relative", overflow: "hidden" }}>
       {/* Slides track */}
       <div
         style={{
