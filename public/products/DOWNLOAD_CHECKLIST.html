@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<title>SafeScreen — รายการดาวน์โหลดรูปสินค้า</title>
+<style>
+  body { font-family: -apple-system, sans-serif; max-width: 900px; margin: 0 auto; padding: 24px; background: #f5f5f5; color: #111; }
+  h1 { font-size: 22px; margin-bottom: 4px; }
+  .subtitle { color: #666; margin-bottom: 32px; font-size: 14px; }
+  h2 { font-size: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: #888; margin: 32px 0 8px; border-top: 1px solid #ddd; padding-top: 16px; }
+  table { width: 100%; border-collapse: collapse; background: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,.08); margin-bottom: 8px; }
+  th { background: #f0f0f0; font-size: 11px; text-transform: uppercase; letter-spacing: .05em; color: #666; padding: 8px 12px; text-align: left; }
+  td { padding: 9px 12px; border-top: 1px solid #f0f0f0; font-size: 13px; vertical-align: middle; }
+  tr:hover td { background: #fafafa; }
+  .filename { font-family: monospace; font-size: 12px; color: #0066cc; background: #f0f6ff; padding: 2px 6px; border-radius: 4px; }
+  .folder { font-family: monospace; font-size: 11px; color: #888; }
+  a.shopee { display: inline-flex; align-items: center; gap: 4px; background: #ee4d2d; color: white; padding: 4px 10px; border-radius: 4px; text-decoration: none; font-size: 12px; font-weight: 600; }
+  a.shopee:hover { background: #d44000; }
+  .check { width: 20px; }
+  input[type=checkbox] { width: 16px; height: 16px; cursor: pointer; }
+  .progress { position: sticky; top: 0; background: #fff; border-radius: 8px; padding: 12px 16px; box-shadow: 0 2px 8px rgba(0,0,0,.12); margin-bottom: 24px; display: flex; align-items: center; gap: 16px; z-index: 10; }
+  .progress-bar { flex: 1; height: 6px; background: #e0e0e0; border-radius: 3px; overflow: hidden; }
+  .progress-fill { height: 100%; background: #ee4d2d; width: 0%; transition: width .3s; border-radius: 3px; }
+  .progress-text { font-size: 13px; font-weight: 600; white-space: nowrap; }
+  .how-to { background: #fffbe6; border: 1px solid #ffe58f; border-radius: 8px; padding: 14px 16px; margin-bottom: 24px; font-size: 13px; line-height: 1.7; }
+  .how-to strong { display: block; margin-bottom: 4px; }
+</style>
+</head>
+<body>
+
+<h1>📋 รายการดาวน์โหลดรูปสินค้า SafeScreen</h1>
+<p class="subtitle">ดาวน์โหลดรูปจาก Shopee → บันทึกตามชื่อไฟล์ด้านล่าง → ใส่ไว้ใน folder ที่ระบุ</p>
+
+<div class="progress">
+  <span class="progress-text">✅ <span id="count">0</span> / 58 รูป</span>
+  <div class="progress-bar"><div class="progress-fill" id="bar"></div></div>
+</div>
+
+<div class="how-to">
+  <strong>วิธีดาวน์โหลดทีละรูป:</strong>
+  1. กดปุ่ม <span style="background:#ee4d2d;color:#fff;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:700">Shopee</span> เพื่อเปิดหน้าสินค้า
+  → 2. คลิกขวาที่รูปหลัก → <strong>Save Image As</strong>
+  → 3. ตั้งชื่อไฟล์ตาม <span style="font-family:monospace;background:#f0f6ff;padding:1px 5px;border-radius:3px;color:#0066cc">ชื่อไฟล์</span> ด้านล่าง
+  → 4. บันทึกลงใน folder <span style="font-family:monospace;font-size:11px;color:#888">public/products/{หมวด}/</span>
+  → 5. กด checkbox ✓ เพื่อติดตามความคืบหน้า
+</div>
+
+<!-- ===== PRIVACY UNIVERSAL ===== -->
+<h2>🔒 ฟิล์มกันเสือกแม่เหล็ก — Universal (6 รายการ)</h2>
+<table>
+<tr><th class="check"></th><th>รุ่น / ขนาด</th><th>ชื่อไฟล์</th><th>Folder</th><th>Link</th></tr>
+<tr><td><input type="checkbox" onchange="update()"></td><td>12.5" (16:9)</td><td><span class="filename">privacy-universal-12-5.jpg</span></td><td><span class="folder">privacy-universal/</span></td><td><a class="shopee" href="http://bit.ly/4nsLP56" target="_blank">Shopee</a></td></tr>
+<tr><td><input type="checkbox" onchange="update()"></td><td>13.3" (16:9)</td><td><span class="filename">privacy-universal-13-3.jpg</span></td><td><span class="folder">privacy-universal/</span></td><td><a class="shopee" href="https://bit.ly/4gOCDpm" target="_blank">Shopee</a></td></tr>
+<tr><td><input type="checkbox" onchange="update()"></td><td>14" (16:9)</td><td><span class="filename">privacy-universal-14.jpg</span></td><td><span class="folder">privacy-universal/</span></td><td><a class="shopee" href="https://bit.ly/4nPi3r1" target="_blank">Shopee</a></td></tr>
+<tr><td><input type="checkbox" onchange="update()"></td><td>14.5" (16:10)</td><td><span class="filename">privacy-universal-14-5.jpg</span></td><td><span class="folder">privacy-universal/</span></td><td><a class="shopee" href="https://bit.ly/4ngHqCa" target="_blank">Shopee</a></td></tr>
+<tr><td><input type="checkbox" onchange="update()"></td><td>15.6" (16:9)</td><td><span class="filename">privacy-universal-15-6.jpg</span></td><td><span class="folder">privacy-universal/</span></td><td><a class="shopee" href="https://bit.ly/4ni9pkZ" target="_blank">Shopee</a></td></tr>
+<tr><td><input type="checkbox" onchange="update()"></td><td>16" (16:10)</td><td><span class="filename">privacy-universal-16.jpg</span></td><td><span class="folder">privacy-universal/</span></td><td><a class="shopee" href="https://bit.ly/3W7L7Oz" target="_blank">Shopee</a></td></tr>
+<tr><td><input type="checkbox" onchange="update()"></td><td>17.3" (16:9)</td><td><span class="filename">privacy-universal-17-3.jpg</span></td><td><span class="folder">privacy-universal/</span></td><td><a class="shopee" href="https://bit.ly/3Wa1zhf" target="_blank">Shopee</a></td></tr>
+</table>
+
+<!-- ===== PRIVACY MACBOOK ===== -->
+<h2>🍎 ฟิล์มกันเสือกแม่เหล็ก — MacBook (7 รายการ)</h2>
+<table>
+<tr><th class="check"></th><th>รุ่น</th><th>ชื่อไฟล์</th><th>Folder</th><th>Link</th></tr>
+<tr><td><input type="checkbox" onchange="update()"></td><td>MacBook Air 13.3"</td><td><span class="filename">privacy-macbook-air-13-3.jpg</span></td><td><span class="folder">privacy-macbook/</span></td><td><a class="shopee" href="https://bit.ly/42aq01M" target="_blank">Shopee</a></td></tr>
+<tr><td><input type="checkbox" onchange="update()"></td><td>MacBook Pro 13.3"</td><td><span class="filename">privacy-macbook-pro-13-3.jpg</span></td><td><span class="folder">privacy-macbook/</span></td><td><a class="shopee" href="https://bit.ly/48Azas8" target="_blank">Shopee</a></td></tr>
+<tr><td><input type="checkbox" onchange="update()"></td><td>MacBook Air 13.6" M2/M3/M4</td><td><span class="filename">privacy-macbook-air-13-6.jpg</span></td><td><span class="folder">privacy-macbook/</span></td><td><a class="shopee" href="https://bit.ly/46prWpB" target="_blank">Shopee</a></td></tr>
+<tr><td><input type="checkbox" onchange="update()"></td><td>MacBook Pro 14"</td><td><span class="filename">privacy-macbook-pro-14.jpg</span></td><td><span class="folder">privacy-macbook/</span></td><td><a class="shopee" href="https://shorturl.at/LN9vS" target="_blank">Shopee</a></td></tr>
+<tr><td><input type="checkbox" onchange="update()"></td><td>MacBook Air 15"</td><td><span class="filename">privacy-macbook-air-15.jpg</span></td><td><span class="folder">privacy-macbook/</span></td><td><a class="shopee" href="https://shorturl.at/VKqX4" target="_blank">Shopee</a></td></tr>
+<tr><td><input type="checkbox" onchange="update()"></td><td>MacBook Pro 15"</td><td><span class="filename">privacy-macbook-pro-15.jpg</span></td><td><span class="folder">privacy-macbook/</span></td><td><a class="shopee" href="https://shorturl.at/QiVv7" target="_blank">Shopee</a></td></tr>
+<tr><td><input type="checkbox" onchange="update()"></td><td>MacBook Pro 16"</td><td><span class="filename">privacy-macbook-pro-16.jpg</span></td><td><span class="folder">privacy-macbook/</span></td><td><a class="shopee" href="https://shorturl.at/iECvZ" target="_blank">Shopee</a></td></tr>
+</table>
+
+<!-- ===== ANTI-BLUE UNIVERSAL ===== -->
+<h2>💙 ฟิล์มกรองแสงสีฟ้าแม่เหล็ก — Universal (3 รายการ)</h2>
+<table>
+<tr><th class="check"></th><th>ขนาด</th><th>ชื่อไฟล์</th><th>Folder</th><th>Link</th></tr>
+<tr><td><input type="checkbox" onchange="update()"></td><td>13.3" (16:9)</td><td><span class="filename">anti-blue-universal-13-3.jpg</span></td><td><span class="folder">anti-blue-universal/</span></td><td><a class="shopee" href="https://shorturl.at/K8wWQ" target="_blank">Shopee</a></td></tr>
+<tr><td><input type="checkbox" onchange="update()"></td><td>14" (16:9)</td><td><span class="filename">anti-blue-universal-14.jpg</span></td><td><span class="folder">anti-blue-universal/</span></td><td><a class="shopee" href="https://shorturl.at/NTZrJ" target="_blank">Shopee</a></td></tr>
+<tr><td><input type="checkbox" onchange="update()"></td><td>15.6" (16:9)</td><td><span class="filename">anti-blue-universal-15-6.jpg</span></td><td><span class="folder">anti-blue-universal/</span></td><td><a class="shopee" href="https://shorturl.at/YlgC0" target="_blank">Shopee</a></td></tr>
+</table>
+
+<!-- ===== ANTI-BLUE MACBOOK ===== -->
+<h2>💙🍎 ฟิล์มกรองแสงสีฟ้าแม่เหล็ก — MacBook (6 รายการ)</h2>
+<table>
+<tr><th class="check"></th><th>รุ่น</th><th>ชื่อไฟล์</th><th>Folder</th><th>Link</th></tr>
+<tr><td><input type="checkbox" onchange="update()"></td><td>MacBook Air 13.3"</td><td><span class="filename">anti-blue-macbook-air-13-3.jpg</span></td><td><span class="folder">anti-blue-macbook/</span></td><td><a class="shopee" href="https://shorturl.at/vb4xX" target="_blank">Shopee</a></td></tr>
+<tr><td><input type="checkbox" onchange="update()"></td><td>MacBook Pro 13.3"</td><td><span class="filename">anti-blue-macbook-pro-13-3.jpg</span></td><td><span class="folder">anti-blue-macbook/</span></td><td><a class="shopee" href="https://shorturl.at/zF3V0" target="_blank">Shopee</a></td></tr>
+<tr><td><input type="checkbox" onchange="update()"></td><td>MacBook Air 13.6" M2/M3/M4</td><td><span class="filename">anti-blue-macbook-air-13-6.jpg</span></td><td><span class="folder">anti-blue-macbook/</span></td><td><a class="shopee" href="https://shorturl.at/ExnS7" target="_blank">Shopee</a></td></tr>
+<tr><td><input type="checkbox" onchange="update()"></td><td>MacBook Pro 14"</td><td><span class="filename">anti-blue-macbook-pro-14.jpg</span></td><td><span class="folder">anti-blue-macbook/</span></td><td><a class="shopee" href="https://tinyurl.com/3t6cxdtr" target="_blank">Shopee</a></td></tr>
+<tr><td><input type="checkbox" onchange="update()"></td><td>MacBook Air 15"</td><td><span class="filename">anti-blue-macbook-air-15.jpg</span></td><td><span class="folder">anti-blue-macbook/</span></td><td><a class="shopee" href="https://tinyurl.com/yzeutdfv" target="_blank">Shopee</a></td></tr>
+<tr><td><input type="checkbox" onchange="update()"></td><td>MacBook Pro 16"</td><td><span class="filename">anti-blue-macbook-pro-16.jpg</span></td><td><span class="folder">anti-blue-macbook/</span></td><td><a class="shopee" href="https://tinyurl.com/3zhu36pt" target="_blank">Shopee</a></td></tr>
+</table>
+
+<!-- ===== SURFACE ===== -->
+<h2>🪟 ฟิล์มกันเสือก — Microsoft Surface (1 listing)</h2>
+<table>
+<tr><th class="check"></th><th>รุ่น</th><th>ชื่อไฟล์</th><th>Folder</th><th>Link</th></tr>
+<tr><td><input type="checkbox" onchange="update()"></td><td>Surface (ทุกรุ่น)</td><td><span class="filename">privacy-surface.jpg</span></td><td><span class="folder">surface/</span></td><td><a class="shopee" href="https://tinyurl.com/2en4rzda" target="_blank">Shopee</a></td></tr>
+</table>
+
+<!-- ===== NANO MACBOOK ===== -->
+<h2>✨ ฟิล์มกันเสือก Nano — MacBook (6 รายการ)</h2>
+<table>
+<tr><th class="check"></th><th>รุ่น</th><th>ชื่อไฟล์</th><th>Folder</th><th>Link</th></tr>
+<tr><td><input type="checkbox" onchange="update()"></td><td>MacBook Air 13.3"</td><td><span class="filename">nano-macbook-air-13-3.jpg</span></td><td><span class="folder">nano-macbook/</span></td><td><a class="shopee" href="https://tinyurl.com/zf2v7ahp" target="_blank">Shopee</a></td></tr>
+<tr><td><input type="checkbox" onchange="update()"></td><td>MacBook Pro 13.3"</td><td><span class="filename">nano-macbook-pro-13-3.jpg</span></td><td><span class="folder">nano-macbook/</span></td><td><a class="shopee" href="https://tinyurl.com/2czycak2" target="_blank">Shopee</a></td></tr>
+<tr><td><input type="checkbox" onchange="update()"></td><td>MacBook Air 13.6" M2/M3/M4</td><td><span class="filename">nano-macbook-air-13-6.jpg</span></td><td><span class="folder">nano-macbook/</span></td><td><a class="shopee" href="https://tinyurl.com/45k5dbtf" target="_blank">Shopee</a></td></tr>
+<tr><td><input type="checkbox" onchange="update()"></td><td>MacBook Pro 14"</td><td><span class="filename">nano-macbook-pro-14.jpg</span></td><td><span class="folder">nano-macbook/</span></td><td><a class="shopee" href="https://tinyurl.com/5f8ntc4z" target="_blank">Shopee</a></td></tr>
+<tr><td><input type="checkbox" onchange="update()"></td><td>MacBook Air 15"</td><td><span class="filename">nano-macbook-air-15.jpg</span></td><td><span class="folder">nano-macbook/</span></td><td><a class="shopee" href="https://tinyurl.com/2zh5n77j" target="_blank">Shopee</a></td></tr>
+<tr><td><input type="checkbox" onchange="update()"></td><td>MacBook Pro 16"</td><td><span class="filename">nano-macbook-pro-16.jpg</span></td><td><span class="folder">nano-macbook/</span></td><td><a class="shopee" href="https://tinyurl.com/4pnvpu9d" target="_blank">Shopee</a></td></tr>
+</table>
+
+<!-- ===== NANO UNIVERSAL ===== -->
+<h2>✨ ฟิล์มกันเสือก Nano Privacy — Universal (8 รายการ)</h2>
+<table>
+<tr><th class="check"></th><th>ขนาด</th><th>ชื่อไฟล์</th><th>Folder</th><th>Link</th></tr>
+<tr><td><input type="checkbox" onchange="update()"></td><td>13.3" (16:9)</td><td><span class="filename">nano-universal-13-3.jpg</span></td><td><span class="folder">nano-universal/</span></td><td><a class="shopee" href="https://tinyurl.com/32y35e7v" target="_blank">Shopee</a></td></tr>
+<tr><td><input type="checkbox" onchange="update()"></td><td>14" (16:9)</td><td><span class="filename">nano-universal-14.jpg</span></td><td><span class="folder">nano-universal/</span></td><td><a class="shopee" href="https://tinyurl.com/4ud7pdt9" target="_blank">Shopee</a></td></tr>
+<tr><td><input type="checkbox" onchange="update()"></td><td>14.5" (16:10)</td><td><span class="filename">nano-universal-14-5.jpg</span></td><td><span class="folder">nano-universal/</span></td><td><a class="shopee" href="https://tinyurl.com/dwcpfpwc" target="_blank">Shopee</a></td></tr>
+<tr><td><input type="checkbox" onchange="update()"></td><td>15.3" (16:10)</td><td><span class="filename">nano-universal-15-3.jpg</span></td><td><span class="folder">nano-universal/</span></td><td><a class="shopee" href="https://tinyurl.com/5dvke5km" target="_blank">Shopee</a></td></tr>
+<tr><td><input type="checkbox" onchange="update()"></td><td>15.6" (16:9)</td><td><span class="filename">nano-universal-15-6.jpg</span></td><td><span class="folder">nano-universal/</span></td><td><a class="shopee" href="https://tinyurl.com/f95bk278" target="_blank">Shopee</a></td></tr>
+<tr><td><input type="checkbox" onchange="update()"></td><td>16" (16:10)</td><td><span class="filename">nano-universal-16.jpg</span></td><td><span class="folder">nano-universal/</span></td><td><a class="shopee" href="https://tinyurl.com/2y35mpv9" target="_blank">Shopee</a></td></tr>
+<tr><td><input type="checkbox" onchange="update()"></td><td>16.1" (16:9)</td><td><span class="filename">nano-universal-16-1.jpg</span></td><td><span class="folder">nano-universal/</span></td><td><a class="shopee" href="https://tinyurl.com/58kp8bze" target="_blank">Shopee</a></td></tr>
+<tr><td><input type="checkbox" onchange="update()"></td><td>17.3" (16:9)</td><td><span class="filename">nano-universal-17-3.jpg</span></td><td><span class="folder">nano-universal/</span></td><td><a class="shopee" href="https://tinyurl.com/yjvs4s7h" target="_blank">Shopee</a></td></tr>
+</table>
+
+<!-- ===== MONITOR ===== -->
+<h2>🖥️ ฟิล์มกันเสือก — Monitor (4 รายการ)</h2>
+<table>
+<tr><th class="check"></th><th>ขนาด</th><th>ชื่อไฟล์</th><th>Folder</th><th>Link</th></tr>
+<tr><td><input type="checkbox" onchange="update()"></td><td>18.5"–21.5" (16:9)</td><td><span class="filename">privacy-monitor-small.jpg</span></td><td><span class="folder">monitor/</span></td><td><a class="shopee" href="https://tinyurl.com/582jxef8" target="_blank">Shopee</a></td></tr>
+<tr><td><input type="checkbox" onchange="update()"></td><td>22"–27" (16:9/16:10)</td><td><span class="filename">privacy-monitor-large.jpg</span></td><td><span class="folder">monitor/</span></td><td><a class="shopee" href="https://tinyurl.com/2bsfuyee" target="_blank">Shopee</a></td></tr>
+<tr><td><input type="checkbox" onchange="update()"></td><td>iMac 21.5"/24"/27"</td><td><span class="filename">privacy-imac.jpg</span></td><td><span class="folder">monitor/</span></td><td><a class="shopee" href="https://tinyurl.com/4y56fjbk" target="_blank">Shopee</a></td></tr>
+<tr><td><input type="checkbox" onchange="update()"></td><td>28"–34" (ultra-wide)</td><td><span class="filename">privacy-monitor-xl.jpg</span></td><td><span class="folder">monitor/</span></td><td><a class="shopee" href="https://tinyurl.com/mr6dh4wk" target="_blank">Shopee</a></td></tr>
+</table>
+
+<!-- ===== IPAD ===== -->
+<h2>📱 ฟิล์มกันเสือก — iPad (5 รายการ)</h2>
+<table>
+<tr><th class="check"></th><th>รุ่น</th><th>ชื่อไฟล์</th><th>Folder</th><th>Link</th></tr>
+<tr><td><input type="checkbox" onchange="update()"></td><td>iPad Air 4&5 10.9"</td><td><span class="filename">privacy-ipad-air-45.jpg</span></td><td><span class="folder">ipad/</span></td><td><a class="shopee" href="https://tinyurl.com/2rxv7dcp" target="_blank">Shopee</a></td></tr>
+<tr><td><input type="checkbox" onchange="update()"></td><td>iPad Pro 11"</td><td><span class="filename">privacy-ipad-pro-11.jpg</span></td><td><span class="folder">ipad/</span></td><td><a class="shopee" href="https://tinyurl.com/4ywy7ub9" target="_blank">Shopee</a></td></tr>
+<tr><td><input type="checkbox" onchange="update()"></td><td>iPad Pro 12.9"</td><td><span class="filename">privacy-ipad-pro-12-9.jpg</span></td><td><span class="folder">ipad/</span></td><td><a class="shopee" href="https://tinyurl.com/mry94c38" target="_blank">Shopee</a></td></tr>
+<tr><td><input type="checkbox" onchange="update()"></td><td>iPad Air M2/M3 11"/13"</td><td><span class="filename">privacy-ipad-air-m2m3.jpg</span></td><td><span class="folder">ipad/</span></td><td><a class="shopee" href="https://tinyurl.com/mwrccyff" target="_blank">Shopee</a></td></tr>
+<tr><td><input type="checkbox" onchange="update()"></td><td>iPad Pro M4/M5 2024</td><td><span class="filename">privacy-ipad-pro-m4m5.jpg</span></td><td><span class="folder">ipad/</span></td><td><a class="shopee" href="https://tinyurl.com/5n8bybax" target="_blank">Shopee</a></td></tr>
+</table>
+
+<!-- ===== IPAD PAPER-LIKE ===== -->
+<h2>📄 ฟิล์มกระดาษ iPad Paper-like (5 รายการ)</h2>
+<table>
+<tr><th class="check"></th><th>รุ่น</th><th>ชื่อไฟล์</th><th>Folder</th><th>Link</th></tr>
+<tr><td><input type="checkbox" onchange="update()"></td><td>iPad Air 4&5 10.9"</td><td><span class="filename">paperlike-ipad-air-45.jpg</span></td><td><span class="folder">ipad-paperlike/</span></td><td><a class="shopee" href="https://tinyurl.com/4wp3z4se" target="_blank">Shopee</a></td></tr>
+<tr><td><input type="checkbox" onchange="update()"></td><td>iPad Pro 11"</td><td><span class="filename">paperlike-ipad-pro-11.jpg</span></td><td><span class="folder">ipad-paperlike/</span></td><td><a class="shopee" href="https://tinyurl.com/22v9u8m3" target="_blank">Shopee</a></td></tr>
+<tr><td><input type="checkbox" onchange="update()"></td><td>iPad Pro 12.9"</td><td><span class="filename">paperlike-ipad-pro-12-9.jpg</span></td><td><span class="folder">ipad-paperlike/</span></td><td><a class="shopee" href="https://tinyurl.com/mr3v4hzv" target="_blank">Shopee</a></td></tr>
+<tr><td><input type="checkbox" onchange="update()"></td><td>iPad Air M2/M3</td><td><span class="filename">paperlike-ipad-air-m2m3.jpg</span></td><td><span class="folder">ipad-paperlike/</span></td><td><a class="shopee" href="https://tinyurl.com/5f36m9kr" target="_blank">Shopee</a></td></tr>
+<tr><td><input type="checkbox" onchange="update()"></td><td>iPad Pro M4/M5 2024</td><td><span class="filename">paperlike-ipad-pro-m4m5.jpg</span></td><td><span class="folder">ipad-paperlike/</span></td><td><a class="shopee" href="https://tinyurl.com/5n7py3yd" target="_blank">Shopee</a></td></tr>
+</table>
+
+<!-- ===== ACCESSORIES ===== -->
+<h2>🎒 อุปกรณ์เสริม (8 รายการ)</h2>
+<table>
+<tr><th class="check"></th><th>สินค้า</th><th>ชื่อไฟล์</th><th>Folder</th><th>Link</th></tr>
+<tr><td><input type="checkbox" onchange="update()"></td><td>แถบแม่เหล็ก (สั้น/ยาว)</td><td><span class="filename">magnetic-strip.jpg</span></td><td><span class="folder">accessories/</span></td><td><a class="shopee" href="https://tinyurl.com/5n8n6fcb" target="_blank">Shopee</a></td></tr>
+<tr><td><input type="checkbox" onchange="update()"></td><td>แฟ้มแข็งใหญ่</td><td><span class="filename">rigid-case-large.jpg</span></td><td><span class="folder">accessories/</span></td><td><a class="shopee" href="https://tinyurl.com/4m5eahy2" target="_blank">Shopee</a></td></tr>
+<tr><td><input type="checkbox" onchange="update()"></td><td>ผ้า Polishing Cloth</td><td><span class="filename">polishing-cloth.jpg</span></td><td><span class="folder">accessories/</span></td><td><a class="shopee" href="https://tinyurl.com/fu3pwh56" target="_blank">Shopee</a></td></tr>
+<tr><td><input type="checkbox" onchange="update()"></td><td>Silicon Keyboard Cover</td><td><span class="filename">silicon-keyboard.jpg</span></td><td><span class="folder">accessories/</span></td><td><a class="shopee" href="https://tinyurl.com/22xvxa25" target="_blank">Shopee</a></td></tr>
+<tr><td><input type="checkbox" onchange="update()"></td><td>Laptop Stand — Snap Fold</td><td><span class="filename">stand-snap-fold.jpg</span></td><td><span class="folder">accessories/</span></td><td><a class="shopee" href="https://tinyurl.com/3c3s9kd4" target="_blank">Shopee</a></td></tr>
+<tr><td><input type="checkbox" onchange="update()"></td><td>Laptop Stand — Air Lift</td><td><span class="filename">stand-air-lift.jpg</span></td><td><span class="folder">accessories/</span></td><td><a class="shopee" href="https://tinyurl.com/46k9erj4" target="_blank">Shopee</a></td></tr>
+<tr><td><input type="checkbox" onchange="update()"></td><td>Laptop Stand — Maglift Duo</td><td><span class="filename">stand-maglift-duo.jpg</span></td><td><span class="folder">accessories/</span></td><td><a class="shopee" href="https://tinyurl.com/59ndnbvj" target="_blank">Shopee</a></td></tr>
+</table>
+
+<script>
+function update() {
+  const total = document.querySelectorAll('input[type=checkbox]').length;
+  const checked = document.querySelectorAll('input[type=checkbox]:checked').length;
+  document.getElementById('count').textContent = checked;
+  document.getElementById('bar').style.width = (checked / total * 100) + '%';
+}
+// Save state to localStorage
+document.querySelectorAll('input[type=checkbox]').forEach((cb, i) => {
+  if (localStorage.getItem('cb_' + i) === '1') { cb.checked = true; }
+  cb.addEventListener('change', () => {
+    localStorage.setItem('cb_' + i, cb.checked ? '1' : '0');
+    update();
+  });
+});
+update();
+</script>
+</body>
+</html>

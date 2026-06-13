@@ -1,0 +1,366 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
+/* ─── Karmart Design Tokens ─── */
+:root {
+  /* Corporate — เก็บไว้ใช้เฉพาะ brand override / marketing จาก code เท่านั้น */
+  --km-magenta:         #E91E8C;
+  --km-magenta-hover:   #C4177A;
+  --km-magenta-light:   #FCE4F3;
+
+  /* Brand (Neutral Canvas — UI chrome เป็นขาวดำ, สีมาจาก imagery) */
+  --km-brand:           #2D2D2D;
+  --km-brand-hover:     #3D3D3D;
+  --km-brand-light:     #F5F5F5;
+  --km-brand-on:        #FFFFFF;
+
+  /* Base */
+  --km-bg:              #FFFFFF;
+  --km-surface:         #FAFAFA;
+  --km-surface-dark:    #2D2D2D;
+  --km-border:          #EBEBEB;
+  --km-border-strong:   #D4D4D4;
+
+  /* Text */
+  --km-text:            #2D2D2D;
+  --km-text-secondary:  #525252;
+  --km-text-muted:      #A3A3A3;
+  --km-text-inverse:    #FFFFFF;
+
+  /* Semantic */
+  --km-success:         #16A34A;
+  --km-warning:         #D97706;
+  --km-error:           #DC2626;
+  --km-info:            #2563EB;
+
+  /* Shadow */
+  --km-shadow-sm:       0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --km-shadow-md:       0 4px 6px -1px rgb(0 0 0 / 0.07);
+  --km-shadow-lg:       0 10px 15px -3px rgb(0 0 0 / 0.08);
+  --km-shadow-card:     0 2px 8px 0 rgb(0 0 0 / 0.06);
+
+  /* Radius */
+  --km-radius-sm:       6px;
+  --km-radius-md:       10px;
+  --km-radius-lg:       16px;
+  --km-radius-xl:       20px;
+  --km-radius-full:     9999px;
+
+  /* Font */
+  /* Montserrat handles Latin/English; Noto Sans Thai handles Thai — browser picks per character */
+  --km-font: var(--font-montserrat), var(--font-prompt), system-ui, sans-serif;
+
+  /* Z-index */
+  --z-sticky:           200;
+  --z-overlay:          300;
+  --z-drawer:           400;
+  --z-modal:            500;
+  --z-toast:            600;
+  --z-fab:              750;
+  --z-bottomnav:        800;
+
+  /* Shadcn compat */
+  --background:              oklch(1 0 0);
+  --foreground:              oklch(0.145 0 0);
+  --card:                    oklch(1 0 0);
+  --card-foreground:         oklch(0.145 0 0);
+  --popover:                 oklch(1 0 0);
+  --popover-foreground:      oklch(0.145 0 0);
+  --primary:                 oklch(0.205 0 0);
+  --primary-foreground:      oklch(0.985 0 0);
+  --secondary:               oklch(0.97 0 0);
+  --secondary-foreground:    oklch(0.205 0 0);
+  --muted:                   oklch(0.97 0 0);
+  --muted-foreground:        oklch(0.556 0 0);
+  --accent:                  oklch(0.97 0 0);
+  --accent-foreground:       oklch(0.205 0 0);
+  --destructive:             oklch(0.577 0.245 27.325);
+  --border:                  oklch(0.922 0 0);
+  --input:                   oklch(0.922 0 0);
+  --ring:                    oklch(0.708 0 0);
+  --radius:                  0.5rem;
+  --sidebar:                 oklch(0.985 0 0);
+  --sidebar-foreground:      oklch(0.145 0 0);
+  --sidebar-primary:         oklch(0.205 0 0);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent:          oklch(0.97 0 0);
+  --sidebar-accent-foreground: oklch(0.205 0 0);
+  --sidebar-border:          oklch(0.922 0 0);
+  --sidebar-ring:            oklch(0.708 0 0);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans:        var(--km-font);
+  --font-mono:        ui-monospace, monospace;
+  --color-border:     var(--border);
+  --color-ring:       var(--ring);
+  --color-primary:    var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary:  var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted:      var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent:     var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-card:       var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover:    var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-input:      var(--input);
+  --radius-sm:        6px;
+  --radius-md:        10px;
+  --radius-lg:        16px;
+  --radius-xl:        20px;
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+
+  /* Set minimum font size to 13px */
+  --font-size-xs: 13px;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+    box-sizing: border-box;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  button, a, [role="button"], label[for], select, summary,
+  input[type="checkbox"], input[type="radio"], input[type="submit"],
+  input[type="reset"], input[type="file"] {
+    cursor: pointer;
+  }
+
+  *::-webkit-scrollbar {
+    display: none;
+  }
+
+  html {
+    font-family: var(--km-font);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    scroll-behavior: auto;
+    overflow-x: hidden;
+    max-width: 100vw;
+  }
+
+  body {
+    background-color: var(--km-bg);
+    color: var(--km-text);
+    font-family: var(--km-font);
+    min-height: 100dvh;
+    overflow-x: hidden;
+    max-width: 100vw;
+  }
+
+  /* Mobile bottom nav spacing */
+  @media (max-width: 767px) {
+    body {
+      padding-bottom: calc(72px + env(safe-area-inset-bottom));
+    }
+  }
+}
+
+/* ─── Utility classes ─── */
+@layer utilities {
+  .brand-gradient {
+    background: linear-gradient(135deg, #2D2D2D, #3D3D3D);
+  }
+
+  .text-brand {
+    color: var(--km-brand);
+  }
+
+  .bg-brand {
+    background-color: var(--km-brand);
+    color: var(--km-brand-on);
+  }
+
+  .border-brand {
+    border-color: var(--km-brand);
+  }
+
+  .shadow-card {
+    box-shadow: var(--km-shadow-card);
+  }
+
+  .shadow-product {
+    box-shadow: 0 2px 12px rgb(0 0 0 / 0.08);
+  }
+}
+
+@keyframes slideInFromRight {
+  from { transform: translateX(100%); }
+  to   { transform: translateX(0); }
+}
+@keyframes slideInFromLeft {
+  from { transform: translateX(-100%); }
+  to   { transform: translateX(0); }
+}
+@keyframes slideOutToLeft {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-100%); }
+}
+@keyframes slideOutToRight {
+  from { transform: translateX(0); }
+  to   { transform: translateX(100%); }
+}
+@keyframes slideUpSheet {
+  from { transform: translateY(100%); }
+  to   { transform: translateY(0); }
+}
+@keyframes slideDownSheet {
+  from { transform: translateY(0); }
+  to   { transform: translateY(100%); }
+}
+
+@keyframes grid-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.animate-shimmer {
+  background: linear-gradient(90deg, #f0f0f0 25%, #f8f8f8 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite linear;
+}
+
+/* Dark mode compatible shimmer if needed */
+.dark .animate-shimmer {
+  background: linear-gradient(90deg, #222 25%, #333 50%, #222 75%);
+  background-size: 200% 100%;
+}
+@keyframes ken-burns {
+  from { transform: scale(1.15); }
+  to { transform: scale(1); }
+}
+@keyframes expandStepper {
+  from { opacity: 0; transform: scale(0.7); }
+  to   { opacity: 1; transform: scale(1); }
+}
+@keyframes collapseStepper {
+  from { opacity: 1; transform: scale(1); }
+  to   { opacity: 0; transform: scale(0.7); }
+}
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+.animate-marquee {
+  animation: marquee 20s linear infinite;
+}
+
+/* ─── Lightbox Animations ─── */
+@keyframes lightbox-fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes lightbox-zoom-in {
+  from { opacity: 0; transform: scale(0.95); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+@keyframes lightbox-fade-out {
+  from { opacity: 1; }
+  to   { opacity: 0; }
+}
+
+@keyframes lightbox-zoom-out {
+  from { opacity: 1; transform: scale(1); }
+  to   { opacity: 0; transform: scale(0.95); }
+}
+
+.animate-lightbox-fade {
+  animation: lightbox-fade-in 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-lightbox-fade-out {
+  animation: lightbox-fade-out 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-lightbox-zoom {
+  animation: lightbox-zoom-in 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-lightbox-zoom-out {
+  animation: lightbox-zoom-out 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes badge-pop {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.4); }
+  100% { transform: scale(1); }
+}
+
+.animate-badge-pop {
+  animation: badge-pop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* ─── Final Layout Lock (Prevents Horizontal Wiggle) ─── */
+html, body {
+  overflow-x: hidden !important;
+  max-width: 100% !important;
+  position: relative;
+}
+
+/* ─── Premium PDP Sheet Micro-interactions ─── */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes translateX {
+  0%, 100% { transform: translateX(0); }
+  50%      { transform: translateX(4px); }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.2s ease-out forwards;
+}
+
+.animate-slide-up {
+  animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-translate-x {
+  animation: translateX 0.8s ease-in-out infinite;
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
