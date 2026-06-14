@@ -1,12 +1,21 @@
 "use client";
 
 import React, { useState, useMemo, useCallback, useEffect } from "react";
-import { SlidersHorizontal, X, ChevronDown, Check } from "lucide-react";
+import { SlidersHorizontal, X, ChevronDown, Check, LayoutGrid, Laptop, MonitorSmartphone, Tablet, Monitor } from "lucide-react";
 
 import { ProductCard, type ProductCardProps } from "@/components/product/ProductCard";
 import { CATEGORIES as MOCK_CATEGORIES } from "@/lib/mock-data";
 import { BottomSheet } from "@/components/ui/BottomSheet";
 import { useLang } from "@/contexts/lang";
+
+/* ─── Category icons ─── */
+const CAT_ICON: Record<string, React.ElementType> = {
+  all:       LayoutGrid,
+  macbook:   Laptop,
+  universal: MonitorSmartphone,
+  ipad:      Tablet,
+  monitor:   Monitor,
+};
 
 /* ─── Types ─── */
 const PRICE_MAX = 10000;
@@ -19,6 +28,7 @@ interface FilterState {
   rating: number | null;
   badge: string | null;
   q: string | null;
+  filmType: string | null;
 }
 
 
@@ -39,13 +49,21 @@ const EMPTY_FILTERS: FilterState = {
   rating: null,
   badge: null,
   q: null,
+  filmType: null,
+};
+
+const FILM_TYPE_KEYWORDS: Record<string, string[]> = {
+  privacy:   ["privacy"],
+  paperlike: ["paper like", "paperlike"],
+  antiblue:  ["anti-blue", "anti blue"],
+  matte:     ["matte"],
 };
 
 
 /* ─── Props ─── */
 interface Props {
   products: ProductCardProps[];
-  initialParams: { category?: string; brand?: string; sort?: string; q?: string };
+  initialParams: { category?: string; brand?: string; sort?: string; q?: string; filmType?: string };
 }
 
 /* ─── Helpers ─── */
@@ -80,6 +98,7 @@ export function PLPClient({ products, initialParams }: Props) {
     categories: initialParams.category ? [initialParams.category] : [],
     brands:     initialParams.brand    ? [initialParams.brand]    : [],
     q:          initialParams.q        || null,
+    filmType:   initialParams.filmType || null,
   });
   const [sort, setSort]           = useState(initialParams.sort ?? "price-asc");
   const [sheetOpen, setSheetOpen] = useState(false);
@@ -110,6 +129,11 @@ export function PLPClient({ products, initialParams }: Props) {
       if (!matchesPrice(p.price, filters.priceMin, filters.priceMax)) return false;
       if (filters.rating && (p.rating ?? 0) < filters.rating) return false;
       if (filters.badge && p.badge !== filters.badge) return false;
+      if (filters.filmType) {
+        const keywords = FILM_TYPE_KEYWORDS[filters.filmType] ?? [];
+        const nameLower = p.name.toLowerCase();
+        if (!keywords.some((kw) => nameLower.includes(kw))) return false;
+      }
       return true;
     }), sort);
   }, [products, filters, sort]);
@@ -172,6 +196,7 @@ export function PLPClient({ products, initialParams }: Props) {
                   {MOCK_CATEGORIES.map((cat) => {
                     const catValue = cat.href.includes("=") ? cat.href.split("category=")[1] : null;
                     const isActive = catValue ? filters.categories.includes(catValue) : filters.categories.length === 0;
+                    const Icon = CAT_ICON[catValue ?? "all"];
                     return (
                       <button
                         key={cat.href}
@@ -181,12 +206,13 @@ export function PLPClient({ products, initialParams }: Props) {
                             ? (f.categories.includes(catValue) ? [] : [catValue])
                             : [],
                         }))}
-                        className={`shrink-0 px-4 py-1.5 rounded-full text-[13px] whitespace-nowrap transition-colors ${
+                        className={`shrink-0 flex items-center gap-1.5 px-4 py-2 rounded-full text-[13px] whitespace-nowrap transition-all duration-200 ${
                           isActive
-                            ? "bg-[var(--km-text)] text-white"
-                            : "bg-[var(--km-surface)] text-[var(--km-text-secondary)] hover:bg-[#E8E8ED] hover:text-[var(--km-text)]"
+                            ? "bg-[var(--km-text)] text-white font-medium shadow-sm"
+                            : "bg-white text-[var(--km-text-secondary)] border border-[var(--km-border)] hover:border-[var(--km-border-strong)] hover:text-[var(--km-text)] font-normal"
                         }`}
                       >
+                        <Icon size={13} strokeWidth={isActive ? 2.2 : 1.75} />
                         {cat.label}
                       </button>
                     );

@@ -4,11 +4,11 @@ import Link from "next/link";
 import { useLang } from "@/contexts/lang";
 
 const HOME_CATEGORIES = [
-  { label: "ทั้งหมด",   href: "/products" },
-  { label: "MacBook",  href: "/products?category=macbook" },
-  { label: "Universal",href: "/products?category=universal" },
-  { label: "iPad",     href: "/products?category=ipad" },
-  { label: "Monitor",  href: "/products?category=monitor" },
+  { label: "ทั้งหมด",         href: "/products" },
+  { label: "Privacy Screen",  href: "/products?filmType=privacy" },
+  { label: "Paper Like",      href: "/products?filmType=paperlike" },
+  { label: "Anti-Blue Light", href: "/products?filmType=antiblue" },
+  { label: "Matte",           href: "/products?filmType=matte" },
 ];
 
 export function CategoryIcons() {

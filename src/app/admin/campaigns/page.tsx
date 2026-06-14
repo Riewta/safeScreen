@@ -30,6 +30,14 @@ const STORAGE_KEY = "safescreen-campaigns";
 
 const SEED_CAMPAIGNS: Campaign[] = [
   {
+    id: "0", slug: "11-11",
+    title: "SafeScreen 11.11 ลดสูงสุด 50%",
+    description: "โปรโมชั่น 11.11 สุดยิ่งใหญ่! NanoSnap ทุกรุ่นลดสูงสุด 50% พร้อมฟรี! แฟ้ม SafeScreen ทุก ORDER มีจำนวนจำกัด",
+    hero: "/banner_promotions/11-11-sale.png",
+    type: "campaign", discountType: "percentage", discountValue: 50,
+    startDate: "2026-11-11", endDate: "2026-11-11", status: "scheduled", createdAt: "2026-06-14",
+  },
+  {
     id: "1", slug: "flash-sale",
     title: "Flash Sale",
     description: "ดีลสุดคุ้มที่อัปเดตทุกวัน สินค้า NanoSnap คัดสรรกว่า 200 รายการ ลดสูงสุด 70% มีจำนวนจำกัด — หมดแล้วหมดเลย",

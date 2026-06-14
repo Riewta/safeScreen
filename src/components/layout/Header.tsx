@@ -4,10 +4,11 @@ import { createPortal } from "react-dom";
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { Search, ShoppingBag, ChevronDown, ChevronLeft, X, User, ArrowRight, Bell, Clock } from "lucide-react";
+import { Search, ShoppingBag, ChevronDown, ChevronLeft, X, User, ArrowRight, Bell, Clock, Menu } from "lucide-react";
 import { Droplets, Sparkles, Eye, Smile, Wind, Sun, Waves, FlaskConical, ShieldCheck, Scissors, Heart, Gem, Gift, Leaf, Wand2, Baby } from "lucide-react";
 import { useCartStore } from "@/stores/cart.store";
 import { useUIStore } from "@/stores/ui.store";
+import { useProfile } from "@/stores/user.store";
 import { CountrySelectorButton, RegionSelectorButton } from "@/components/layout/CountrySelector";
 import { useAuthStore } from "@/stores/auth.store";
 import { useNotificationsStore } from "@/stores/notifications.store";
@@ -120,9 +121,14 @@ export function Header() {
   const cartHref = "/cart";
   const openCartDrawer = useUIStore((s) => s.openCartDrawer);
   const openSearch = useUIStore((s) => s.openSearch);
+  const mobileNavOpen = useUIStore((s) => s.mobileNavOpen);
+  const openMobileNav = useUIStore((s) => s.openMobileNav);
+  const closeMobileNav = useUIStore((s) => s.closeMobileNav);
   const setHeaderHidden = useUIStore((s) => s.setHeaderHidden);
   const setHeaderHeight = useUIStore((s) => s.setHeaderHeight);
-  const { isLoggedIn, name } = useAuthStore();
+  const { isLoggedIn } = useAuthStore();
+  const profile = useProfile();
+  const name = profile.name;
   const headerLocked          = useUIStore((s) => s.headerLocked);
   const headerTitleOverride   = useUIStore((s) => s.headerTitleOverride);
   const headerBackOverride     = useUIStore((s) => s.headerBackOverride);
@@ -133,11 +139,13 @@ export function Header() {
   const ANNOUNCEMENTS = tHeader.announcements;
   const routeConfigs = useMemo(() => buildRouteConfigs(tHeader), [tHeader]);
 
+  const [mounted, setMounted] = useState(false);
   const [showAnnouncement, setShowAnnouncement] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(true);
 
   useEffect(() => {
+    setMounted(true);
     const closed = sessionStorage.getItem("announcement-closed");
     if (!closed) {
       setShowAnnouncement(true);
@@ -261,11 +269,12 @@ export function Header() {
 
           {/* Desktop Nav */}
           <nav className="hidden md:flex items-center gap-2 flex-1 h-full">
-            <NavItem label="Shop" href="/products" />
+            <ShopDropdown />
             <NavItem label="Express" href="/express" />
             <NavItem label="Store" href="/store" />
             <NavItem label="Corporate" href="/corporate" />
             <NavItem label="AI Checker" href="/ai-checker" />
+            <NavItem label="About Us" href="/about" />
           </nav>
 
           {/* Mobile Center Title */}
@@ -287,13 +296,13 @@ export function Header() {
           <div className="flex items-center gap-1 md:gap-2">
             {/* Account Icon */}
             <Link
-              href={isLoggedIn ? "/account" : "/login"}
+              href={mounted && isLoggedIn ? "/account" : "/login"}
               className="hidden md:flex items-center gap-1.5 p-2 text-[var(--km-text-secondary)] hover:text-[var(--km-text)] transition-colors"
               aria-label="บัญชีของฉัน"
             >
               <User size={22} strokeWidth={1.75} />
               <span className="text-[13px] font-medium tracking-wide">
-                {isLoggedIn ? name.split(" ")[0] : tHeader.login}
+                {mounted && isLoggedIn ? name.split(" ")[0] : tHeader.login}
               </span>
             </Link>
 
@@ -324,23 +333,24 @@ export function Header() {
 
             {right !== "none" && (
               <>
-                {/* Mobile: navigate to cart page */}
-                <Link href={cartHref} className="relative p-2 text-[var(--km-text-secondary)] hover:text-[var(--km-text)] transition-colors flex md:hidden">
-                  <ShoppingBag size={20} strokeWidth={1.75} />
-                  {activeCartCount > 0 && (
-                    <span key={activeCartCount} className="absolute -top-1 -right-1 min-w-[18px] h-[18px] rounded-full bg-[#FFAC00] text-white text-[11px] font-medium flex items-center justify-center leading-none px-1 shadow-sm animate-badge-pop">
-                      {activeCartCount > 99 ? "99+" : activeCartCount}
-                    </span>
-                  )}
-                </Link>
-                {/* Desktop: open cart drawer */}
+                {/* Mobile: hamburger → opens nav drawer */}
+                <button
+                  onClick={() => mobileNavOpen ? closeMobileNav() : openMobileNav()}
+                  className="relative p-2 text-[var(--km-text-secondary)] hover:text-[var(--km-text)] transition-colors flex md:hidden"
+                  aria-label="เมนู"
+                >
+                  <Menu size={22} strokeWidth={1.75} />
+                </button>
+
+                {/* Desktop: cart → opens cart drawer */}
                 <button
                   onClick={() => openCartDrawer()}
-                  className="relative p-2 text-[var(--km-text-secondary)] hover:text-[var(--km-text)] transition-colors hidden md:flex"
+                  className="relative p-2 text-[var(--km-text-secondary)] hover:text-[var(--km-text)] transition-colors hidden md:flex items-center justify-center"
+                  aria-label="ตะกร้าสินค้า"
                 >
-                  <ShoppingBag size={20} strokeWidth={1.75} />
+                  <ShoppingBag size={22} strokeWidth={1.75} />
                   {activeCartCount > 0 && (
-                    <span key={activeCartCount} className="absolute -top-1 -right-1 min-w-[18px] h-[18px] rounded-full bg-[#FFAC00] text-white text-[11px] font-medium flex items-center justify-center leading-none px-1 shadow-sm animate-badge-pop">
+                    <span key={activeCartCount} className="absolute -top-0.5 -right-0.5 min-w-[18px] h-[18px] rounded-full bg-[#FFAC00] text-white text-[11px] font-medium flex items-center justify-center leading-none px-1 shadow-sm animate-badge-pop">
                       {activeCartCount > 99 ? "99+" : activeCartCount}
                     </span>
                   )}
@@ -390,17 +400,74 @@ const SEARCH_ICON_MAP: Record<string, React.ElementType> = {
 };
 
 
+function ShopDropdown() {
+  const { shopDropdown: t, nav } = useLang();
+  const items = [
+    { label: t.all,      href: "/products" },
+    { label: t.paper,    href: "/products?type=paper" },
+    { label: t.privacy,  href: "/products?type=privacy" },
+    { label: t.antiBlue, href: "/products?type=anti-blue" },
+    { label: t.nano,     href: "/products?type=nano" },
+  ];
+  return <NavDropdown label={nav.shop} href="/products" items={items} />;
+}
+
+function NavDropdown({ label, href, items }: {
+  label: string;
+  href: string;
+  items: { label: string; href: string }[];
+}) {
+  const pathname = usePathname();
+  const [open, setOpen] = useState(false);
+  const [isActive, setIsActive] = useState(false);
+
+  useEffect(() => {
+    setIsActive(pathname === href || (href !== "/" && pathname.startsWith(href)));
+  }, [pathname, href]);
+
+  return (
+    <div
+      className="relative h-full flex items-center"
+      onMouseEnter={() => setOpen(true)}
+      onMouseLeave={() => setOpen(false)}
+    >
+      <Link
+        href={href}
+        className={`flex items-center gap-1 text-[13px] font-medium transition-colors whitespace-nowrap tracking-wide h-full px-1 ${isActive ? "text-[var(--km-text)]" : "text-[var(--km-text-secondary)] hover:text-[var(--km-text)]"}`}
+      >
+        {label}
+        <ChevronDown size={12} strokeWidth={2} className={`transition-transform duration-200 ${open ? "rotate-180" : ""}`} />
+      </Link>
+
+      {open && (
+        <div className="absolute top-full left-0 bg-white border border-[var(--km-border)] rounded-xl shadow-lg overflow-hidden py-1.5 z-[300]">
+          {items.map((item) => (
+            <Link
+              key={item.href}
+              href={item.href}
+              className="block px-5 py-2.5 hover:bg-[var(--km-surface)] transition-colors whitespace-nowrap text-[13px] font-medium text-[var(--km-text)]"
+            >
+              {item.label}
+            </Link>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
 function NavItem({ label, href = "#", showArrow = false }: { label: string; href?: string; showArrow?: boolean }) {
   const pathname = usePathname();
-  const isActive = pathname === href || (href !== "/" && pathname?.startsWith(href));
+  const [isActive, setIsActive] = useState(false);
+
+  useEffect(() => {
+    setIsActive(pathname === href || (href !== "/" && pathname.startsWith(href)));
+  }, [pathname, href]);
 
   return (
     <Link
       href={href}
-      className={`
-        flex items-center gap-1 text-[13px] font-medium transition-colors whitespace-nowrap tracking-wide h-full px-1
-        ${isActive ? "text-[var(--km-text)]" : "text-[var(--km-text-secondary)] hover:text-[var(--km-text)]"}
-      `}
+      className={`flex items-center gap-1 text-[13px] font-medium transition-colors whitespace-nowrap tracking-wide h-full px-1 ${isActive ? "text-[var(--km-text)]" : "text-[var(--km-text-secondary)] hover:text-[var(--km-text)]"}`}
     >
       {label}
       {showArrow && <ChevronDown size={14} strokeWidth={2} />}

@@ -3,6 +3,7 @@ export type LangCode = "TH" | "EN";
 export interface Translations {
   _lang: LangCode;
   nav: { home: string; shop: string; cart: string; me: string };
+  shopDropdown: { all: string; paper: string; privacy: string; antiBlue: string; nano: string };
   header: {
     cart: string; checkoutAddress: string; checkout: string; payment: string;
     orderSuccess: string; profile: string; orders: string; orderDetail: string;
@@ -166,7 +167,8 @@ export interface Translations {
 const translations: Record<LangCode, Translations> = {
   TH: {
     _lang: "TH",
-    nav: { home: "หน้าแรก", shop: "Shop", cart: "Cart", me: "Me" },
+    nav: { home: "หน้าแรก", shop: "Shop", cart: "Cart", me: "Profile" },
+    shopDropdown: { all: "ดูสินค้าทั้งหมด", paper: "ฟิล์มเนื้อกระดาษ", privacy: "ฟิล์มกันการมอง", antiBlue: "ฟิล์มกันแสงสีฟ้า", nano: "ฟิล์มนาโน" },
     header: {
       cart: "ตะกร้าสินค้า",
       checkoutAddress: "เลือกที่อยู่จัดส่ง",
@@ -372,7 +374,8 @@ const translations: Record<LangCode, Translations> = {
 
   EN: {
     _lang: "EN",
-    nav: { home: "Home", shop: "Shop", cart: "Cart", me: "Me" },
+    nav: { home: "Home", shop: "Shop", cart: "Cart", me: "Profile" },
+    shopDropdown: { all: "All Products", paper: "Paper-like Film", privacy: "Privacy Film", antiBlue: "Anti-Blue Light Film", nano: "Nano Film" },
     header: {
       cart: "Shopping Cart",
       checkoutAddress: "Select Delivery Address",

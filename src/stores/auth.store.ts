@@ -2,6 +2,7 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { useUserStore } from "./user.store";
 import { useOrdersStore } from "./orders.store";
+import { useWishlistStore } from "./wishlist.store";
 
 interface AuthStore {
   isLoggedIn: boolean;
@@ -37,6 +38,9 @@ export const useAuthStore = create<AuthStore>()(
         });
         // Seed mock orders if empty
         useOrdersStore.getState().seedIfEmpty();
+        // Auto-add pending wishlist item (กรณีกดหัวใจตอนยังไม่ได้ login)
+        const pendingId = useWishlistStore.getState().consumePending();
+        if (pendingId) useWishlistStore.getState().toggle(pendingId);
       },
 
       logout: () => {
