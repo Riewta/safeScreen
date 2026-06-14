@@ -1,22 +1,44 @@
 import { HeroBanner } from "@/components/layout/HeroBanner";
 import { TrustBar } from "@/components/sections/TrustBar";
 import { FlashDeal } from "@/components/sections/FlashDeal";
-import { CategoryIcons } from "@/components/sections/CategoryIcons";
 import { TopHit } from "@/components/sections/TopHit";
 import { PromoScroll } from "@/components/sections/PromoScroll";
-import { FAQ } from "@/components/sections/FAQ";
 import { StoreServices } from "@/components/sections/StoreServices";
+import { ScrollReveal } from "@/components/shared/ScrollReveal";
+
 export default function HomePage() {
   return (
     <div className="flex flex-col">
       <HeroBanner squareMobile />
-      <TrustBar />
-      <FlashDeal />
-      <CategoryIcons />
-      <TopHit />
-      <StoreServices />
-      <PromoScroll />
-      <FAQ />
+      <ScrollReveal>
+        <TrustBar />
+      </ScrollReveal>
+      <ScrollReveal>
+        <FlashDeal />
+      </ScrollReveal>
+      <ScrollReveal>
+        <TopHit />
+      </ScrollReveal>
+      <ScrollReveal>
+        <PromoScroll />
+      </ScrollReveal>
+      <ScrollReveal>
+        <section className="py-6 bg-white">
+          <div className="max-w-7xl mx-auto px-4 md:px-6">
+            <video
+              src="/Wide_LTR_1.mp4"
+              autoPlay
+              muted
+              loop
+              playsInline
+              className="w-full rounded-2xl block"
+            />
+          </div>
+        </section>
+      </ScrollReveal>
+      <ScrollReveal>
+        <StoreServices />
+      </ScrollReveal>
     </div>
   );
 }

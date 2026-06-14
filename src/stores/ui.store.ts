@@ -37,6 +37,9 @@ interface UIStore {
   notifDrawerOpen: boolean;
   openNotifDrawer: () => void;
   closeNotifDrawer: () => void;
+  mobileNavOpen: boolean;
+  openMobileNav: () => void;
+  closeMobileNav: () => void;
 }
 
 export const useUIStore = create<UIStore>()((set) => ({
@@ -75,4 +78,7 @@ export const useUIStore = create<UIStore>()((set) => ({
   notifDrawerOpen: false,
   openNotifDrawer:  () => set({ notifDrawerOpen: true }),
   closeNotifDrawer: () => set({ notifDrawerOpen: false }),
+  mobileNavOpen: false,
+  openMobileNav:  () => set({ mobileNavOpen: true }),
+  closeMobileNav: () => set({ mobileNavOpen: false }),
 }));

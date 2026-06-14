@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 };
 
 interface Props {
-  searchParams: Promise<{ category?: string; brand?: string; sort?: string; q?: string }>;
+  searchParams: Promise<{ category?: string; brand?: string; sort?: string; q?: string; filmType?: string }>;
 }
 
 export default async function ProductsPage({ searchParams }: Props) {

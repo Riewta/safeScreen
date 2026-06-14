@@ -18,7 +18,7 @@ export function StoreServices() {
           {SERVICES.map((service) => (
             <div
               key={service.title}
-              className="bg-[var(--km-surface)] rounded-2xl p-5 text-center border border-[var(--km-border)]"
+              className="bg-[var(--km-surface)] rounded-2xl p-5 text-center border border-[var(--km-border)] transition-all duration-200 hover:border-[var(--km-border-strong)] hover:shadow-md hover:-translate-y-0.5"
             >
               <div className="flex justify-center mb-3">
                 <img src={service.icon} alt="" aria-hidden="true" className="w-10 h-10" />

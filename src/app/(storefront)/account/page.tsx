@@ -50,6 +50,20 @@ export default function AccountPage() {
   const wishlistScrollRef = useRef<HTMLDivElement>(null);
   const [wishlistCanScrollLeft, setWishlistCanScrollLeft] = useState(false);
   const [wishlistCanScrollRight, setWishlistCanScrollRight] = useState(true);
+  const { country } = useLocaleStore();
+  const [activeRegion, setActiveRegion] = React.useState("TH");
+
+  React.useEffect(() => {
+    if (!isLoggedIn) router.replace("/login?redirect=/account");
+  }, [isLoggedIn, router]);
+
+  React.useEffect(() => {
+    if (typeof window !== "undefined") {
+      setActiveRegion(localStorage.getItem("karmart_selected_region") || country.code || "TH");
+    }
+  }, [country.code]);
+
+  if (!isLoggedIn) return null;
 
   const updateWishlistScroll = () => {
     const el = wishlistScrollRef.current;
@@ -63,15 +77,6 @@ export default function AccountPage() {
     if (!el) return;
     el.scrollBy({ left: dir === "left" ? -320 : 320, behavior: "smooth" });
   };
-
-  const { country } = useLocaleStore();
-
-  const [activeRegion, setActiveRegion] = React.useState("TH");
-  React.useEffect(() => {
-    if (typeof window !== "undefined") {
-      setActiveRegion(localStorage.getItem("karmart_selected_region") || country.code || "TH");
-    }
-  }, [country.code]);
 
   const activeRegionName = REGIONS.find((r) => r.code === activeRegion)?.name.split(" (")[0] || "ประเทศไทย";
   const activeLangLabel = LANGUAGES.find((l) => l.code === country.code)?.label.split(" (")[0] || "ภาษาไทย";
@@ -200,7 +205,7 @@ export default function AccountPage() {
                 <div className="relative">
                   <Icon size={24} strokeWidth={1.5} className="text-[var(--km-text-secondary)] group-hover:text-[var(--km-text)] transition-colors" />
                   {count > 0 && (
-                    <span className="absolute -top-2 -right-3 min-w-[18px] h-[18px] rounded-full bg-[#FB48C4] text-white text-xs font-normal flex items-center justify-center px-1.5 leading-none">
+                    <span className="absolute -top-2 -right-3 min-w-[18px] h-[18px] rounded-full bg-[#F5A600] text-white text-xs font-normal flex items-center justify-center px-1.5 leading-none">
                       {count}
                     </span>
                   )}

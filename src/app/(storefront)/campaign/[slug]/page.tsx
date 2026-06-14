@@ -29,6 +29,11 @@ function loadAdminCampaigns(): Record<string, { title: string; description: stri
 }
 
 const DEFAULT_CAMPAIGNS: Record<string, { title: string; description: string; hero: string }> = {
+  "11-11": {
+    title: "SafeScreen 11.11 ลดสูงสุด 50%",
+    description: "โปรโมชั่น 11.11 สุดยิ่งใหญ่! NanoSnap ทุกรุ่นลดสูงสุด 50% พร้อมฟรี! แฟ้ม SafeScreen ทุก ORDER มีจำนวนจำกัด",
+    hero: "/banner_promotions/11-11-sale.png",
+  },
   "flash-sale": {
     title: "Flash Sale",
     description: "ดีลสุดคุ้มที่อัปเดตทุกวัน สินค้าความงามคัดสรรกว่า 200 รายการ ลดสูงสุด 70% มีจำนวนจำกัด — หมดแล้วหมดเลย",
@@ -72,8 +77,8 @@ const DEFAULT_CAMPAIGNS: Record<string, { title: string; description: string; he
 };
 // Alias — used as base; merged with admin overrides at runtime inside the component
 
-const DEAL_END = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
-const DEAL_NEXT_START = new Date(Date.now() + 14 * 24 * 60 * 60 * 1000);
+const MS_7D  = 7  * 24 * 60 * 60 * 1000;
+const MS_14D = 14 * 24 * 60 * 60 * 1000;
 
 function formatMaskedPrice(price: number) {
   if (price < 100) return `${Math.floor(price / 10)}X`;
@@ -130,8 +135,10 @@ import { DealCard, CountChip, Colon } from "@/components/sections/FlashDeal";
 export default function CampaignPage() {
   const { slug } = useParams<{ slug: string }>();
   const [activeTab, setActiveTab] = useState<"current" | "next">("current");
-  const currentCD = useCountdown(DEAL_END);
-  const nextCD = useCountdown(DEAL_NEXT_START);
+  const [dealEnd]       = useState(() => new Date(Date.now() + MS_7D));
+  const [dealNextStart] = useState(() => new Date(Date.now() + MS_14D));
+  const currentCD = useCountdown(dealEnd);
+  const nextCD = useCountdown(dealNextStart);
   const { days, hours, minutes, seconds, mounted } = activeTab === "current" ? currentCD : nextCD;
   const { setHeaderTitleOverride: setHeaderTitle } = useUIStore();
 
