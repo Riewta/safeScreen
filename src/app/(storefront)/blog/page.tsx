@@ -105,7 +105,7 @@ export default function BlogPage() {
             รับบทความใหม่ก่อนใคร
           </h3>
           <p className="text-sm text-[var(--km-text-secondary)] mb-4">
-            สมัครรับ Newsletter — ทิปส์ดูแลหน้าจอและโปรโมชันพิเศษ
+            สมัครรับ Newsletter ทิปส์ดูแลหน้าจอและโปรโมชันพิเศษ
           </p>
           <div className="flex flex-col sm:flex-row gap-2 max-w-sm mx-auto">
             <input

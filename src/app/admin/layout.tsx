@@ -14,30 +14,40 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   const pathname = usePathname();
 
   return (
-    <div className="min-h-screen bg-gray-50" style={{ fontFamily: "var(--km-font)" }}>
+    <div className="min-h-screen bg-[var(--km-surface)]" style={{ fontFamily: "var(--km-font)" }}>
       {/* Top bar */}
-      <div className="bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between">
+      <div className="bg-white border-b border-[var(--km-border)] px-6 h-14 flex items-center justify-between sticky top-0 z-50">
         <div className="flex items-center gap-3">
-          <Image src="/logo.png" alt="SafeScreen" width={110} height={28} className="h-6 w-auto" />
-          <span className="text-xs bg-gray-100 text-gray-500 px-2 py-1 rounded">Admin</span>
+          <Link href="/admin">
+            <Image src="/logo.png" alt="SafeScreen" width={110} height={28} className="h-6 w-auto" />
+          </Link>
+          <span className="text-[11px] font-medium tracking-widest uppercase text-[var(--km-text-muted)] border border-[var(--km-border)] px-2 py-0.5 rounded">
+            Admin
+          </span>
         </div>
-        <Link href="/" className="text-sm text-gray-400 hover:text-gray-600">← Back to Store</Link>
+        <Link
+          href="/"
+          className="text-[13px] text-[var(--km-text-muted)] hover:text-[var(--km-text)] transition-colors"
+        >
+          ← Back to Store
+        </Link>
       </div>
 
       {/* Tab bar */}
-      <div className="bg-white border-b border-gray-200 px-6">
-        <nav className="flex gap-1">
+      <div className="bg-white border-b border-[var(--km-border)] px-6">
+        <nav className="flex gap-0">
           {TABS.map((tab) => {
             const active = pathname === tab.href || pathname.startsWith(tab.href + "/");
             return (
               <Link
                 key={tab.href}
                 href={tab.href}
-                className={`px-4 py-3 text-sm font-medium border-b-2 transition-colors ${
+                className={`px-5 py-3.5 text-[13px] font-medium border-b-2 transition-colors ${
                   active
-                    ? "border-gray-900 text-gray-900"
-                    : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
+                    ? "border-transparent"
+                    : "border-transparent text-[var(--km-text-muted)] hover:text-[var(--km-text-secondary)]"
                 }`}
+                style={active ? { borderBottomColor: "#F5A600", borderBottomWidth: 2, color: "#F5A600" } : {}}
               >
                 {tab.label}
               </Link>

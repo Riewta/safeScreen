@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useMemo } from "react";
 import { Plus, Pencil, Trash2, Search, ChevronUp, ChevronDown, X, Check, AlertTriangle } from "lucide-react";
+import { ImageUploadField } from "@/components/admin/ImageUploadField";
 
 interface Product {
   id: string;
@@ -143,7 +144,7 @@ export default function AdminProductsPage() {
     sortKey === col ? (
       sortDir === "asc" ? <ChevronUp size={14} className="inline ml-0.5 text-blue-600" /> : <ChevronDown size={14} className="inline ml-0.5 text-blue-600" />
     ) : (
-      <ChevronDown size={14} className="inline ml-0.5 text-gray-300" />
+      <ChevronDown size={14} className="inline ml-0.5 text-[var(--km-border-strong)]" />
     );
 
   const openAdd = () => {
@@ -228,7 +229,7 @@ export default function AdminProductsPage() {
 
   if (!loaded) {
     return (
-      <div className="flex items-center justify-center h-64 text-gray-400 text-sm">
+      <div className="flex items-center justify-center h-64 text-[var(--km-text-muted)] text-sm">
         กำลังโหลด...
       </div>
     );
@@ -239,11 +240,11 @@ export default function AdminProductsPage() {
       {/* Header row */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
         <div>
-          <p className="text-sm text-gray-500">{products.length} รายการทั้งหมด</p>
+          <p className="text-sm text-[var(--km-text-muted)]">{products.length} รายการทั้งหมด</p>
         </div>
         <button
           onClick={openAdd}
-          className="flex items-center gap-2 bg-gray-900 text-white text-sm font-medium px-4 py-2.5 rounded-lg hover:bg-gray-700 transition-colors"
+          className="flex items-center gap-2 bg-[#F5A600] text-black text-sm font-semibold px-4 py-2.5 rounded-lg hover:opacity-90 transition-colors"
         >
           <Plus size={16} />
           เพิ่มสินค้า
@@ -252,18 +253,18 @@ export default function AdminProductsPage() {
 
       {/* Search */}
       <div className="relative mb-4">
-        <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
+        <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--km-text-muted)] pointer-events-none" />
         <input
           type="text"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           placeholder="ค้นหาชื่อ, แบรนด์, หมวดหมู่..."
-          className="w-full pl-9 pr-4 py-2.5 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gray-300 bg-white"
+          className="w-full pl-9 pr-4 py-2.5 border border-[var(--km-border)] rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[var(--km-border-strong)] bg-white"
         />
         {search && (
           <button
             onClick={() => setSearch("")}
-            className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+            className="absolute right-3 top-1/2 -translate-y-1/2 text-[var(--km-text-muted)] hover:text-[var(--km-text-secondary)]"
           >
             <X size={14} />
           </button>
@@ -271,83 +272,83 @@ export default function AdminProductsPage() {
       </div>
 
       {/* Table */}
-      <div className="bg-white border border-gray-200 rounded-xl overflow-hidden shadow-sm">
+      <div className="bg-white border border-[var(--km-border)] rounded-xl overflow-hidden shadow-sm">
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
-              <tr className="border-b border-gray-100 bg-gray-50">
-                <th className="text-left px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider w-8">#</th>
+              <tr className="border-b border-[var(--km-border)] bg-[var(--km-surface)]">
+                <th className="text-left px-4 py-3 text-xs font-semibold text-[var(--km-text-muted)] uppercase tracking-wider w-8">#</th>
                 <th
-                  className="text-left px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider cursor-pointer hover:text-gray-800 select-none"
+                  className="text-left px-4 py-3 text-xs font-semibold text-[var(--km-text-muted)] uppercase tracking-wider cursor-pointer hover:text-[var(--km-text)] select-none"
                   onClick={() => handleSort("name")}
                 >
                   ชื่อสินค้า <SortIcon col="name" />
                 </th>
                 <th
-                  className="text-left px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider cursor-pointer hover:text-gray-800 select-none whitespace-nowrap"
+                  className="text-left px-4 py-3 text-xs font-semibold text-[var(--km-text-muted)] uppercase tracking-wider cursor-pointer hover:text-[var(--km-text)] select-none whitespace-nowrap"
                   onClick={() => handleSort("brand")}
                 >
                   แบรนด์ <SortIcon col="brand" />
                 </th>
                 <th
-                  className="text-left px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider cursor-pointer hover:text-gray-800 select-none whitespace-nowrap"
+                  className="text-left px-4 py-3 text-xs font-semibold text-[var(--km-text-muted)] uppercase tracking-wider cursor-pointer hover:text-[var(--km-text)] select-none whitespace-nowrap"
                   onClick={() => handleSort("category")}
                 >
                   หมวดหมู่ <SortIcon col="category" />
                 </th>
                 <th
-                  className="text-right px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider cursor-pointer hover:text-gray-800 select-none whitespace-nowrap"
+                  className="text-right px-4 py-3 text-xs font-semibold text-[var(--km-text-muted)] uppercase tracking-wider cursor-pointer hover:text-[var(--km-text)] select-none whitespace-nowrap"
                   onClick={() => handleSort("price")}
                 >
                   ราคา <SortIcon col="price" />
                 </th>
                 <th
-                  className="text-right px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider cursor-pointer hover:text-gray-800 select-none whitespace-nowrap"
+                  className="text-right px-4 py-3 text-xs font-semibold text-[var(--km-text-muted)] uppercase tracking-wider cursor-pointer hover:text-[var(--km-text)] select-none whitespace-nowrap"
                   onClick={() => handleSort("originalPrice")}
                 >
                   ราคาเต็ม <SortIcon col="originalPrice" />
                 </th>
-                <th className="text-center px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider whitespace-nowrap">Actions</th>
+                <th className="text-center px-4 py-3 text-xs font-semibold text-[var(--km-text-muted)] uppercase tracking-wider whitespace-nowrap">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-50">
+            <tbody className="divide-y divide-[var(--km-border)]">
               {displayed.length === 0 ? (
                 <tr>
-                  <td colSpan={7} className="px-4 py-12 text-center text-gray-400 text-sm">
+                  <td colSpan={7} className="px-4 py-12 text-center text-[var(--km-text-muted)] text-sm">
                     {search ? `ไม่พบสินค้าที่ค้นหา "${search}"` : "ยังไม่มีสินค้า"}
                   </td>
                 </tr>
               ) : (
                 displayed.map((p, idx) => (
-                  <tr key={p.id} className="hover:bg-gray-50/50 transition-colors">
-                    <td className="px-4 py-3 text-gray-400 text-xs">{idx + 1}</td>
+                  <tr key={p.id} className="hover:bg-[var(--km-surface)]/50 transition-colors">
+                    <td className="px-4 py-3 text-[var(--km-text-muted)] text-xs">{idx + 1}</td>
                     <td className="px-4 py-3">
-                      <span className="font-medium text-gray-800 leading-snug">{p.name}</span>
+                      <span className="font-medium text-[var(--km-text)] leading-snug">{p.name}</span>
                     </td>
-                    <td className="px-4 py-3 text-gray-600 whitespace-nowrap">{p.brand}</td>
+                    <td className="px-4 py-3 text-[var(--km-text-secondary)] whitespace-nowrap">{p.brand}</td>
                     <td className="px-4 py-3 whitespace-nowrap">
-                      <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-gray-100 text-gray-600">
+                      <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-[var(--km-surface)] text-[var(--km-text-secondary)]">
                         {CATEGORY_LABELS[p.category] ?? p.category}
                       </span>
                     </td>
-                    <td className="px-4 py-3 text-right font-semibold text-gray-800 whitespace-nowrap">
+                    <td className="px-4 py-3 text-right font-semibold text-[var(--km-text)] whitespace-nowrap">
                       ฿{p.price.toLocaleString()}
                     </td>
-                    <td className="px-4 py-3 text-right text-gray-400 text-xs whitespace-nowrap">
+                    <td className="px-4 py-3 text-right text-[var(--km-text-muted)] text-xs whitespace-nowrap">
                       {p.originalPrice ? `฿${p.originalPrice.toLocaleString()}` : "—"}
                     </td>
                     <td className="px-4 py-3">
                       <div className="flex items-center justify-center gap-2">
                         <button
                           onClick={() => openEdit(p)}
-                          className="p-1.5 rounded text-gray-400 hover:text-blue-600 hover:bg-blue-50 transition-colors"
+                          className="p-1.5 rounded text-[var(--km-text-muted)] hover:text-blue-600 hover:bg-blue-50 transition-colors"
                           title="แก้ไข"
                         >
                           <Pencil size={14} />
                         </button>
                         <button
                           onClick={() => setDeleteId(p.id)}
-                          className="p-1.5 rounded text-gray-400 hover:text-red-600 hover:bg-red-50 transition-colors"
+                          className="p-1.5 rounded text-[var(--km-text-muted)] hover:text-red-600 hover:bg-red-50 transition-colors"
                           title="ลบ"
                         >
                           <Trash2 size={14} />
@@ -362,7 +363,7 @@ export default function AdminProductsPage() {
         </div>
       </div>
 
-      <p className="text-xs text-gray-400 mt-3">
+      <p className="text-xs text-[var(--km-text-muted)] mt-3">
         แสดง {displayed.length} จาก {products.length} รายการ · บันทึกใน localStorage อัตโนมัติ
       </p>
 
@@ -375,13 +376,13 @@ export default function AdminProductsPage() {
           />
           <div className="relative bg-white rounded-2xl shadow-xl w-full max-w-lg mx-auto flex flex-col max-h-[90vh]">
             {/* Modal header */}
-            <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100">
-              <h2 className="text-base font-semibold text-gray-900">
+            <div className="flex items-center justify-between px-6 py-4 border-b border-[var(--km-border)]">
+              <h2 className="text-base font-semibold text-[var(--km-text)]">
                 {editingId ? "แก้ไขสินค้า" : "เพิ่มสินค้าใหม่"}
               </h2>
               <button
                 onClick={closeModal}
-                className="w-8 h-8 flex items-center justify-center rounded-full text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition-colors"
+                className="w-8 h-8 flex items-center justify-center rounded-full text-[var(--km-text-muted)] hover:text-[var(--km-text-secondary)] hover:bg-[var(--km-surface)] transition-colors"
               >
                 <X size={16} />
               </button>
@@ -391,7 +392,7 @@ export default function AdminProductsPage() {
             <div className="overflow-y-auto flex-1 px-6 py-5 flex flex-col gap-4">
               {/* Name */}
               <div>
-                <label className="block text-xs font-semibold text-gray-600 uppercase tracking-wider mb-1.5">
+                <label className="block text-xs font-semibold text-[var(--km-text-secondary)] uppercase tracking-wider mb-1.5">
                   ชื่อสินค้า <span className="text-red-500">*</span>
                 </label>
                 <input
@@ -400,7 +401,7 @@ export default function AdminProductsPage() {
                   onChange={(e) => updateField("name", e.target.value)}
                   placeholder='เช่น Magnetic Privacy Film — MacBook Air 13.3"'
                   className={`w-full px-3 py-2.5 border rounded-lg text-sm focus:outline-none focus:ring-2 transition-colors ${
-                    formErrors.name ? "border-red-400 focus:ring-red-200" : "border-gray-200 focus:ring-gray-200"
+                    formErrors.name ? "border-red-400 focus:ring-red-200" : "border-[var(--km-border)] focus:ring-[var(--km-border)]"
                   }`}
                 />
                 {formErrors.name && (
@@ -410,7 +411,7 @@ export default function AdminProductsPage() {
 
               {/* Brand */}
               <div>
-                <label className="block text-xs font-semibold text-gray-600 uppercase tracking-wider mb-1.5">
+                <label className="block text-xs font-semibold text-[var(--km-text-secondary)] uppercase tracking-wider mb-1.5">
                   แบรนด์ <span className="text-red-500">*</span>
                 </label>
                 <input
@@ -419,7 +420,7 @@ export default function AdminProductsPage() {
                   onChange={(e) => updateField("brand", e.target.value)}
                   placeholder="SafeScreen"
                   className={`w-full px-3 py-2.5 border rounded-lg text-sm focus:outline-none focus:ring-2 transition-colors ${
-                    formErrors.brand ? "border-red-400 focus:ring-red-200" : "border-gray-200 focus:ring-gray-200"
+                    formErrors.brand ? "border-red-400 focus:ring-red-200" : "border-[var(--km-border)] focus:ring-[var(--km-border)]"
                   }`}
                 />
                 {formErrors.brand && (
@@ -429,13 +430,13 @@ export default function AdminProductsPage() {
 
               {/* Category */}
               <div>
-                <label className="block text-xs font-semibold text-gray-600 uppercase tracking-wider mb-1.5">
+                <label className="block text-xs font-semibold text-[var(--km-text-secondary)] uppercase tracking-wider mb-1.5">
                   หมวดหมู่
                 </label>
                 <select
                   value={form.category}
                   onChange={(e) => updateField("category", e.target.value)}
-                  className="w-full px-3 py-2.5 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gray-200 bg-white"
+                  className="w-full px-3 py-2.5 border border-[var(--km-border)] rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[var(--km-border)] bg-white"
                 >
                   {CATEGORY_OPTIONS.map((c) => (
                     <option key={c.value} value={c.value}>
@@ -448,7 +449,7 @@ export default function AdminProductsPage() {
               {/* Price + Original Price */}
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-xs font-semibold text-gray-600 uppercase tracking-wider mb-1.5">
+                  <label className="block text-xs font-semibold text-[var(--km-text-secondary)] uppercase tracking-wider mb-1.5">
                     ราคาขาย (฿) <span className="text-red-500">*</span>
                   </label>
                   <input
@@ -458,7 +459,7 @@ export default function AdminProductsPage() {
                     placeholder="1190"
                     min={0}
                     className={`w-full px-3 py-2.5 border rounded-lg text-sm focus:outline-none focus:ring-2 transition-colors ${
-                      formErrors.price ? "border-red-400 focus:ring-red-200" : "border-gray-200 focus:ring-gray-200"
+                      formErrors.price ? "border-red-400 focus:ring-red-200" : "border-[var(--km-border)] focus:ring-[var(--km-border)]"
                     }`}
                   />
                   {formErrors.price && (
@@ -466,8 +467,8 @@ export default function AdminProductsPage() {
                   )}
                 </div>
                 <div>
-                  <label className="block text-xs font-semibold text-gray-600 uppercase tracking-wider mb-1.5">
-                    ราคาเต็ม (฿) <span className="text-gray-400 font-normal normal-case">(ไม่บังคับ)</span>
+                  <label className="block text-xs font-semibold text-[var(--km-text-secondary)] uppercase tracking-wider mb-1.5">
+                    ราคาเต็ม (฿) <span className="text-[var(--km-text-muted)] font-normal normal-case">(ไม่บังคับ)</span>
                   </label>
                   <input
                     type="number"
@@ -477,37 +478,30 @@ export default function AdminProductsPage() {
                     }
                     placeholder="1490"
                     min={0}
-                    className="w-full px-3 py-2.5 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gray-200"
+                    className="w-full px-3 py-2.5 border border-[var(--km-border)] rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[var(--km-border)]"
                   />
                 </div>
               </div>
 
-              {/* Image path */}
-              <div>
-                <label className="block text-xs font-semibold text-gray-600 uppercase tracking-wider mb-1.5">
-                  Image Path
-                </label>
-                <input
-                  type="text"
-                  value={form.image}
-                  onChange={(e) => updateField("image", e.target.value)}
-                  placeholder="/product/image.png"
-                  className="w-full px-3 py-2.5 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gray-200 font-mono"
-                />
-              </div>
+              {/* Image */}
+              <ImageUploadField
+                value={form.image}
+                onChange={(v) => updateField("image", v)}
+                label="รูปสินค้า"
+              />
             </div>
 
             {/* Modal footer */}
-            <div className="px-6 py-4 border-t border-gray-100 flex items-center justify-end gap-3">
+            <div className="px-6 py-4 border-t border-[var(--km-border)] flex items-center justify-end gap-3">
               <button
                 onClick={closeModal}
-                className="px-4 py-2 rounded-lg text-sm text-gray-600 border border-gray-200 hover:bg-gray-50 transition-colors"
+                className="px-4 py-2 rounded-lg text-sm text-[var(--km-text-secondary)] border border-[var(--km-border)] hover:bg-[var(--km-surface)] transition-colors"
               >
                 ยกเลิก
               </button>
               <button
                 onClick={handleSave}
-                className="flex items-center gap-2 px-5 py-2 rounded-lg text-sm font-semibold bg-gray-900 text-white hover:bg-gray-700 transition-colors"
+                className="flex items-center gap-2 px-5 py-2 rounded-lg text-sm font-semibold bg-[#F5A600] text-black hover:opacity-90 transition-colors"
               >
                 <Check size={14} />
                 {editingId ? "บันทึกการแก้ไข" : "เพิ่มสินค้า"}
@@ -530,8 +524,8 @@ export default function AdminProductsPage() {
                 <AlertTriangle size={20} className="text-red-500" />
               </div>
               <div>
-                <h2 className="text-base font-semibold text-gray-900">ลบสินค้า?</h2>
-                <p className="text-sm text-gray-500 mt-1">
+                <h2 className="text-base font-semibold text-[var(--km-text)]">ลบสินค้า?</h2>
+                <p className="text-sm text-[var(--km-text-muted)] mt-1">
                   {products.find((p) => p.id === deleteId)?.name ?? "สินค้านี้"} จะถูกลบออกถาวร
                 </p>
               </div>
@@ -539,7 +533,7 @@ export default function AdminProductsPage() {
             <div className="flex items-center justify-end gap-3">
               <button
                 onClick={() => setDeleteId(null)}
-                className="px-4 py-2 rounded-lg text-sm text-gray-600 border border-gray-200 hover:bg-gray-50 transition-colors"
+                className="px-4 py-2 rounded-lg text-sm text-[var(--km-text-secondary)] border border-[var(--km-border)] hover:bg-[var(--km-surface)] transition-colors"
               >
                 ยกเลิก
               </button>
@@ -559,7 +553,7 @@ export default function AdminProductsPage() {
         <div
           className={`fixed bottom-6 left-1/2 -translate-x-1/2 z-[60] flex items-center gap-2 px-4 py-3 rounded-xl shadow-lg text-sm font-medium transition-all animate-[fadeIn_0.2s_ease] ${
             toast.type === "success"
-              ? "bg-gray-900 text-white"
+              ? "bg-[var(--km-text)] text-white"
               : "bg-red-600 text-white"
           }`}
         >

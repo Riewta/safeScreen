@@ -65,8 +65,26 @@ export function PromoScroll() {
           </div>
         </div>
 
-        {/* ── Products — 5 col grid ── */}
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-3 md:gap-5">
+        {/* Mobile: horizontal scroll */}
+        <div className="md:hidden flex gap-3 overflow-x-auto no-scrollbar -mx-4 px-4">
+          {promo.products.slice(0, 5).map((p) => (
+            <div key={p.id} className="shrink-0 w-[160px]">
+              <ProductCard
+                id={p.id}
+                name={p.name}
+                brand={p.brand}
+                image={p.image}
+                price={p.price}
+                originalPrice={p.originalPrice}
+                badge={p.badge}
+                href={`/products/${p.id}`}
+              />
+            </div>
+          ))}
+        </div>
+
+        {/* Desktop: 5-col grid */}
+        <div className="hidden md:grid md:grid-cols-5 gap-5">
           {promo.products.slice(0, 5).map((p) => (
             <ProductCard
               key={p.id}

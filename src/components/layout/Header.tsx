@@ -323,7 +323,7 @@ export function Header() {
 
             {/* Notification Bell */}
             {right !== "none" && (
-              <NotificationBell />
+              <NotificationBell isLoggedIn={isLoggedIn} />
             )}
 
             {/* Mobile right override (e.g. checkout exit button) */}
@@ -342,14 +342,14 @@ export function Header() {
                   <Menu size={22} strokeWidth={1.75} />
                 </button>
 
-                {/* Desktop: cart → opens cart drawer */}
+                {/* Desktop: cart → opens cart drawer (ต้อง login ก่อน) */}
                 <button
-                  onClick={() => openCartDrawer()}
+                  onClick={() => isLoggedIn ? openCartDrawer() : router.push("/login?redirect=/cart")}
                   className="relative p-2 text-[var(--km-text-secondary)] hover:text-[var(--km-text)] transition-colors hidden md:flex items-center justify-center"
                   aria-label="ตะกร้าสินค้า"
                 >
                   <ShoppingBag size={22} strokeWidth={1.75} />
-                  {activeCartCount > 0 && (
+                  {isLoggedIn && activeCartCount > 0 && (
                     <span key={activeCartCount} className="absolute -top-0.5 -right-0.5 min-w-[18px] h-[18px] rounded-full bg-[#FFAC00] text-white text-[11px] font-medium flex items-center justify-center leading-none px-1 shadow-sm animate-badge-pop">
                       {activeCartCount > 99 ? "99+" : activeCartCount}
                     </span>
@@ -364,21 +364,19 @@ export function Header() {
   );
 }
 
-function NotificationBell() {
+function NotificationBell({ isLoggedIn }: { isLoggedIn: boolean }) {
   const openNotifDrawer = useUIStore((s) => s.openNotifDrawer);
   const notifications = useNotificationsStore((s) => s.notifications);
   const unreadCount = notifications.filter((n) => !n.read).length;
 
   return (
     <button
-      onClick={() => {
-        openNotifDrawer();
-      }}
+      onClick={() => openNotifDrawer()}
       className="relative p-2 text-[var(--km-text-secondary)] hover:text-[var(--km-text)] transition-colors"
       aria-label="การแจ้งเตือน"
     >
       <Bell size={22} strokeWidth={1.75} />
-      {unreadCount > 0 && (
+      {isLoggedIn && unreadCount > 0 && (
         <span className="absolute -top-1 -right-1 min-w-[18px] h-[18px] rounded-full bg-[#FFAC00] text-white text-[11px] font-medium flex items-center justify-center leading-none px-1 shadow-sm animate-badge-pop">
           {unreadCount > 99 ? "99+" : unreadCount}
         </span>

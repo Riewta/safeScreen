@@ -73,23 +73,23 @@ const SIZE_OPTIONS: Record<DeviceBrand, string[]> = {
 
 const FILM_OPTIONS: Record<DeviceBrand, FilmOption[]> = {
   "MacBook Air": [
-    { type: "Privacy",  label: "Privacy Screen",  desc: "กันคนแอบมอง — มุมมองแคบ 30°" },
-    { type: "AntiBlue", label: "Anti-Blue",        desc: "กรองแสงสีฟ้า — ถนอมสายตา", comingSoon: true },
+    { type: "Privacy",  label: "Privacy Screen",  desc: "กันคนแอบมอง มุมมองแคบ 30°" },
+    { type: "AntiBlue", label: "Anti-Blue",        desc: "กรองแสงสีฟ้า ถนอมสายตา", comingSoon: true },
   ],
   "MacBook Pro": [
-    { type: "Privacy",  label: "Privacy Screen",  desc: "กันคนแอบมอง — มุมมองแคบ 30°" },
-    { type: "AntiBlue", label: "Anti-Blue",        desc: "กรองแสงสีฟ้า — ถนอมสายตา", comingSoon: true },
+    { type: "Privacy",  label: "Privacy Screen",  desc: "กันคนแอบมอง มุมมองแคบ 30°" },
+    { type: "AntiBlue", label: "Anti-Blue",        desc: "กรองแสงสีฟ้า ถนอมสายตา", comingSoon: true },
   ],
   "Universal Laptop": [
-    { type: "Privacy",  label: "Privacy Screen",  desc: "กันคนแอบมอง — มุมมองแคบ 30°" },
-    { type: "AntiBlue", label: "Anti-Blue",        desc: "กรองแสงสีฟ้า — ถนอมสายตา", comingSoon: true },
+    { type: "Privacy",  label: "Privacy Screen",  desc: "กันคนแอบมอง มุมมองแคบ 30°" },
+    { type: "AntiBlue", label: "Anti-Blue",        desc: "กรองแสงสีฟ้า ถนอมสายตา", comingSoon: true },
   ],
   iPad: [
-    { type: "Privacy",   label: "Privacy Film",   desc: "กันคนแอบมอง — มุมมองแคบ 30°" },
+    { type: "Privacy",   label: "Privacy Film",   desc: "กันคนแอบมอง มุมมองแคบ 30°" },
     { type: "Paperlike", label: "Paperlike Film",  desc: "เหมือนกระดาษ — เหมาะสำหรับวาด/เขียนด้วย Apple Pencil" },
   ],
   Surface: [
-    { type: "Privacy", label: "Privacy Screen", desc: "กันคนแอบมอง — มุมมองแคบ 30°" },
+    { type: "Privacy", label: "Privacy Screen", desc: "กันคนแอบมอง มุมมองแคบ 30°" },
   ],
 };
 

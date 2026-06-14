@@ -41,25 +41,14 @@ export function SplashScreen() {
         }}
       >
         {/* Brand logo */}
-        <div className="w-20 h-20 flex items-center justify-center">
-          <Image
-            src="/logo-icon.png"
-            alt="SafeScreen Tech"
-            width={80}
-            height={80}
-            className="object-contain"
-            priority
-          />
-        </div>
-
-        <div className="text-center">
-          <p className="text-[22px] font-bold tracking-tight text-[var(--km-text)] leading-none">
-            SafeScreen
-          </p>
-          <p className="text-[11px] text-[var(--km-text-muted)] tracking-widest uppercase mt-1 font-medium">
-            Tech
-          </p>
-        </div>
+        <Image
+          src="/logo.png"
+          alt="SafeScreen"
+          width={180}
+          height={48}
+          className="object-contain"
+          priority
+        />
       </div>
 
       {/* Loading dots */}

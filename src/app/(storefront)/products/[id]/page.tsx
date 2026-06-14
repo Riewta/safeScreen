@@ -13,7 +13,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!product) return { title: "ไม่พบสินค้า" };
   return {
     title: `${product.name} | SafeScreen Tech`,
-    description: `${product.brand} — ฿${product.price.toLocaleString()}`,
+    description: `${product.brand} ฿${product.price.toLocaleString()}`,
   };
 }
 

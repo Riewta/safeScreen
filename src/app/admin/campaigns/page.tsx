@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useMemo } from "react";
 import { Plus, Pencil, Trash2, Search, X, Check, AlertTriangle, ToggleLeft, ToggleRight, Tag, Megaphone } from "lucide-react";
+import { ImageUploadField } from "@/components/admin/ImageUploadField";
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
@@ -40,8 +41,8 @@ const SEED_CAMPAIGNS: Campaign[] = [
   {
     id: "1", slug: "flash-sale",
     title: "Flash Sale",
-    description: "ดีลสุดคุ้มที่อัปเดตทุกวัน สินค้า NanoSnap คัดสรรกว่า 200 รายการ ลดสูงสุด 70% มีจำนวนจำกัด — หมดแล้วหมดเลย",
-    hero: "/banner_promotions/flashsale_banner.png",
+    description: "ดีลสุดคุ้มที่อัปเดตทุกวัน สินค้า NanoSnap คัดสรรกว่า 200 รายการ ลดสูงสุด 70% มีจำนวนจำกัด หมดแล้วหมดเลย",
+    hero: "/products/allpics/16-9.png",
     type: "promotion", discountType: "percentage", discountValue: 70,
     startDate: "2026-06-01", endDate: "2026-06-30", status: "active", createdAt: "2026-05-20",
   },
@@ -71,7 +72,7 @@ const SEED_CAMPAIGNS: Campaign[] = [
   },
   {
     id: "5", slug: "ipad-bundle",
-    title: "iPad Bundle Deal — ซื้อ Paper Like + Privacy ราคาพิเศษ",
+    title: "iPad Bundle Deal ซื้อ Paper Like + Privacy ราคาพิเศษ",
     description: "รวม 2 ฟิล์มในชุดเดียว Paper Like สำหรับการวาด + Privacy สำหรับปกป้องความเป็นส่วนตัว",
     hero: "/banner_promotions/image copy 2.png",
     type: "campaign", discountType: "percentage", discountValue: 20,
@@ -87,7 +88,7 @@ const SEED_CAMPAIGNS: Campaign[] = [
   },
   {
     id: "7", slug: "work-from-home",
-    title: "Work From Home Bundle — ปกป้องความเป็นส่วนตัวในทุกที่",
+    title: "Work From Home Bundle ปกป้องความเป็นส่วนตัวในทุกที่",
     description: "ชุดฟิล์ม Privacy สำหรับคนทำงาน MacBook + Universal Screen ครบครัน",
     hero: "/banner_promotions/image copy 4.png",
     type: "campaign", discountType: "none", discountValue: 0,
@@ -127,7 +128,7 @@ const DISCOUNT_OPTIONS: { value: DiscountType; label: string; hasValue: boolean;
 
 const STATUS_OPTIONS: { value: CampaignStatus; label: string; color: string }[] = [
   { value: "active",    label: "Active",    color: "bg-green-100 text-green-700" },
-  { value: "inactive",  label: "Inactive",  color: "bg-gray-100 text-gray-500" },
+  { value: "inactive",  label: "Inactive",  color: "bg-[var(--km-surface)] text-[var(--km-text-muted)]" },
   { value: "scheduled", label: "Scheduled", color: "bg-blue-100 text-blue-700" },
   { value: "ended",     label: "Ended",     color: "bg-red-100 text-red-500" },
 ];
@@ -136,7 +137,7 @@ const EMPTY_FORM: Omit<Campaign, "id" | "createdAt"> = {
   slug: "",
   title: "",
   description: "",
-  hero: "/banner_promotions/flashsale_banner.png",
+  hero: "/products/allpics/16-9.png",
   type: "campaign",
   discountType: "none",
   discountValue: 0,
@@ -170,8 +171,8 @@ function TypeBadge({ type }: { type: CampaignType }) {
 
 function DiscountLabel({ type, value }: { type: DiscountType; value: number }) {
   const opt = DISCOUNT_OPTIONS.find((d) => d.value === type);
-  if (!opt) return <span className="text-gray-400">—</span>;
-  if (type === "none") return <span className="text-gray-400">—</span>;
+  if (!opt) return <span className="text-[var(--km-text-muted)]">—</span>;
+  if (type === "none") return <span className="text-[var(--km-text-muted)]">—</span>;
   if (type === "buy1get1") return <span className="text-orange-600 font-medium">1+1</span>;
   if (type === "free-gift") return <span className="text-green-600 font-medium">ครบ ฿{value.toLocaleString()}</span>;
   if (type === "percentage") return <span className="text-red-600 font-medium">-{value}%</span>;
@@ -197,11 +198,11 @@ function CampaignModal({ form, setForm, onSave, onClose, isEdit, error }: ModalP
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40">
       <div className="bg-white rounded-xl shadow-2xl w-full max-w-2xl max-h-[90vh] flex flex-col">
         {/* Header */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-gray-200">
-          <h2 className="text-base font-semibold text-gray-900">
+        <div className="flex items-center justify-between px-6 py-4 border-b border-[var(--km-border)]">
+          <h2 className="text-base font-semibold text-[var(--km-text)]">
             {isEdit ? "แก้ไขแคมเปญ / โปรโมชัน" : "เพิ่มแคมเปญ / โปรโมชัน"}
           </h2>
-          <button onClick={onClose} className="text-gray-400 hover:text-gray-700 transition-colors">
+          <button onClick={onClose} className="text-[var(--km-text-muted)] hover:text-[var(--km-text-secondary)] transition-colors">
             <X size={20} />
           </button>
         </div>
@@ -211,7 +212,7 @@ function CampaignModal({ form, setForm, onSave, onClose, isEdit, error }: ModalP
 
           {/* Type */}
           <div>
-            <label className="block text-xs font-medium text-gray-500 mb-1.5">ประเภท</label>
+            <label className="block text-xs font-medium text-[var(--km-text-muted)] mb-1.5">ประเภท</label>
             <div className="flex gap-2">
               {TYPE_OPTIONS.map((t) => (
                 <button
@@ -219,8 +220,8 @@ function CampaignModal({ form, setForm, onSave, onClose, isEdit, error }: ModalP
                   onClick={() => setForm((f) => ({ ...f, type: t.value }))}
                   className={`flex-1 py-2 rounded-lg border text-sm font-medium transition-all ${
                     form.type === t.value
-                      ? "border-gray-900 bg-gray-900 text-white"
-                      : "border-gray-200 text-gray-600 hover:border-gray-400"
+                      ? "border-[#F5A600] bg-[#F5A600] text-black font-semibold"
+                      : "border-[var(--km-border)] text-[var(--km-text-secondary)] hover:border-[var(--km-border-strong)]"
                   }`}
                 >
                   {t.label}
@@ -232,21 +233,21 @@ function CampaignModal({ form, setForm, onSave, onClose, isEdit, error }: ModalP
           {/* Slug + Title row */}
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block text-xs font-medium text-gray-500 mb-1.5">Slug (URL path)</label>
+              <label className="block text-xs font-medium text-[var(--km-text-muted)] mb-1.5">Slug (URL path)</label>
               <input
                 value={form.slug}
                 onChange={(e) => setForm((f) => ({ ...f, slug: e.target.value.toLowerCase().replace(/\s+/g, "-") }))}
                 placeholder="flash-sale"
-                className="w-full h-9 px-3 rounded-lg border border-gray-200 text-sm focus:outline-none focus:border-gray-400"
+                className="w-full h-9 px-3 rounded-lg border border-[var(--km-border)] text-sm focus:outline-none focus:border-[var(--km-border-strong)]"
               />
-              <p className="text-[11px] text-gray-400 mt-1">/campaign/{form.slug || "..."}</p>
+              <p className="text-[11px] text-[var(--km-text-muted)] mt-1">/campaign/{form.slug || "..."}</p>
             </div>
             <div>
-              <label className="block text-xs font-medium text-gray-500 mb-1.5">สถานะ</label>
+              <label className="block text-xs font-medium text-[var(--km-text-muted)] mb-1.5">สถานะ</label>
               <select
                 value={form.status}
                 onChange={(e) => setForm((f) => ({ ...f, status: e.target.value as CampaignStatus }))}
-                className="w-full h-9 px-3 rounded-lg border border-gray-200 text-sm focus:outline-none focus:border-gray-400 bg-white"
+                className="w-full h-9 px-3 rounded-lg border border-[var(--km-border)] text-sm focus:outline-none focus:border-[var(--km-border-strong)] bg-white"
               >
                 {STATUS_OPTIONS.map((s) => (
                   <option key={s.value} value={s.value}>{s.label}</option>
@@ -257,46 +258,42 @@ function CampaignModal({ form, setForm, onSave, onClose, isEdit, error }: ModalP
 
           {/* Title */}
           <div>
-            <label className="block text-xs font-medium text-gray-500 mb-1.5">ชื่อแคมเปญ</label>
+            <label className="block text-xs font-medium text-[var(--km-text-muted)] mb-1.5">ชื่อแคมเปญ</label>
             <input
               value={form.title}
               onChange={(e) => setForm((f) => ({ ...f, title: e.target.value }))}
               placeholder="Flash Sale ลดสูงสุด 70%"
-              className="w-full h-9 px-3 rounded-lg border border-gray-200 text-sm focus:outline-none focus:border-gray-400"
+              className="w-full h-9 px-3 rounded-lg border border-[var(--km-border)] text-sm focus:outline-none focus:border-[var(--km-border-strong)]"
             />
           </div>
 
           {/* Description */}
           <div>
-            <label className="block text-xs font-medium text-gray-500 mb-1.5">คำอธิบาย</label>
+            <label className="block text-xs font-medium text-[var(--km-text-muted)] mb-1.5">คำอธิบาย</label>
             <textarea
               value={form.description}
               onChange={(e) => setForm((f) => ({ ...f, description: e.target.value }))}
               rows={3}
               placeholder="รายละเอียดของแคมเปญหรือโปรโมชัน..."
-              className="w-full px-3 py-2 rounded-lg border border-gray-200 text-sm focus:outline-none focus:border-gray-400 resize-none"
+              className="w-full px-3 py-2 rounded-lg border border-[var(--km-border)] text-sm focus:outline-none focus:border-[var(--km-border-strong)] resize-none"
             />
           </div>
 
-          {/* Hero image path */}
-          <div>
-            <label className="block text-xs font-medium text-gray-500 mb-1.5">Hero Image Path</label>
-            <input
-              value={form.hero}
-              onChange={(e) => setForm((f) => ({ ...f, hero: e.target.value }))}
-              placeholder="/banner_promotions/flashsale_banner.png"
-              className="w-full h-9 px-3 rounded-lg border border-gray-200 text-sm font-mono focus:outline-none focus:border-gray-400"
-            />
-          </div>
+          {/* Hero image */}
+          <ImageUploadField
+            value={form.hero}
+            onChange={(v) => setForm((f) => ({ ...f, hero: v }))}
+            label="Hero Image"
+          />
 
           {/* Discount */}
           <div>
-            <label className="block text-xs font-medium text-gray-500 mb-1.5">ประเภทส่วนลด</label>
+            <label className="block text-xs font-medium text-[var(--km-text-muted)] mb-1.5">ประเภทส่วนลด</label>
             <div className="flex gap-3 items-start">
               <select
                 value={form.discountType}
                 onChange={(e) => setForm((f) => ({ ...f, discountType: e.target.value as DiscountType, discountValue: 0 }))}
-                className="flex-1 h-9 px-3 rounded-lg border border-gray-200 text-sm focus:outline-none focus:border-gray-400 bg-white"
+                className="flex-1 h-9 px-3 rounded-lg border border-[var(--km-border)] text-sm focus:outline-none focus:border-[var(--km-border-strong)] bg-white"
               >
                 {DISCOUNT_OPTIONS.map((d) => (
                   <option key={d.value} value={d.value}>{d.label}</option>
@@ -310,9 +307,9 @@ function CampaignModal({ form, setForm, onSave, onClose, isEdit, error }: ModalP
                     value={form.discountValue || ""}
                     onChange={(e) => setForm((f) => ({ ...f, discountValue: Number(e.target.value) }))}
                     placeholder="0"
-                    className="w-24 h-9 px-3 rounded-lg border border-gray-200 text-sm focus:outline-none focus:border-gray-400 text-right"
+                    className="w-24 h-9 px-3 rounded-lg border border-[var(--km-border)] text-sm focus:outline-none focus:border-[var(--km-border-strong)] text-right"
                   />
-                  <span className="text-sm text-gray-500 whitespace-nowrap">{discountOpt.unit}</span>
+                  <span className="text-sm text-[var(--km-text-muted)] whitespace-nowrap">{discountOpt.unit}</span>
                 </div>
               )}
             </div>
@@ -321,21 +318,21 @@ function CampaignModal({ form, setForm, onSave, onClose, isEdit, error }: ModalP
           {/* Dates */}
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block text-xs font-medium text-gray-500 mb-1.5">วันเริ่มต้น</label>
+              <label className="block text-xs font-medium text-[var(--km-text-muted)] mb-1.5">วันเริ่มต้น</label>
               <input
                 type="date"
                 value={form.startDate}
                 onChange={(e) => setForm((f) => ({ ...f, startDate: e.target.value }))}
-                className="w-full h-9 px-3 rounded-lg border border-gray-200 text-sm focus:outline-none focus:border-gray-400"
+                className="w-full h-9 px-3 rounded-lg border border-[var(--km-border)] text-sm focus:outline-none focus:border-[var(--km-border-strong)]"
               />
             </div>
             <div>
-              <label className="block text-xs font-medium text-gray-500 mb-1.5">วันสิ้นสุด</label>
+              <label className="block text-xs font-medium text-[var(--km-text-muted)] mb-1.5">วันสิ้นสุด</label>
               <input
                 type="date"
                 value={form.endDate}
                 onChange={(e) => setForm((f) => ({ ...f, endDate: e.target.value }))}
-                className="w-full h-9 px-3 rounded-lg border border-gray-200 text-sm focus:outline-none focus:border-gray-400"
+                className="w-full h-9 px-3 rounded-lg border border-[var(--km-border)] text-sm focus:outline-none focus:border-[var(--km-border-strong)]"
               />
             </div>
           </div>
@@ -349,16 +346,16 @@ function CampaignModal({ form, setForm, onSave, onClose, isEdit, error }: ModalP
         </div>
 
         {/* Footer */}
-        <div className="flex items-center justify-end gap-3 px-6 py-4 border-t border-gray-200">
+        <div className="flex items-center justify-end gap-3 px-6 py-4 border-t border-[var(--km-border)]">
           <button
             onClick={onClose}
-            className="px-4 py-2 text-sm text-gray-600 hover:text-gray-900 transition-colors"
+            className="px-4 py-2 text-sm text-[var(--km-text-secondary)] hover:text-[var(--km-text)] transition-colors"
           >
             ยกเลิก
           </button>
           <button
             onClick={onSave}
-            className="px-5 py-2 rounded-lg bg-gray-900 text-white text-sm font-medium hover:bg-gray-700 transition-colors flex items-center gap-2"
+            className="px-5 py-2 rounded-lg bg-[#F5A600] text-black text-sm font-semibold hover:opacity-90 transition-colors flex items-center gap-2"
           >
             <Check size={15} />
             {isEdit ? "บันทึกการแก้ไข" : "เพิ่มแคมเปญ"}
@@ -480,7 +477,7 @@ export default function AdminCampaignsPage() {
 
   if (!loaded) {
     return (
-      <div className="p-8 text-center text-gray-400 text-sm">กำลังโหลด...</div>
+      <div className="p-8 text-center text-[var(--km-text-muted)] text-sm">กำลังโหลด...</div>
     );
   }
 
@@ -490,12 +487,12 @@ export default function AdminCampaignsPage() {
       {/* Page header */}
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h1 className="text-xl font-bold text-gray-900">Campaigns & Promotions</h1>
-          <p className="text-sm text-gray-500 mt-0.5">จัดการแคมเปญและโปรโมชันทั้งหมด</p>
+          <h1 className="text-xl font-bold text-[var(--km-text)]">Campaigns & Promotions</h1>
+          <p className="text-sm text-[var(--km-text-muted)] mt-0.5">จัดการแคมเปญและโปรโมชันทั้งหมด</p>
         </div>
         <button
           onClick={openAdd}
-          className="flex items-center gap-2 px-4 py-2 bg-gray-900 text-white rounded-lg text-sm font-medium hover:bg-gray-700 transition-colors"
+          className="flex items-center gap-2 px-4 py-2 bg-[#F5A600] text-black rounded-lg text-sm font-semibold hover:opacity-90 transition-colors"
         >
           <Plus size={16} />
           เพิ่มแคมเปญ
@@ -505,13 +502,13 @@ export default function AdminCampaignsPage() {
       {/* Stats */}
       <div className="grid grid-cols-4 gap-4 mb-6">
         {[
-          { label: "ทั้งหมด",   value: stats.total,     color: "text-gray-900" },
+          { label: "ทั้งหมด",   value: stats.total,     color: "text-[var(--km-text)]" },
           { label: "Active",    value: stats.active,    color: "text-green-600" },
           { label: "แคมเปญ",    value: stats.campaign,  color: "text-purple-600" },
           { label: "โปรโมชัน",  value: stats.promotion, color: "text-orange-600" },
         ].map((s) => (
-          <div key={s.label} className="bg-white rounded-xl border border-gray-200 p-4">
-            <p className="text-xs text-gray-500 mb-1">{s.label}</p>
+          <div key={s.label} className="bg-white rounded-xl border border-[var(--km-border)] p-4">
+            <p className="text-xs text-[var(--km-text-muted)] mb-1">{s.label}</p>
             <p className={`text-2xl font-bold ${s.color}`}>{s.value}</p>
           </div>
         ))}
@@ -520,15 +517,15 @@ export default function AdminCampaignsPage() {
       {/* Filters */}
       <div className="flex flex-wrap items-center gap-3 mb-4">
         <div className="relative flex-1 min-w-[200px] max-w-xs">
-          <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+          <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--km-text-muted)]" />
           <input
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="ค้นหาชื่อหรือ slug..."
-            className="w-full h-9 pl-9 pr-3 rounded-lg border border-gray-200 text-sm focus:outline-none focus:border-gray-400"
+            className="w-full h-9 pl-9 pr-3 rounded-lg border border-[var(--km-border)] text-sm focus:outline-none focus:border-[var(--km-border-strong)]"
           />
           {search && (
-            <button onClick={() => setSearch("")} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-700">
+            <button onClick={() => setSearch("")} className="absolute right-3 top-1/2 -translate-y-1/2 text-[var(--km-text-muted)] hover:text-[var(--km-text-secondary)]">
               <X size={14} />
             </button>
           )}
@@ -537,7 +534,7 @@ export default function AdminCampaignsPage() {
         <select
           value={filterType}
           onChange={(e) => setFilterType(e.target.value as typeof filterType)}
-          className="h-9 px-3 rounded-lg border border-gray-200 text-sm focus:outline-none focus:border-gray-400 bg-white"
+          className="h-9 px-3 rounded-lg border border-[var(--km-border)] text-sm focus:outline-none focus:border-[var(--km-border-strong)] bg-white"
         >
           <option value="all">ทุกประเภท</option>
           <option value="campaign">แคมเปญ</option>
@@ -547,7 +544,7 @@ export default function AdminCampaignsPage() {
         <select
           value={filterStatus}
           onChange={(e) => setFilterStatus(e.target.value as typeof filterStatus)}
-          className="h-9 px-3 rounded-lg border border-gray-200 text-sm focus:outline-none focus:border-gray-400 bg-white"
+          className="h-9 px-3 rounded-lg border border-[var(--km-border)] text-sm focus:outline-none focus:border-[var(--km-border-strong)] bg-white"
         >
           <option value="all">ทุกสถานะ</option>
           {STATUS_OPTIONS.map((s) => (
@@ -555,38 +552,38 @@ export default function AdminCampaignsPage() {
           ))}
         </select>
 
-        <span className="text-sm text-gray-400 ml-auto">
+        <span className="text-sm text-[var(--km-text-muted)] ml-auto">
           {filtered.length} รายการ
         </span>
       </div>
 
       {/* Table */}
-      <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
+      <div className="bg-white rounded-xl border border-[var(--km-border)] overflow-hidden">
         <table className="w-full text-sm">
           <thead>
-            <tr className="border-b border-gray-100 bg-gray-50">
-              <th className="text-left px-4 py-3 text-xs font-medium text-gray-500 w-[200px]">ชื่อแคมเปญ</th>
-              <th className="text-left px-4 py-3 text-xs font-medium text-gray-500 w-[90px]">ประเภท</th>
-              <th className="text-left px-4 py-3 text-xs font-medium text-gray-500 w-[90px]">ส่วนลด</th>
-              <th className="text-left px-4 py-3 text-xs font-medium text-gray-500 w-[110px]">วันที่</th>
-              <th className="text-left px-4 py-3 text-xs font-medium text-gray-500 w-[80px]">สถานะ</th>
-              <th className="text-left px-4 py-3 text-xs font-medium text-gray-500 w-[80px]">Toggle</th>
-              <th className="text-right px-4 py-3 text-xs font-medium text-gray-500 w-[80px]">Actions</th>
+            <tr className="border-b border-[var(--km-border)] bg-[var(--km-surface)]">
+              <th className="text-left px-4 py-3 text-xs font-medium text-[var(--km-text-muted)] w-[200px]">ชื่อแคมเปญ</th>
+              <th className="text-left px-4 py-3 text-xs font-medium text-[var(--km-text-muted)] w-[90px]">ประเภท</th>
+              <th className="text-left px-4 py-3 text-xs font-medium text-[var(--km-text-muted)] w-[90px]">ส่วนลด</th>
+              <th className="text-left px-4 py-3 text-xs font-medium text-[var(--km-text-muted)] w-[110px]">วันที่</th>
+              <th className="text-left px-4 py-3 text-xs font-medium text-[var(--km-text-muted)] w-[80px]">สถานะ</th>
+              <th className="text-left px-4 py-3 text-xs font-medium text-[var(--km-text-muted)] w-[80px]">Toggle</th>
+              <th className="text-right px-4 py-3 text-xs font-medium text-[var(--km-text-muted)] w-[80px]">Actions</th>
             </tr>
           </thead>
           <tbody>
             {filtered.length === 0 && (
               <tr>
-                <td colSpan={7} className="text-center py-12 text-gray-400 text-sm">
+                <td colSpan={7} className="text-center py-12 text-[var(--km-text-muted)] text-sm">
                   ไม่พบแคมเปญ
                 </td>
               </tr>
             )}
             {filtered.map((c) => (
-              <tr key={c.id} className="border-b border-gray-50 hover:bg-gray-50 transition-colors">
+              <tr key={c.id} className="border-b border-[var(--km-border)] hover:bg-[var(--km-surface)] transition-colors">
                 <td className="px-4 py-3">
-                  <p className="font-medium text-gray-900 truncate max-w-[180px]" title={c.title}>{c.title}</p>
-                  <p className="text-xs text-gray-400 font-mono mt-0.5">{c.slug}</p>
+                  <p className="font-medium text-[var(--km-text)] truncate max-w-[180px]" title={c.title}>{c.title}</p>
+                  <p className="text-xs text-[var(--km-text-muted)] font-mono mt-0.5">{c.slug}</p>
                 </td>
                 <td className="px-4 py-3">
                   <TypeBadge type={c.type} />
@@ -595,8 +592,8 @@ export default function AdminCampaignsPage() {
                   <DiscountLabel type={c.discountType} value={c.discountValue} />
                 </td>
                 <td className="px-4 py-3">
-                  <p className="text-xs text-gray-600">{c.startDate}</p>
-                  <p className="text-xs text-gray-400">→ {c.endDate}</p>
+                  <p className="text-xs text-[var(--km-text-secondary)]">{c.startDate}</p>
+                  <p className="text-xs text-[var(--km-text-muted)]">→ {c.endDate}</p>
                 </td>
                 <td className="px-4 py-3">
                   <StatusBadge status={c.status} />
@@ -605,7 +602,7 @@ export default function AdminCampaignsPage() {
                   <button
                     onClick={() => toggleStatus(c.id)}
                     title={c.status === "active" ? "คลิกเพื่อ Deactivate" : "คลิกเพื่อ Activate"}
-                    className="text-gray-400 hover:text-gray-700 transition-colors"
+                    className="text-[var(--km-text-muted)] hover:text-[var(--km-text-secondary)] transition-colors"
                   >
                     {c.status === "active"
                       ? <ToggleRight size={22} className="text-green-500" />
@@ -617,13 +614,13 @@ export default function AdminCampaignsPage() {
                   <div className="flex items-center justify-end gap-1">
                     <button
                       onClick={() => openEdit(c)}
-                      className="p-1.5 rounded text-gray-400 hover:text-gray-700 hover:bg-gray-100 transition-all"
+                      className="p-1.5 rounded text-[var(--km-text-muted)] hover:text-[var(--km-text-secondary)] hover:bg-[var(--km-surface)] transition-all"
                     >
                       <Pencil size={14} />
                     </button>
                     <button
                       onClick={() => setDeleteId(c.id)}
-                      className="p-1.5 rounded text-gray-400 hover:text-red-600 hover:bg-red-50 transition-all"
+                      className="p-1.5 rounded text-[var(--km-text-muted)] hover:text-red-600 hover:bg-red-50 transition-all"
                     >
                       <Trash2 size={14} />
                     </button>
@@ -656,8 +653,8 @@ export default function AdminCampaignsPage() {
                 <AlertTriangle size={18} className="text-red-600" />
               </div>
               <div>
-                <p className="font-semibold text-gray-900">ลบแคมเปญนี้?</p>
-                <p className="text-sm text-gray-500 mt-0.5">
+                <p className="font-semibold text-[var(--km-text)]">ลบแคมเปญนี้?</p>
+                <p className="text-sm text-[var(--km-text-muted)] mt-0.5">
                   {campaigns.find((c) => c.id === deleteId)?.title}
                 </p>
               </div>
@@ -665,7 +662,7 @@ export default function AdminCampaignsPage() {
             <div className="flex gap-3">
               <button
                 onClick={() => setDeleteId(null)}
-                className="flex-1 py-2 rounded-lg border border-gray-200 text-sm text-gray-600 hover:bg-gray-50 transition-colors"
+                className="flex-1 py-2 rounded-lg border border-[var(--km-border)] text-sm text-[var(--km-text-secondary)] hover:bg-[var(--km-surface)] transition-colors"
               >
                 ยกเลิก
               </button>

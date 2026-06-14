@@ -9,6 +9,7 @@ import { useRequireAuth } from "@/hooks/use-require-auth";
 import { useCartStore } from "@/stores/cart.store";
 import { PillTabs } from "@/components/ui/PillTabs";
 import { EmptyState } from "@/components/ui/EmptyState";
+import { useLang } from "@/contexts/lang";
 
 const PAYMENT_WINDOW_MS = 24 * 60 * 60 * 1000;
 
@@ -26,23 +27,13 @@ function useCountdown(createdAt: string) {
   return `${h}:${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
 }
 
-const TABS: { label: string; value: OrderStatus | "all" | "returning" }[] = [
-  { label: "ทั้งหมด",             value: "all"             },
-  { label: "ที่ต้องชำระ",         value: "pending_payment" },
-  { label: "ที่ต้องจัดส่ง",       value: "processing"      },
-  { label: "กำลังจัดส่ง",        value: "shipped"         },
-  { label: "สำเร็จ",              value: "delivered"       },
-  { label: "คืนเงิน/คืนสินค้า",  value: "returning"       },
-  { label: "ยกเลิกแล้ว",         value: "cancelled"       },
-];
-
-const RETURN_STATUS_LABEL: Record<ReturnStatus, string> = {
-  return_requested: "รอตรวจสอบ",
-  return_pending:   "รอตรวจสอบ",
-  return_completed: "คืนเงินแล้ว",
-};
-
 function ItemRow({ item }: { item: OrderItem }) {
+  const { account: ta } = useLang();
+  const RETURN_STATUS_LABEL: Record<ReturnStatus, string> = {
+    return_requested: ta.returnStatusPending,
+    return_pending:   ta.returnStatusPending,
+    return_completed: ta.returnStatusDone,
+  };
   return (
     <div className="flex items-center gap-3 px-4 py-3">
       <div className="relative w-12 h-12 rounded-md overflow-hidden bg-[var(--km-surface)] flex-shrink-0">
@@ -53,7 +44,7 @@ function ItemRow({ item }: { item: OrderItem }) {
         <p className="text-sm text-[var(--km-text-secondary)] line-clamp-1 leading-snug">{item.name}</p>
         <div className="flex items-center gap-1.5 mt-1 flex-wrap">
           {item.isFree ? (
-            <span className="text-[11px] text-white bg-[var(--km-text)] rounded-full px-2 py-0.5">ของแถม</span>
+            <span className="text-[11px] text-white bg-[var(--km-text)] rounded-full px-2 py-0.5">{ta.orderGiftLabel}</span>
           ) : item.variant ? (
             <span className="text-[11px] text-[var(--km-text-muted)] border border-[var(--km-border)] rounded-full px-2 py-0.5">{item.variant}</span>
           ) : null}
@@ -67,7 +58,7 @@ function ItemRow({ item }: { item: OrderItem }) {
       </div>
       <div className="text-right flex-shrink-0 ml-2">
         {item.isFree
-          ? <span className="text-sm font-medium text-[var(--km-success)]">ฟรี</span>
+          ? <span className="text-sm font-medium text-[var(--km-success)]">{ta.orderFreeLabel}</span>
           : <span className="text-sm font-normal text-[var(--km-text-secondary)]">฿{(item.price * item.quantity).toLocaleString()}</span>
         }
       </div>
@@ -76,6 +67,7 @@ function ItemRow({ item }: { item: OrderItem }) {
 }
 
 function OrderCard({ order, returningOnly }: { order: Order; returningOnly?: boolean }) {
+  const { account: ta } = useLang();
   const [expanded, setExpanded] = useState(false);
   const items = returningOnly ? order.items.filter(i => i.returnStatus) : order.items;
   const totalQty = items.reduce((n, i) => n + i.quantity, 0);
@@ -115,10 +107,10 @@ function OrderCard({ order, returningOnly }: { order: Order; returningOnly?: boo
             const completedReturn = order.items.find(i => i.returnStatus === "return_completed");
             
             if (pendingReturn) {
-              return <span className="text-[13px] font-normal text-[var(--km-warning)]">รอตรวจสอบ</span>;
+              return <span className="text-[13px] font-normal text-[var(--km-warning)]">{ta.returnStatusPending}</span>;
             }
             if (completedReturn) {
-              return <span className="text-[13px] font-normal text-[var(--km-success)]">คืนเงินแล้ว</span>;
+              return <span className="text-[13px] font-normal text-[var(--km-success)]">{ta.returnStatusDone}</span>;
             }
 
             if (order.status !== "pending_payment") {
@@ -136,7 +128,7 @@ function OrderCard({ order, returningOnly }: { order: Order; returningOnly?: boo
                     </span>
                   ) : (
                     <span className="text-[12px] font-medium text-[var(--km-error)]">
-                      หมดเวลา
+                      {ta.orderExpired}
                     </span>
                   )}
                 </>
@@ -168,21 +160,21 @@ function OrderCard({ order, returningOnly }: { order: Order; returningOnly?: boo
               strokeWidth={2}
               className={`transition-transform duration-300 ${expanded ? "rotate-180" : ""}`}
             />
-            {expanded ? "ซ่อน" : `ดูสินค้าทั้งหมด ${items.length} รายการ`}
+            {expanded ? ta.orderHide : `${ta.orderViewAllItems} ${items.length} ${ta.orderQty}`}
           </button>
         </>
       )}
 
       {/* Footer */}
       <div className="flex items-center justify-between px-4 pt-1 pb-4">
-        <span className="text-xs text-[var(--km-text-muted)]">{totalQty} ชิ้น</span>
+        <span className="text-xs text-[var(--km-text-muted)]">{totalQty} {ta.orderPieces}</span>
         <div className="flex items-center gap-2">
           {order.status === "shipped" && (
             <button
               onClick={(e) => { e.stopPropagation(); updateStatus(order.id, "delivered"); }}
               className="text-xs font-medium text-white bg-[var(--km-text)] px-3 py-1.5 rounded-full active:opacity-80 transition-opacity"
             >
-              รับสินค้าแล้ว
+              {ta.orderReceived}
             </button>
           )}
           {order.status === "delivered" && (
@@ -191,7 +183,7 @@ function OrderCard({ order, returningOnly }: { order: Order; returningOnly?: boo
                 onClick={handleBuyAgain} 
                 className="text-[13px] font-medium text-[var(--km-text-secondary)] border border-[var(--km-border)] px-3 py-1.5 rounded-full active:bg-[var(--km-surface)] transition-colors"
               >
-                ซื้ออีกครั้ง
+                {ta.orderBuyAgain}
               </button>
             </>
           )}
@@ -210,6 +202,17 @@ function OrdersContent() {
   const isLoggedIn   = useRequireAuth();
   const activeStatus = (searchParams.get("status") ?? "all") as OrderStatus | "all" | "returning";
   const allOrders    = useOrdersStore((s) => s.orders);
+  const { account: ta } = useLang();
+
+  const TABS: { label: string; value: OrderStatus | "all" | "returning" }[] = [
+    { label: ta.ordersTabAll,       value: "all"             },
+    { label: ta.ordersTabPay,       value: "pending_payment" },
+    { label: ta.ordersTabShip,      value: "processing"      },
+    { label: ta.ordersTabInTransit, value: "shipped"         },
+    { label: ta.ordersTabDone,      value: "delivered"       },
+    { label: ta.ordersTabReturn,    value: "returning"       },
+    { label: ta.ordersTabCancelled, value: "cancelled"       },
+  ];
   
   const orders = activeStatus === "all"
     ? allOrders
@@ -238,7 +241,7 @@ function OrdersContent() {
 
       <div className="pt-4 flex flex-col gap-4 pb-20">
         {orders.length === 0 ? (
-          <EmptyState icon={Package} title="ไม่มีคำสั่งซื้อในสถานะนี้" />
+          <EmptyState icon={Package} title={ta.ordersEmpty} />
         ) : (
           orders.map((order) => <OrderCard key={order.id} order={order} returningOnly={activeStatus === "returning"} />)
         )}

@@ -17,14 +17,7 @@ import { useAuthStore } from "@/stores/auth.store";
 import { LogoutConfirmModal } from "@/components/account/LogoutConfirmModal";
 import { useLocaleStore } from "@/stores/locale.store";
 import { REGIONS, LANGUAGES } from "@/components/layout/RegionSelectorModal";
-
-
-const ORDER_STATUS_SHORTCUTS: { label: string; icon: React.ElementType; status: OrderStatus }[] = [
-  { label: "ที่ต้องชำระ",   icon: CreditCard,    status: "pending_payment" },
-  { label: "ที่ต้องจัดส่ง", icon: Package,        status: "processing"      },
-  { label: "ที่ต้องได้รับ",  icon: Truck,          status: "shipped"         },
-  { label: "ให้คะแนน",     icon: Star,           status: "delivered"       },
-];
+import { useLang } from "@/contexts/lang";
 
 interface MenuItem {
   label: string;
@@ -52,6 +45,14 @@ export default function AccountPage() {
   const [wishlistCanScrollRight, setWishlistCanScrollRight] = useState(true);
   const { country } = useLocaleStore();
   const [activeRegion, setActiveRegion] = React.useState("TH");
+  const { account: ta, nav: tn, header: th } = useLang();
+
+  const ORDER_STATUS_SHORTCUTS: { label: string; icon: React.ElementType; status: OrderStatus }[] = [
+    { label: ta.orderShortcutPay,     icon: CreditCard, status: "pending_payment" },
+    { label: ta.orderShortcutDeliver, icon: Package,    status: "processing"      },
+    { label: ta.orderShortcutReceive, icon: Truck,      status: "shipped"         },
+    { label: ta.orderShortcutReview,  icon: Star,       status: "delivered"       },
+  ];
 
   React.useEffect(() => {
     if (!isLoggedIn) router.replace("/login?redirect=/account");
@@ -84,38 +85,23 @@ export default function AccountPage() {
 
   const MOBILE_MENU: MenuSection[] = [
     {
-      title: "จัดการบัญชี",
+      title: ta.sectionManage,
       items: [
-        { label: "SafeScreen Points",     icon: Gift,          href: "/account/points"        },
-        { label: "รายการที่ถูกใจ",       icon: Heart,         href: "/account/wishlist"  },
-        { label: "ที่อยู่จัดส่ง",        icon: MapPin,        href: "/account/addresses" },
-        { label: "วิธีชำระเงิน",         icon: Wallet,        href: "/account/payments"  },
-        { label: "ใบกำกับภาษีเต็มรูปแบบ", icon: FileText,      href: "/account/tax-invoice" },
-        { label: "การคืนสินค้า",        icon: RotateCcw,     href: "/account/orders?status=returning" },
+        { label: "SafeScreen Points", icon: Gift,      href: "/account/points"                  },
+        { label: th.wishlist,         icon: Heart,     href: "/account/wishlist"                },
+        { label: th.addresses,        icon: MapPin,    href: "/account/addresses"               },
+        { label: th.payments,         icon: Wallet,    href: "/account/payments"                },
+        { label: ta.taxInvoiceFull,   icon: FileText,  href: "/account/tax-invoice"             },
+        { label: ta.returns,          icon: RotateCcw, href: "/account/orders?status=returning" },
       ],
     },
     {
-      title: "เมนูเพิ่มเติม",
+      title: ta.sectionMore,
       items: [
-        { label: "ความเป็นส่วนตัว",      icon: Shield,        href: "/account/privacy"       },
-        { 
-          label: "ประเทศ / ภูมิภาค",               
-          icon: Globe,         
-          value: activeRegionName,
-          href: "/account/preferences?type=region", 
-        },
-        { 
-          label: "ภาษา",
-          icon: Globe,         
-          value: activeLangLabel,
-          href: "/account/preferences?type=lang", 
-        },
-        { 
-          label: "สกุลเงินที่ใช้",               
-          icon: Coins,         
-          value: activeCurrencyLabel,
-          href: "/account/preferences?type=currency", 
-        },
+        { label: th.privacy,         icon: Shield, href: "/account/privacy"                    },
+        { label: ta.regionLabel,     icon: Globe,  value: activeRegionName, href: "/account/preferences?type=region"   },
+        { label: ta.langLabel,       icon: Globe,  value: activeLangLabel,  href: "/account/preferences?type=lang"     },
+        { label: ta.currencyLabel,   icon: Coins,  value: activeCurrencyLabel, href: "/account/preferences?type=currency" },
       ],
     },
   ];
@@ -139,14 +125,14 @@ export default function AccountPage() {
               <p className="text-lg font-medium text-[var(--km-text)] truncate">{profile.name}</p>
               <Link href="/account/points" className="flex items-center gap-1 mt-0.5 group">
                 <span className="text-sm font-normal text-[var(--km-text-secondary)] group-hover:text-[var(--km-text)] transition-colors">
-                  {profile.points.toLocaleString()} แต้ม
+                  {profile.points.toLocaleString()} {tn.pointsLabel}
                 </span>
                 <ChevronRight size={14} strokeWidth={1.5} className="text-[var(--km-text-muted)] group-hover:text-[var(--km-text)] transition-colors" />
               </Link>
             </div>
 
             <Link href="/account/profile" className="hidden md:flex items-center gap-2 px-4 py-2 rounded-full border border-[var(--km-border)] text-sm font-medium text-[var(--km-text-secondary)] hover:bg-[var(--km-surface)] transition-all">
-              <Pencil size={14} /> แก้ไขโปรไฟล์
+              <Pencil size={14} /> {ta.editProfile}
             </Link>
             <Link href="/account/profile" className="md:hidden p-1.5 text-[var(--km-text-muted)] hover:text-[var(--km-text)] transition-colors self-center">
               <Pencil size={15} strokeWidth={1.5} />
@@ -160,15 +146,15 @@ export default function AccountPage() {
               <User size={24} strokeWidth={1.25} className="text-[var(--km-text-muted)]" />
             </div>
             <div>
-              <p className="font-medium text-[var(--km-text)]">สวัสดี!</p>
-              <p className="text-xs text-[var(--km-text-muted)] mt-0.5">เข้าสู่ระบบเพื่อประสบการณ์ที่ดียิ่งขึ้น</p>
+              <p className="font-medium text-[var(--km-text)]">{ta.guestGreeting}</p>
+              <p className="text-xs text-[var(--km-text-muted)] mt-0.5">{ta.guestSubtitle}</p>
             </div>
           </div>
           <button
             onClick={() => router.push("/login?redirect=/account")}
             className="w-full py-3 rounded-full bg-[var(--km-text)] text-white text-sm font-medium"
           >
-            เข้าสู่ระบบ / สมัครสมาชิก
+            {ta.guestLoginBtn}
           </button>
         </div>
       )}
@@ -177,9 +163,9 @@ export default function AccountPage() {
       {/* ── Order status shortcuts ── */}
       <div className="mx-0">
         <div className="flex items-center justify-between mb-3 px-1">
-          <p className="text-[14px] font-medium text-[var(--km-text)]">สถานะคำสั่งซื้อ</p>
+          <p className="text-[14px] font-medium text-[var(--km-text)]">{ta.orderStatusTitle}</p>
           <Link href="/account/orders" className="flex items-center gap-1 text-sm text-[var(--km-text-secondary)] hover:text-[var(--km-text)] transition-colors">
-            ดูทั้งหมด <ChevronRight size={14} strokeWidth={2} />
+            {ta.viewAll} <ChevronRight size={14} strokeWidth={2} />
           </Link>
         </div>
         <div className="bg-white rounded-[24px] border border-[var(--km-border)] overflow-hidden grid grid-cols-4">
@@ -223,15 +209,15 @@ export default function AccountPage() {
       {isLoggedIn && (
         <div className="hidden md:block">
           <div className="flex items-center justify-between mb-3 px-1">
-            <p className="text-[14px] font-medium text-[var(--km-text)]">รายการที่ถูกใจ</p>
+            <p className="text-[14px] font-medium text-[var(--km-text)]">{ta.wishlistTitle}</p>
             <Link href="/account/wishlist" className="flex items-center gap-1 text-sm text-[var(--km-text-secondary)] hover:text-[var(--km-text)] transition-colors">
-              ดูทั้งหมด <ChevronRight size={14} strokeWidth={2} />
+              {ta.viewAll} <ChevronRight size={14} strokeWidth={2} />
             </Link>
           </div>
           {wishlistIds.length === 0 ? (
             <div className="bg-white rounded-[24px] border border-[var(--km-border)] flex flex-col items-center justify-center py-12 gap-2">
               <Heart size={28} strokeWidth={1} className="text-[var(--km-text-muted)]" />
-              <p className="text-sm text-[var(--km-text-muted)]">ยังไม่มีรายการที่ถูกใจ</p>
+              <p className="text-sm text-[var(--km-text-muted)]">{ta.wishlistEmpty}</p>
             </div>
           ) : (
             <div className="relative overflow-hidden group/wishlist">
@@ -344,7 +330,7 @@ export default function AccountPage() {
                     className="w-full flex items-center gap-3 px-4 py-4 text-sm text-[var(--km-error)] active:bg-[var(--km-surface)] transition-colors"
                   >
                     <LogOut size={17} strokeWidth={1.5} />
-                    <span>ออกจากระบบ</span>
+                    <span>{ta.logout}</span>
                   </button>
                 )}
               </div>
