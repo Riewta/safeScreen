@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { Calendar, Clock } from "lucide-react";
 
 export const metadata = {
@@ -15,6 +16,7 @@ const ARTICLES = [
     date: "10 มิ.ย. 2026",
     readTime: "5 นาที",
     category: "Guide",
+    image: "/products/privacy-macbook/privacy-macbook-air-13-3.jpg",
   },
   {
     slug: "blue-light-protection-work-from-home",
@@ -24,6 +26,7 @@ const ARTICLES = [
     date: "5 มิ.ย. 2026",
     readTime: "7 นาที",
     category: "Health",
+    image: "/products/anti-blue-macbook/anti-blue-macbook-air-13-3.jpg",
   },
   {
     slug: "choose-right-film-macbook",
@@ -33,6 +36,7 @@ const ARTICLES = [
     date: "1 มิ.ย. 2026",
     readTime: "10 นาที",
     category: "Guide",
+    image: "/products/privacy-macbook/privacy-macbook-air-13-6.jpg",
   },
 ];
 
@@ -58,9 +62,15 @@ export default function BlogPage() {
               className="group block bg-white border border-[var(--km-border)] rounded-2xl overflow-hidden hover:shadow-md transition-shadow"
             >
               <div className="flex flex-col md:flex-row">
-                {/* Placeholder image block */}
-                <div className="md:w-52 h-48 md:h-auto bg-[var(--km-surface)] flex-shrink-0 flex items-center justify-center">
-                  <span className="text-4xl opacity-30">📸</span>
+                {/* Thumbnail */}
+                <div className="relative md:w-52 h-48 md:h-auto bg-[var(--km-surface)] flex-shrink-0 overflow-hidden">
+                  <Image
+                    src={article.image}
+                    alt={article.title}
+                    fill
+                    className="object-cover group-hover:scale-105 transition-transform duration-500"
+                    sizes="(max-width: 768px) 100vw, 208px"
+                  />
                 </div>
 
                 <div className="p-6 flex-1">

@@ -1,9 +1,38 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { ArrowRight } from "lucide-react";
 import { useLang } from "@/contexts/lang";
 import { useEffect, useRef, type ReactNode } from "react";
+import { FaInstagram, FaLine, FaTiktok } from "react-icons/fa6";
+
+const BLOG_POSTS = [
+  {
+    slug: "magnetic-privacy-screen-explained",
+    title: "ฟิล์มกันเสือกแม่เหล็กคืออะไร? ทำไมถึงดีกว่าฟิล์มทั่วไป",
+    excerpt: "ฟิล์มกันเสือกระบบแม่เหล็ก Easy Snap ติดง่าย ถอดง่าย ไม่ทิ้งคราบกาว เหมาะสำหรับผู้ที่ต้องการความเป็นส่วนตัวในที่สาธารณะ",
+    category: "Guide",
+    categoryClass: "bg-blue-50 text-blue-700",
+    image: "/products/privacy-macbook/privacy-macbook-air-13-3.jpg",
+  },
+  {
+    slug: "blue-light-protection-work-from-home",
+    title: "ป้องกันแสงสีฟ้า: ทำไม WFH ถึงต้องใช้ฟิล์ม Anti-Blue",
+    excerpt: "การทำงานหน้าจอนาน 8+ ชั่วโมงต่อวัน ส่งผลต่อสายตาอย่างไร และฟิล์มกรองแสงสีฟ้าช่วยได้แค่ไหน",
+    category: "Health",
+    categoryClass: "bg-green-50 text-green-700",
+    image: "/products/anti-blue-macbook/anti-blue-macbook-air-13-3.jpg",
+  },
+  {
+    slug: "choose-right-film-macbook",
+    title: "เลือกฟิล์มให้ถูกรุ่น: คู่มือฉบับสมบูรณ์สำหรับ MacBook ทุกรุ่น",
+    excerpt: 'MacBook มีหลายขนาดและรุ่น ตั้งแต่ Air 13.3" ถึง Pro 16.2" M5 คู่มือนี้ช่วยให้คุณเลือกฟิล์มได้ถูกต้อง',
+    category: "Guide",
+    categoryClass: "bg-blue-50 text-blue-700",
+    image: "/products/privacy-macbook/privacy-macbook-air-13-6.jpg",
+  },
+];
 
 /* ── Scroll reveal wrapper ───────────────────────────────── */
 function Reveal({ children, delay = 0, className = "" }: { children: ReactNode; delay?: number; className?: string }) {
@@ -36,46 +65,23 @@ const CONTACTS = [
   {
     name: "LINE",
     handle: "@safescreenofficial",
-    href: "https://line.me/ti/p/~@safescreenofficial",
-    bg: "#06C755",
-    icon: (
-      <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
-        <path d="M14 2.333C7.557 2.333 2.333 6.735 2.333 12.133c0 4.598 3.71 8.467 8.74 9.523.34.074.804.225.921.517.105.267.069.685.034.954l-.15.883c-.046.267-.21 1.045.916.57 1.126-.476 6.074-3.577 8.289-6.126C22.69 16.68 25.667 14.614 25.667 12.133 25.667 6.735 20.443 2.333 14 2.333z" fill="white"/>
-        <path d="M11.083 10.208H9.917A.417.417 0 009.5 10.625v4.083c0 .23.187.417.417.417h1.166c.23 0 .417-.187.417-.417v-4.083a.417.417 0 00-.417-.417zM18.5 10.208h-1.167a.417.417 0 00-.416.417v2.427l-1.87-2.682a.42.42 0 00-.034-.043l-.002-.002a.415.415 0 00-.03-.029l-.008-.006a.416.416 0 00-.03-.022l-.01-.006a.417.417 0 00-.032-.016l-.01-.004a.42.42 0 00-.033-.012l-.012-.003a.422.422 0 00-.034-.007l-.013-.001a.428.428 0 00-.035-.002h-1.167a.417.417 0 00-.416.417v4.083c0 .23.186.417.416.417H15c.23 0 .417-.187.417-.417v-2.427l1.87 2.682c.013.018.028.035.044.05l.006.005c.01.008.02.016.031.023l.012.007.028.014.016.006.029.009.017.004a.422.422 0 00.03.004h.007a.43.43 0 00.076 0H18.5c.23 0 .416-.187.416-.417v-4.083a.417.417 0 00-.416-.417zM8.75 14.125H6.917v-3.5a.417.417 0 00-.834 0v4.083c0 .23.187.417.417.417H8.75c.23 0 .417-.187.417-.417a.417.417 0 00-.417-.583zM21.083 11.625a.417.417 0 00-.416-.417h-2.584a.417.417 0 000 .834h1.75v.875h-1.75a.417.417 0 000 .833h1.75v.875h-1.75a.417.417 0 000 .833h2.584c.23 0 .416-.186.416-.416v-4.417z" fill="#06C755"/>
-      </svg>
-    ),
+    href: "https://line.me/R/ti/p/@safescreenofficial",
+    color: "#06C755",
+    Icon: FaLine,
   },
   {
     name: "Instagram",
-    handle: "@safescreen.tech",
-    href: "https://instagram.com/safescreen.tech",
-    bg: "linear-gradient(45deg, #F58529, #DD2A7B, #8134AF, #515BD4)",
-    icon: (
-      <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
-        <rect x="4" y="4" width="20" height="20" rx="6" fill="white"/>
-        <rect x="9" y="9" width="10" height="10" rx="5" stroke="url(#igGrad)" strokeWidth="2" fill="none"/>
-        <circle cx="19.5" cy="8.5" r="1.5" fill="url(#igGrad2)"/>
-        <defs>
-          <linearGradient id="igGrad" x1="9" y1="9" x2="19" y2="19" gradientUnits="userSpaceOnUse">
-            <stop stopColor="#F58529"/><stop offset="0.5" stopColor="#DD2A7B"/><stop offset="1" stopColor="#515BD4"/>
-          </linearGradient>
-          <linearGradient id="igGrad2" x1="18" y1="7" x2="21" y2="10" gradientUnits="userSpaceOnUse">
-            <stop stopColor="#F58529"/><stop offset="1" stopColor="#DD2A7B"/>
-          </linearGradient>
-        </defs>
-      </svg>
-    ),
+    handle: "@safescreen.official",
+    href: "https://www.instagram.com/safescreen.official",
+    color: "#E1306C",
+    Icon: FaInstagram,
   },
   {
     name: "TikTok",
-    handle: "@safescreen.tech",
-    href: "https://tiktok.com/@safescreen.tech",
-    bg: "#010101",
-    icon: (
-      <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
-        <path d="M19.5 5.5a4.5 4.5 0 01-4.5-4.5h-3v17.5a2.5 2.5 0 11-2.5-2.5c.23 0 .45.03.66.09V12.5a6.5 6.5 0 100 6.5V5.5h-1a7.5 7.5 0 007.5 7.5V9.87A7.96 7.96 0 0019.5 10V5.5z" fill="white"/>
-      </svg>
-    ),
+    handle: "@safescreen.official",
+    href: "https://www.tiktok.com/@safescreen.official",
+    color: "#010101",
+    Icon: FaTiktok,
   },
 ];
 
@@ -172,6 +178,38 @@ export default function AboutPage() {
         </div>
       </section>
 
+      {/* Blog Preview */}
+      <section className="max-w-5xl mx-auto px-4 py-16">
+        <Reveal>
+          <p className="text-xs tracking-[0.2em] text-[var(--km-text-muted)] uppercase mb-3 text-center">KNOWLEDGE BASE</p>
+          <h2 className="text-2xl md:text-3xl font-bold text-[var(--km-text)] mb-2 text-center">บทความที่น่าสนใจ</h2>
+          <p className="text-center text-[var(--km-text-secondary)] mb-10">ความรู้เกี่ยวกับฟิล์มกันมอง การดูแลสายตา และเทคโนโลยีหน้าจอ</p>
+        </Reveal>
+        <div className="grid md:grid-cols-3 gap-5">
+          {BLOG_POSTS.map((post, i) => (
+            <Reveal key={post.slug} delay={i * 80}>
+              <Link href={`/blog/${post.slug}`} className="h-full group block bg-white rounded-2xl border border-[var(--km-border)] overflow-hidden hover:shadow-md transition-shadow">
+                <div className="relative h-44 bg-[var(--km-surface)] overflow-hidden">
+                  <Image src={post.image} alt={post.title} fill className="object-cover group-hover:scale-105 transition-transform duration-500" sizes="(max-width: 768px) 100vw, 33vw" />
+                </div>
+                <div className="p-4">
+                  <span className={`text-xs font-semibold px-2.5 py-0.5 rounded-full ${post.categoryClass}`}>{post.category}</span>
+                  <h3 className="text-[14px] font-bold text-[var(--km-text)] mt-2 mb-1 leading-snug line-clamp-2">{post.title}</h3>
+                  <p className="text-[12px] text-[var(--km-text-muted)] line-clamp-2 leading-relaxed">{post.excerpt}</p>
+                </div>
+              </Link>
+            </Reveal>
+          ))}
+        </div>
+        <Reveal delay={100}>
+          <div className="text-center mt-8">
+            <Link href="/blog" className="inline-flex items-center gap-2 text-[14px] font-medium px-6 py-3 rounded-full border-2 transition-all" style={{ borderColor: "#F5A600", color: "#F5A600" }}>
+              ดูบทความทั้งหมด <ArrowRight size={14} />
+            </Link>
+          </div>
+        </Reveal>
+      </section>
+
       {/* Contact Channels */}
       <section className="max-w-3xl mx-auto px-4 py-16">
         <Reveal>
@@ -188,8 +226,8 @@ export default function AboutPage() {
                 rel="noopener noreferrer"
                 className="flex flex-col items-center gap-3 p-6 rounded-2xl border border-[var(--km-border)] hover:shadow-md hover:-translate-y-0.5 transition-all"
               >
-                <div className="w-14 h-14 rounded-2xl flex items-center justify-center shadow-sm" style={{ background: c.bg }}>
-                  {c.icon}
+                <div className="w-14 h-14 rounded-2xl flex items-center justify-center shadow-sm bg-[var(--km-surface)]">
+                  <c.Icon size={28} style={{ color: c.color }} />
                 </div>
                 <div className="text-center">
                   <p className="font-semibold text-[var(--km-text)]">{c.name}</p>
