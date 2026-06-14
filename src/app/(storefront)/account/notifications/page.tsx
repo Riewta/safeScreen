@@ -7,6 +7,7 @@ import { useNotificationsStore } from "@/stores/notifications.store";
 import { useState } from "react";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
+import { useLang } from "@/contexts/lang";
 
 // ── Notification Preferences Store (inline) ──────────────────────────────────
 interface NotifPrefs {
@@ -45,11 +46,12 @@ function Toggle({ on, onToggle }: { on: boolean; onToggle: () => void }) {
 
 function NotifSettingsSheet({ onClose }: { onClose: () => void }) {
   const { order, promo, system, toggle } = useNotifPrefs();
+  const { account: ta, common: tc } = useLang();
 
   const rows = [
-    { key: "order" as const,  label: "อัพเดทคำสั่งซื้อ",   sub: "การยืนยัน, การจัดส่ง, การจัดส่งสำเร็จ", value: order },
-    { key: "promo" as const,  label: "โปรโมชั่น & ดีล",    sub: "Flash Sale, คูปอง, สิทธิพิเศษสมาชิก",    value: promo },
-    { key: "system" as const, label: "การแจ้งเตือนระบบ",   sub: "อัพเดทแอป, นโยบาย, ความปลอดภัย",       value: system },
+    { key: "order" as const,  label: ta.notifOrder,  sub: ta.notifOrderSub,  value: order  },
+    { key: "promo" as const,  label: ta.notifPromo,  sub: ta.notifPromoSub,  value: promo  },
+    { key: "system" as const, label: ta.notifSystem, sub: ta.notifSystemSub, value: system },
   ];
 
   return (
@@ -61,7 +63,7 @@ function NotifSettingsSheet({ onClose }: { onClose: () => void }) {
         style={{ animation: "slideUp 0.3s cubic-bezier(0.34,1.56,0.64,1) forwards" }}
       >
         <div className="flex items-center justify-between px-5 pt-5 pb-4 border-b border-[var(--km-border)]">
-          <p className="text-[16px] font-semibold text-[var(--km-text)]">ตั้งค่าการแจ้งเตือน</p>
+          <p className="text-[16px] font-semibold text-[var(--km-text)]">{ta.notifSettings}</p>
           <button onClick={onClose} className="p-1 rounded-full text-[var(--km-text-muted)]">
             <X size={20} />
           </button>
@@ -84,7 +86,7 @@ function NotifSettingsSheet({ onClose }: { onClose: () => void }) {
             onClick={onClose}
             className="w-full h-12 rounded-full bg-[var(--km-text)] text-white text-[14px] font-medium"
           >
-            บันทึก
+            {tc.save}
           </button>
         </div>
       </div>
@@ -102,6 +104,7 @@ export default function NotificationsPage() {
   const isLoggedIn = useRequireAuth();
   const { notifications, markRead, deleteNotification } = useNotificationsStore();
   const [showSettings, setShowSettings] = useState(false);
+  const { account: ta, pages: tp } = useLang();
 
   if (!isLoggedIn) return null;
 
@@ -114,7 +117,7 @@ export default function NotificationsPage() {
           className="flex items-center gap-1.5 text-[13px] text-[var(--km-text-secondary)] py-1.5 px-3 rounded-full border border-[var(--km-border)] active:bg-[var(--km-surface)] transition-colors"
         >
           <Settings size={14} />
-          ตั้งค่า
+          {ta.settingsLabel}
         </button>
       </div>
       {showSettings && <NotifSettingsSheet onClose={() => setShowSettings(false)} />}
@@ -123,8 +126,8 @@ export default function NotificationsPage() {
           <div className="flex flex-col items-center justify-center py-24 gap-4 px-6">
             <Bell size={40} strokeWidth={1} className="text-[var(--km-text-muted)]" />
             <div className="text-center">
-              <p className="text-base font-medium text-[var(--km-text)]">ไม่มีการแจ้งเตือน</p>
-              <p className="text-sm text-[var(--km-text-muted)] mt-1">คุณยังไม่มีการแจ้งเตือนใหม่ในขณะนี้</p>
+              <p className="text-base font-medium text-[var(--km-text)]">{tp.notifEmpty}</p>
+              <p className="text-sm text-[var(--km-text-muted)] mt-1">{tp.notifEmptyDesc}</p>
             </div>
           </div>
         ) : (

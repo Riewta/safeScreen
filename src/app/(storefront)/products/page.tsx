@@ -4,7 +4,7 @@ import { getVisibleProducts } from "@/lib/mock-data";
 
 export const metadata: Metadata = {
   title: "สินค้าทั้งหมด | SafeScreen Tech",
-  description: "ฟิล์มกันมองแม่เหล็ก NanoSnap และ Privacy สำหรับ MacBook, iPad และ Universal — ถอดติดได้ทันที ไม่ทิ้งคราบ",
+  description: "ฟิล์มกันมองแม่เหล็ก NanoSnap และ Privacy สำหรับ MacBook, iPad และ Universal ถอดติดได้ทันที ไม่ทิ้งคราบ",
 };
 
 interface Props {

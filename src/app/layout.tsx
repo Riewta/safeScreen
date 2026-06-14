@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     default: "SafeScreen Tech — Magnetic Privacy Screen Films",
     template: "%s | SafeScreen Tech",
   },
-  description: "ฟิล์มกันมองแม่เหล็กสำหรับ MacBook, Laptop และ iPad — ถอดติดได้ทันที",
+  description: "ฟิล์มกันมองแม่เหล็กสำหรับ MacBook, Laptop และ iPad ถอดติดได้ทันที",
   keywords: ["privacy screen", "ฟิล์มกันมอง", "safescreen", "macbook", "laptop"],
   robots: "index, follow",
 };

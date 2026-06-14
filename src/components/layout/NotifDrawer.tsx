@@ -56,7 +56,7 @@ export function NotifDrawer() {
               <div className="w-14 h-14 rounded-full bg-[var(--km-surface)] flex items-center justify-center border border-[var(--km-border)]">
                 <Bell size={24} strokeWidth={1} className="text-[var(--km-text-muted)]" />
               </div>
-              <p className="text-sm text-[var(--km-text-muted)]">ไม่มีการแจ้งเตือน</p>
+              <p className="text-sm text-[var(--km-text-muted)]">{t.notifEmpty}</p>
             </div>
           ) : (
             notifications.map((n) => (

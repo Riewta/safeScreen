@@ -66,15 +66,17 @@ export function BrandAccentStrip() {
     const ctx = canvas.getContext("2d", { alpha: false });
     if (!ctx) return;
 
-    // ── Tuning ─────────────────────────────────────────────────────────────
-    const GAP         = 6;      // dot grid spacing
-    const BASE_R      = 1.4;    // dot radius at base brightness
-    const MAX_R       = 4.2;    // dot radius at peak brightness
-    const BASE_BRIGHT = 0.32;   // dot brightness when no shape is near
-    const PEAK_BRIGHT = 0.72;   // absolute max brightness (soft, not glaring)
-    const MOUSE_RAD   = 110;    // mouse glow radius
-    const MOUSE_PEAK  = 0.28;   // mouse adds up to this above BASE_BRIGHT
+    // ── Tuning (static) ────────────────────────────────────────────────────
+    const BASE_BRIGHT = 0.32;
+    const PEAK_BRIGHT = 0.72;
+    const MOUSE_RAD   = 110;
+    const MOUSE_PEAK  = 0.28;
     const BG          = "#2D2D2D";
+
+    // ── Responsive dot params (recalculated on resize) ──────────────────────
+    let GAP    = 6;
+    let BASE_R = 1.4;
+    let MAX_R  = 4.2;
 
     // Max simultaneous shapes, spawn timing
     const MAX_SHAPES  = 5;
@@ -253,6 +255,22 @@ export function BrandAccentStrip() {
     const resize = () => {
       canvas.width  = canvas.offsetWidth;
       canvas.height = canvas.offsetHeight;
+
+      // Scale dot density to canvas width — smaller on mobile
+      if (canvas.width < 480) {
+        GAP    = 3.5;
+        BASE_R = 0.8;
+        MAX_R  = 2.4;
+      } else if (canvas.width < 768) {
+        GAP    = 4.5;
+        BASE_R = 1.0;
+        MAX_R  = 3.0;
+      } else {
+        GAP    = 6;
+        BASE_R = 1.4;
+        MAX_R  = 4.2;
+      }
+
       buildDots();
     };
 

@@ -37,50 +37,50 @@ function StatusBadge({ status }: { status: OrderStatus }) {
 /* ─── Row detail panel ─────────────────────────────────────────────────────── */
 function OrderDetail({ order, onClose }: { order: Order; onClose: () => void }) {
   return (
-    <div className="border-t border-gray-100 bg-gray-50 px-6 py-5">
+    <div className="border-t border-[var(--km-border)] bg-[var(--km-surface)] px-6 py-5">
       <div className="flex items-start justify-between mb-4">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm flex-1">
           <div>
-            <p className="text-gray-400 text-[11px] uppercase tracking-wide mb-0.5">ผู้รับ</p>
-            <p className="font-medium text-gray-900">{order.recipientName}</p>
-            <p className="text-gray-500">{order.phone}</p>
+            <p className="text-[var(--km-text-muted)] text-[11px] uppercase tracking-wide mb-0.5">ผู้รับ</p>
+            <p className="font-medium text-[var(--km-text)]">{order.recipientName}</p>
+            <p className="text-[var(--km-text-muted)]">{order.phone}</p>
           </div>
           <div>
-            <p className="text-gray-400 text-[11px] uppercase tracking-wide mb-0.5">ที่อยู่</p>
-            <p className="text-gray-700 leading-snug">{order.address}</p>
+            <p className="text-[var(--km-text-muted)] text-[11px] uppercase tracking-wide mb-0.5">ที่อยู่</p>
+            <p className="text-[var(--km-text-secondary)] leading-snug">{order.address}</p>
           </div>
           <div>
-            <p className="text-gray-400 text-[11px] uppercase tracking-wide mb-0.5">การชำระ</p>
-            <p className="text-gray-700">{order.paymentMethod ?? "—"}</p>
-            {order.paidAt && <p className="text-gray-400 text-[11px] mt-0.5">{formatDate(order.paidAt)}</p>}
+            <p className="text-[var(--km-text-muted)] text-[11px] uppercase tracking-wide mb-0.5">การชำระ</p>
+            <p className="text-[var(--km-text-secondary)]">{order.paymentMethod ?? "—"}</p>
+            {order.paidAt && <p className="text-[var(--km-text-muted)] text-[11px] mt-0.5">{formatDate(order.paidAt)}</p>}
           </div>
           <div>
-            <p className="text-gray-400 text-[11px] uppercase tracking-wide mb-0.5">Tracking</p>
-            <p className="font-mono text-gray-700">{order.trackingNumber ?? "—"}</p>
-            {order.shippingProvider && <p className="text-gray-400 text-[11px] mt-0.5">{order.shippingProvider}</p>}
+            <p className="text-[var(--km-text-muted)] text-[11px] uppercase tracking-wide mb-0.5">Tracking</p>
+            <p className="font-mono text-[var(--km-text-secondary)]">{order.trackingNumber ?? "—"}</p>
+            {order.shippingProvider && <p className="text-[var(--km-text-muted)] text-[11px] mt-0.5">{order.shippingProvider}</p>}
           </div>
         </div>
-        <button onClick={onClose} className="ml-4 p-1 rounded hover:bg-gray-200 transition-colors">
-          <X size={16} className="text-gray-400" />
+        <button onClick={onClose} className="ml-4 p-1 rounded hover:bg-[var(--km-surface)] transition-colors">
+          <X size={16} className="text-[var(--km-text-muted)]" />
         </button>
       </div>
 
       {/* Items */}
       <div className="flex flex-col gap-2">
         {order.items.map((item, i) => (
-          <div key={i} className="flex items-center gap-3 bg-white rounded-lg px-3 py-2.5 border border-gray-100">
-            <div className="relative w-10 h-10 rounded-md overflow-hidden bg-gray-100 shrink-0">
+          <div key={i} className="flex items-center gap-3 bg-white rounded-lg px-3 py-2.5 border border-[var(--km-border)]">
+            <div className="relative w-10 h-10 rounded-md overflow-hidden bg-[var(--km-surface)] shrink-0">
               <Image src={item.image} alt={item.name} fill sizes="40px" className="object-cover" />
             </div>
             <div className="flex-1 min-w-0">
-              <p className="text-[13px] text-gray-800 truncate">{item.name}</p>
-              <p className="text-[11px] text-gray-400">{item.variant} · x{item.quantity}</p>
+              <p className="text-[13px] text-[var(--km-text)] truncate">{item.name}</p>
+              <p className="text-[11px] text-[var(--km-text-muted)]">{item.variant} · x{item.quantity}</p>
             </div>
             <div className="text-right shrink-0">
               {item.isFree ? (
                 <span className="text-[12px] font-medium text-green-600">ฟรี</span>
               ) : (
-                <p className="text-[13px] font-medium text-gray-900">฿{(item.price * item.quantity).toLocaleString()}</p>
+                <p className="text-[13px] font-medium text-[var(--km-text)]">฿{(item.price * item.quantity).toLocaleString()}</p>
               )}
             </div>
           </div>
@@ -90,10 +90,10 @@ function OrderDetail({ order, onClose }: { order: Order; onClose: () => void }) 
       {/* Totals */}
       <div className="mt-3 flex justify-end">
         <div className="text-sm space-y-1 min-w-[200px]">
-          <div className="flex justify-between text-gray-500">
+          <div className="flex justify-between text-[var(--km-text-muted)]">
             <span>ราคาสินค้า</span><span>฿{order.subtotal.toLocaleString()}</span>
           </div>
-          <div className="flex justify-between text-gray-500">
+          <div className="flex justify-between text-[var(--km-text-muted)]">
             <span>ค่าจัดส่ง</span><span>{order.shippingFee === 0 ? "ฟรี" : `฿${order.shippingFee}`}</span>
           </div>
           {order.discount > 0 && (
@@ -101,7 +101,7 @@ function OrderDetail({ order, onClose }: { order: Order; onClose: () => void }) 
               <span>ส่วนลด</span><span>-฿{order.discount.toLocaleString()}</span>
             </div>
           )}
-          <div className="flex justify-between font-semibold text-gray-900 border-t border-gray-200 pt-1 mt-1">
+          <div className="flex justify-between font-semibold text-[var(--km-text)] border-t border-[var(--km-border)] pt-1 mt-1">
             <span>รวมทั้งหมด</span><span>฿{order.total.toLocaleString()}</span>
           </div>
         </div>
@@ -153,7 +153,7 @@ export default function AdminOrdersPage() {
     return (
       <div className="p-6 animate-pulse space-y-3">
         {[...Array(6)].map((_, i) => (
-          <div key={i} className="h-12 bg-gray-100 rounded-lg" />
+          <div key={i} className="h-12 bg-[var(--km-surface)] rounded-lg" />
         ))}
       </div>
     );
@@ -170,7 +170,7 @@ export default function AdminOrdersPage() {
           <button
             key={key}
             onClick={() => setStatus(key)}
-            className={`rounded-xl px-3 py-3 text-left transition-all border-2 ${statusFilter === key ? "border-gray-900 shadow-sm" : "border-transparent"}`}
+            className={`rounded-xl px-3 py-3 text-left transition-all border-2 ${statusFilter === key ? "border-[var(--km-text)] shadow-sm" : "border-transparent"}`}
             style={{ background: bg }}
           >
             <p className="text-[22px] font-bold" style={{ color: text }}>{count}</p>
@@ -181,28 +181,28 @@ export default function AdminOrdersPage() {
 
       {/* Search bar */}
       <div className="relative mb-4">
-        <Search size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400" />
+        <Search size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[var(--km-text-muted)]" />
         <input
           type="text"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           placeholder="ค้นหาเลขออเดอร์, ชื่อลูกค้า, เบอร์โทร, Tracking..."
-          className="w-full pl-9 pr-4 py-2.5 text-sm border border-gray-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-transparent transition-all"
+          className="w-full pl-9 pr-4 py-2.5 text-sm border border-[var(--km-border)] rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-[var(--km-text)] focus:border-transparent transition-all"
         />
         {query && (
-          <button onClick={() => setQuery("")} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-300 hover:text-gray-500">
+          <button onClick={() => setQuery("")} className="absolute right-3 top-1/2 -translate-y-1/2 text-[var(--km-border-strong)] hover:text-[var(--km-text-muted)]">
             <X size={14} />
           </button>
         )}
       </div>
 
       {/* Result count */}
-      <p className="text-xs text-gray-400 mb-3">{filtered.length} รายการ</p>
+      <p className="text-xs text-[var(--km-text-muted)] mb-3">{filtered.length} รายการ</p>
 
       {/* Table */}
-      <div className="bg-white rounded-2xl border border-gray-100 overflow-hidden shadow-sm">
+      <div className="bg-white rounded-2xl border border-[var(--km-border)] overflow-hidden shadow-sm">
         {/* Header */}
-        <div className="grid grid-cols-[2fr_2fr_1fr_1fr_1fr_40px] gap-4 px-5 py-3 bg-gray-50 border-b border-gray-100 text-[11px] font-medium text-gray-400 uppercase tracking-wide">
+        <div className="grid grid-cols-[2fr_2fr_1fr_1fr_1fr_40px] gap-4 px-5 py-3 bg-[var(--km-surface)] border-b border-[var(--km-border)] text-[11px] font-medium text-[var(--km-text-muted)] uppercase tracking-wide">
           <span>เลขออเดอร์</span>
           <span>ลูกค้า</span>
           <span>สถานะ</span>
@@ -212,39 +212,39 @@ export default function AdminOrdersPage() {
         </div>
 
         {filtered.length === 0 ? (
-          <div className="flex flex-col items-center justify-center py-16 gap-3 text-gray-400">
+          <div className="flex flex-col items-center justify-center py-16 gap-3 text-[var(--km-text-muted)]">
             <Package size={32} strokeWidth={1.5} />
             <p className="text-sm">ไม่พบออเดอร์ที่ตรงกัน</p>
           </div>
         ) : (
-          <div className="divide-y divide-gray-50">
+          <div className="divide-y divide-[var(--km-border)]">
             {filtered.map((order) => {
               const isOpen = expandedId === order.id;
               return (
                 <div key={order.id}>
                   {/* Row */}
                   <div
-                    className="grid grid-cols-[2fr_2fr_1fr_1fr_1fr_40px] gap-4 px-5 py-3.5 items-center hover:bg-gray-50 transition-colors cursor-pointer"
+                    className="grid grid-cols-[2fr_2fr_1fr_1fr_1fr_40px] gap-4 px-5 py-3.5 items-center hover:bg-[var(--km-surface)] transition-colors cursor-pointer"
                     onClick={() => setExpandedId(isOpen ? null : order.id)}
                   >
                     <div>
-                      <p className="font-mono text-[13px] font-medium text-gray-900">{order.id}</p>
-                      <p className="text-[11px] text-gray-400 mt-0.5">
+                      <p className="font-mono text-[13px] font-medium text-[var(--km-text)]">{order.id}</p>
+                      <p className="text-[11px] text-[var(--km-text-muted)] mt-0.5">
                         {order.items.length} ชิ้น
                         {order.trackingNumber && <span className="ml-2">· {order.trackingNumber}</span>}
                       </p>
                     </div>
                     <div>
-                      <p className="text-[13px] text-gray-800">{order.recipientName}</p>
-                      <p className="text-[11px] text-gray-400">{order.phone}</p>
+                      <p className="text-[13px] text-[var(--km-text)]">{order.recipientName}</p>
+                      <p className="text-[11px] text-[var(--km-text-muted)]">{order.phone}</p>
                     </div>
                     <StatusBadge status={order.status} />
-                    <p className="text-[13px] font-medium text-gray-900">฿{order.total.toLocaleString()}</p>
-                    <p className="text-[12px] text-gray-400">{formatDate(order.createdAt)}</p>
-                    <button className="flex items-center justify-center w-8 h-8 rounded-lg hover:bg-gray-100 transition-colors ml-auto">
+                    <p className="text-[13px] font-medium text-[var(--km-text)]">฿{order.total.toLocaleString()}</p>
+                    <p className="text-[12px] text-[var(--km-text-muted)]">{formatDate(order.createdAt)}</p>
+                    <button className="flex items-center justify-center w-8 h-8 rounded-lg hover:bg-[var(--km-surface)] transition-colors ml-auto">
                       {isOpen
-                        ? <ChevronUp size={14} className="text-gray-400" />
-                        : <ChevronDown size={14} className="text-gray-400" />}
+                        ? <ChevronUp size={14} className="text-[var(--km-text-muted)]" />
+                        : <ChevronDown size={14} className="text-[var(--km-text-muted)]" />}
                     </button>
                   </div>
 

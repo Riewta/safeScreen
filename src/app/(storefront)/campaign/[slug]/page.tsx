@@ -8,6 +8,7 @@ import { PRODUCTS, FLASH_DEAL_PRODUCTS } from "@/lib/mock-data";
 import { ProductCard } from "@/components/product/ProductCard";
 import { useParams } from "next/navigation";
 import { useUIStore } from "@/stores/ui.store";
+import { useLang } from "@/contexts/lang";
 
 // Load admin-managed campaigns from localStorage and merge with defaults
 function loadAdminCampaigns(): Record<string, { title: string; description: string; hero: string }> {
@@ -37,7 +38,7 @@ const DEFAULT_CAMPAIGNS: Record<string, { title: string; description: string; he
   "flash-sale": {
     title: "Flash Sale",
     description: "ดีลสุดคุ้มที่อัปเดตทุกวัน สินค้าความงามคัดสรรกว่า 200 รายการ ลดสูงสุด 70% มีจำนวนจำกัด — หมดแล้วหมดเลย",
-    hero: "/banner_promotions/flashsale_banner.png",
+    hero: "/products/allpics/16-9.png",
   },
   "buy-1-get-1": {
     title: "ซื้อ 1 แถม 1 (Buy 1 Get 1 Free)",
@@ -141,6 +142,7 @@ export default function CampaignPage() {
   const nextCD = useCountdown(dealNextStart);
   const { days, hours, minutes, seconds, mounted } = activeTab === "current" ? currentCD : nextCD;
   const { setHeaderTitleOverride: setHeaderTitle } = useUIStore();
+  const { pages: t, header: th } = useLang();
 
   // Merge DEFAULT_CAMPAIGNS with admin-managed overrides from localStorage
   const CAMPAIGNS = useMemo(
@@ -153,7 +155,7 @@ export default function CampaignPage() {
   const isFlashSale = slug === "flash-sale";
 
   useEffect(() => {
-    setHeaderTitle("รายละเอียดโปรโมชั่น");
+    setHeaderTitle(th.campaignDetail);
     return () => {
       setHeaderTitle(null);
     };
@@ -193,17 +195,17 @@ export default function CampaignPage() {
                     className="px-4 py-1.5 rounded-full text-[13px] font-normal whitespace-nowrap transition-all duration-200"
                     style={activeTab === tab ? { background: "var(--km-text)", color: "#fff", border: "1px solid var(--km-text)" } : { background: "#fff", color: "#78787D", border: "1px solid #e8e8ed" }}
                   >
-                    {tab === "current" ? "รอบปัจจุบัน" : "รอบถัดไป"}
+                    {tab === "current" ? t.flashCurrentTab : t.flashNextTab}
                   </button>
                 ))}
               </div>
               <div className="flex flex-wrap items-center justify-between gap-y-2 gap-x-4">
                 <div className="flex items-center gap-2 min-w-0">
-                  <Zap size={22} className="shrink-0 text-[var(--km-text)] fill-[var(--km-text)]" />
+                  <Zap size={22} className="shrink-0" style={{ color: "#F5A600", fill: "#F5A600" }} />
                   <h1 className="text-xl md:text-2xl font-medium text-[var(--km-text)]">Flash Sale</h1>
                 </div>
                 <div className="flex items-center gap-0.5 shrink-0">
-                  <span className="text-[13px] font-normal text-[var(--km-text-secondary)] mr-0.5">{activeTab === "current" ? "จบใน" : "เริ่มใน"}</span>
+                  <span className="text-[13px] font-normal text-[var(--km-text-secondary)] mr-0.5">{activeTab === "current" ? t.flashEndsIn : t.flashStartsIn}</span>
                   <CountChip label={String(days).padStart(2, "0")} />
                   <Colon />
                   <CountChip label={String(hours).padStart(2, "0")} />
@@ -214,7 +216,7 @@ export default function CampaignPage() {
                 </div>
               </div>
               <p className="text-[14px] md:text-[15px] text-[var(--km-text-secondary)] leading-relaxed max-w-3xl">
-                {activeTab === "current" ? CAMPAIGNS["flash-sale"].description : "เตรียมตัวให้พร้อม! ดีลรอบถัดไปกำลังจะมาพร้อมสินค้าใหม่และส่วนลดสุดพิเศษ ราคาจะเผยเมื่อรอบเริ่ม"}
+                {activeTab === "current" ? CAMPAIGNS["flash-sale"].description : t.flashNextDesc}
               </p>
             </div>
           ) : (
@@ -245,7 +247,7 @@ export default function CampaignPage() {
 
       <div className="max-w-7xl mx-auto px-4 md:px-6 mt-10 mb-2 flex justify-center">
         <Link href="/campaign" className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full border border-[var(--km-border)] text-[14px] text-[var(--km-text-secondary)] hover:border-[var(--km-border-strong)] hover:text-[var(--km-text)] transition-all">
-          ← ดูโปรโมชั่นทั้งหมด
+          {t.viewAllPromos}
         </Link>
       </div>
     </div>

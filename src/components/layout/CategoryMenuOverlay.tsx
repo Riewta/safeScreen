@@ -17,6 +17,7 @@ import {
 import { useLocaleStore, COUNTRIES } from "@/stores/locale.store";
 import { useAuthStore } from "@/stores/auth.store";
 import { useProfile } from "@/stores/user.store";
+import { useLang } from "@/contexts/lang";
 
 interface CategoryMenuOverlayProps {
   onClose: () => void;
@@ -24,6 +25,7 @@ interface CategoryMenuOverlayProps {
 
 function LanguageSelector({ onMenuClose }: { onMenuClose: () => void }) {
   const { country, setCountry } = useLocaleStore();
+  const { header: th } = useLang();
   const [open, setOpen] = useState(false);
 
   return (
@@ -42,7 +44,7 @@ function LanguageSelector({ onMenuClose }: { onMenuClose: () => void }) {
           <div className="absolute inset-0 bg-black/40" onClick={() => setOpen(false)} />
           <div className="relative w-full bg-white rounded-t-2xl md:rounded-2xl md:w-[320px] overflow-hidden animate-in slide-in-from-bottom duration-300">
             <div className="flex items-center justify-between px-5 py-4 border-b border-[var(--km-border)]">
-              <p className="text-sm font-medium text-[var(--km-text)]">เลือกภาษา</p>
+              <p className="text-sm font-medium text-[var(--km-text)]">{th.selectLanguage}</p>
               <button onClick={() => setOpen(false)} className="p-1 text-[var(--km-text-muted)]">
                 <X size={18} />
               </button>
@@ -71,14 +73,6 @@ function LanguageSelector({ onMenuClose }: { onMenuClose: () => void }) {
   );
 }
 
-// ── Left panel nav items ──────────────────────────────────────────────────────
-const MAIN_NAV = [
-  { label: "หน้าแรก",         href: "/"           },
-  { label: "สินค้าทั้งหมด",   href: "/products"   },
-  { label: "จัดส่งด่วน 2 ชม.", href: "/express"    },
-  { label: "หน้าร้าน",        href: "/store"      },
-  { label: "สำหรับองค์กร",    href: "/corporate"  },
-];
 
 // ── Right panel categories ────────────────────────────────────────────────────
 interface CategoryItem {
@@ -102,6 +96,15 @@ export function CategoryMenuOverlay({ onClose }: CategoryMenuOverlayProps) {
 
   const isLoggedIn = useAuthStore((s) => s.isLoggedIn);
   const profile = useProfile();
+  const { nav: tn } = useLang();
+
+  const MAIN_NAV = [
+    { label: tn.home,        href: "/"          },
+    { label: tn.allProducts, href: "/products"  },
+    { label: tn.express,     href: "/express"   },
+    { label: tn.store,       href: "/store"     },
+    { label: tn.corporate,   href: "/corporate" },
+  ];
 
   // Slide in on mount
   useEffect(() => {
@@ -154,7 +157,7 @@ export function CategoryMenuOverlay({ onClose }: CategoryMenuOverlayProps) {
                   <div className="flex-1 min-w-0">
                     <p className="text-[14px] font-medium text-[var(--km-text)] truncate">{profile.name || "สมาชิก"}</p>
                     <div className="flex items-center gap-1 mt-0.5">
-                      <span className="text-[13px] text-[var(--km-text-muted)]">{profile.points.toLocaleString()} แต้ม</span>
+                      <span className="text-[13px] text-[var(--km-text-muted)]">{profile.points.toLocaleString()} {tn.pointsLabel}</span>
                     </div>
                   </div>
                   <CaretRight size={14} className="text-[var(--km-text-muted)] flex-shrink-0" />
@@ -167,7 +170,7 @@ export function CategoryMenuOverlay({ onClose }: CategoryMenuOverlayProps) {
               <div className="flex items-center justify-between px-5 h-14">
                 <Link href="/login" onClick={handleClose} className="flex items-center gap-2 text-sm font-medium text-[var(--km-text)]">
                   <User size={16} className="text-[var(--km-text-muted)]" />
-                  <span>เข้าสู่ระบบ / สมัคร</span>
+                  <span>{tn.loginRegister}</span>
                   <CaretRight size={14} className="text-[var(--km-text-muted)]" />
                 </Link>
                 <button onClick={handleClose} className="p-1.5 text-[var(--km-text-muted)]">

@@ -8,6 +8,7 @@ import { Heart } from "@phosphor-icons/react";
 import { useAuthStore } from "@/stores/auth.store";
 import { useWishlistStore } from "@/stores/wishlist.store";
 import { LoginModal } from "@/components/auth/LoginModal";
+import { useLang } from "@/contexts/lang";
 
 export interface FreeGift {
   productId: string;
@@ -35,8 +36,8 @@ export interface ProductCardProps {
   unavailableRegions?: string[];
 }
 
-const BADGE_CONFIG = {
-  hot: { label: "ยอดฮิต", bg: "#FFD000", text: "#000" },
+const BADGE_STYLE = {
+  hot: { bg: "#FFD000", text: "#000" },
 };
 
 export function ProductCard({
@@ -53,6 +54,7 @@ export function ProductCard({
 }: ProductCardProps) {
   const [imageError, setImageError] = useState(false);
   const [showLoginModal, setShowLoginModal] = useState(false);
+  const { product: t } = useLang();
 
   const isLoggedIn  = useAuthStore((s) => s.isLoggedIn);
   const wishlisted  = useWishlistStore((s) => s.has(id));
@@ -89,15 +91,15 @@ export function ProductCard({
             >
               {rank}
             </div>
-          ) : (badge && BADGE_CONFIG[badge as keyof typeof BADGE_CONFIG]) ? (
+          ) : (badge && BADGE_STYLE[badge as keyof typeof BADGE_STYLE]) ? (
             <span
               className="inline-flex items-center px-2.5 py-1 rounded-full text-[11px] font-semibold tracking-wide"
               style={{
-                background: BADGE_CONFIG[badge as keyof typeof BADGE_CONFIG].bg,
-                color: BADGE_CONFIG[badge as keyof typeof BADGE_CONFIG].text,
+                background: BADGE_STYLE[badge as keyof typeof BADGE_STYLE].bg,
+                color: BADGE_STYLE[badge as keyof typeof BADGE_STYLE].text,
               }}
             >
-              {BADGE_CONFIG[badge as keyof typeof BADGE_CONFIG].label}
+              {badge === "hot" ? t.badgeHot : badge}
             </span>
           ) : null}
         </div>

@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { CaretRight, Lightning } from "@phosphor-icons/react";
 import { FLASH_DEAL_PRODUCTS, type FlashDealProduct as DealProduct } from "@/lib/mock-data";
+import { useLang } from "@/contexts/lang";
 
 const DEAL_PRODUCTS = FLASH_DEAL_PRODUCTS;
 
@@ -91,6 +92,7 @@ export function Colon() {
 
 export function FlashDeal() {
   const { status, days, hours, minutes, seconds } = useFlashSaleCountdown(DEAL_START, DEAL_END);
+  const { pages: t } = useLang();
 
   return (
     <section className="pt-4 pb-4 bg-white">
@@ -105,7 +107,7 @@ export function FlashDeal() {
           {/* Countdown */}
           <div className="flex items-center gap-0.5">
             <span className="text-[13px] font-normal text-[var(--km-text-secondary)] mr-1">
-              {status === "upcoming" ? "เริ่มใน" : status === "ended" ? "สิ้นสุดแล้ว" : "จบใน"}
+              {status === "upcoming" ? t.flashStartsIn : status === "ended" ? t.flashEnded : t.flashEndsIn}
             </span>
             <CountChip label={String(days).padStart(2, "0")} />
             <Colon />
@@ -150,6 +152,7 @@ export function FlashDeal() {
 }
 
 export function DealCard({ product: p }: { product: DealProduct }) {
+  const { product: t, pages: tp } = useLang();
   const discount = Math.round((1 - p.price / p.originalPrice) * 100);
   return (
     <Link
@@ -160,7 +163,7 @@ export function DealCard({ product: p }: { product: DealProduct }) {
       <div className="absolute top-3 left-3 z-20">
         {p.badge === "hot" && (
           <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-[12px] font-normal bg-yellow-400 text-yellow-900">
-            ยอดฮิต
+            {t.badgeHot}
           </span>
         )}
       </div>
@@ -219,7 +222,7 @@ export function DealCard({ product: p }: { product: DealProduct }) {
                   />
                 </div>
                 <p className="text-[13px] font-normal text-[var(--km-text-secondary)] mt-1.5">
-                  {remaining === 0 ? "ขายหมดแล้ว" : `เหลืออีก ${remaining}`}
+                  {remaining === 0 ? t.soldOut : `${t.remaining} ${remaining}`}
                 </p>
               </>
             );

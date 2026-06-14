@@ -379,3 +379,38 @@ html, body {
   display: none;
 }
 
+
+/* ── About page scroll snap ─────────────────────────── */
+.about-snap-section {
+  scroll-snap-align: start;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* override with svh for mobile safari */
+@supports (min-height: 100svh) {
+  .about-snap-section {
+    min-height: 100svh;
+  }
+}
+
+/* ── Global section scroll reveal ───────────────────────── */
+.section-hidden {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.55s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.section-revealed {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.55s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.section-no-anim {
+  transition: none !important;
+}

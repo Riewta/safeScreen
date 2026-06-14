@@ -9,33 +9,34 @@ import {
 } from "lucide-react";
 import { useAuthStore } from "@/stores/auth.store";
 import { LogoutConfirmModal } from "@/components/account/LogoutConfirmModal";
-
-
-const MENU_SECTIONS = [
-  {
-    title: "จัดการบัญชี",
-    items: [
-      { label: "SafeScreen Points",          icon: Gift,          href: "/account/points"                   },
-      { label: "คำสั่งซื้อทั้งหมด",        icon: ClipboardList, href: "/account/orders"                   },
-      { label: "รายการที่ถูกใจ",            icon: Heart,         href: "/account/wishlist"                 },
-      { label: "ที่อยู่จัดส่ง",             icon: MapPin,        href: "/account/addresses"                },
-      { label: "วิธีชำระเงิน",              icon: Wallet,        href: "/account/payments"                 },
-      { label: "ใบกำกับภาษีเต็มรูปแบบ",    icon: FileText,      href: "/account/tax-invoice"              },
-      { label: "การคืนสินค้า",              icon: RotateCcw,     href: "/account/orders?status=returning"  },
-    ],
-  },
-  {
-    title: "เมนูเพิ่มเติม",
-    items: [
-      { label: "ความเป็นส่วนตัว",           icon: Shield,        href: "/account/privacy"                  },
-    ],
-  },
-];
+import { useLang } from "@/contexts/lang";
 
 export default function AccountLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const { isLoggedIn } = useAuthStore();
   const [showLogoutModal, setShowLogoutModal] = React.useState(false);
+  const { account: ta, header: th } = useLang();
+
+  const MENU_SECTIONS = [
+    {
+      title: ta.sectionManage,
+      items: [
+        { label: "SafeScreen Points",  icon: Gift,          href: "/account/points"                  },
+        { label: ta.allOrders,         icon: ClipboardList, href: "/account/orders"                  },
+        { label: th.wishlist,          icon: Heart,         href: "/account/wishlist"                },
+        { label: th.addresses,         icon: MapPin,        href: "/account/addresses"               },
+        { label: th.payments,          icon: Wallet,        href: "/account/payments"                },
+        { label: ta.taxInvoiceFull,    icon: FileText,      href: "/account/tax-invoice"             },
+        { label: ta.returns,           icon: RotateCcw,     href: "/account/orders?status=returning" },
+      ],
+    },
+    {
+      title: ta.sectionMore,
+      items: [
+        { label: th.privacy, icon: Shield, href: "/account/privacy" },
+      ],
+    },
+  ];
 
   const isPreferences = pathname === "/account/preferences";
   const isNotifications = pathname === "/account/notifications";
@@ -96,7 +97,7 @@ export default function AccountLayout({ children }: { children: React.ReactNode 
                   className="w-full flex items-center gap-3 px-4 py-4 text-sm text-[var(--km-error)] hover:bg-[var(--km-error)]/5 transition-all group"
                 >
                   <LogOut size={17} strokeWidth={1.5} className="group-hover:scale-110 transition-transform" />
-                  <span className="font-medium">ออกจากระบบ</span>
+                  <span className="font-medium">{ta.logout}</span>
                 </button>
               )}
             </div>
