@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, ShieldCheck, BadgeCheck, Sparkles } from "lucide-react";
 import { useLang } from "@/contexts/lang";
 import { useEffect, useRef, type ReactNode } from "react";
 import { FaInstagram, FaLine, FaTiktok } from "react-icons/fa6";
@@ -110,9 +110,9 @@ export default function AboutPage() {
   ];
 
   const whyCards = [
-    { icon: t.why1Icon, title: t.why1Title, body: t.why1Body },
-    { icon: t.why2Icon, title: t.why2Title, body: t.why2Body },
-    { icon: t.why3Icon, title: t.why3Title, body: t.why3Body },
+    { Icon: ShieldCheck, color: "#F5A600", title: t.why1Title, body: t.why1Body },
+    { Icon: BadgeCheck,  color: "#16A34A", title: t.why2Title, body: t.why2Body },
+    { Icon: Sparkles,    color: "#2563EB", title: t.why3Title, body: t.why3Body },
   ];
 
   const stats = [
@@ -168,7 +168,9 @@ export default function AboutPage() {
             {whyCards.map((c, i) => (
               <Reveal key={c.title} delay={i * 100}>
                 <div className="bg-white rounded-xl p-6 shadow-[var(--km-shadow-card)] h-full">
-                  <div className="text-3xl mb-4">{c.icon}</div>
+                  <div className="w-11 h-11 rounded-xl flex items-center justify-center mb-4" style={{ background: `${c.color}18` }}>
+                    <c.Icon size={22} style={{ color: c.color }} />
+                  </div>
                   <h3 className="text-sm font-bold tracking-wider text-[var(--km-text)] mb-3">{c.title}</h3>
                   <p className="text-sm text-[var(--km-text-secondary)] leading-relaxed">{c.body}</p>
                 </div>
