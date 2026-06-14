@@ -2,8 +2,8 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useRef, useEffect, useState } from "react";
-import { ChevronLeft, ChevronRight, Zap } from "lucide-react";
+import { useEffect, useState } from "react";
+import { CaretRight, Lightning } from "@phosphor-icons/react";
 import { FLASH_DEAL_PRODUCTS, type FlashDealProduct as DealProduct } from "@/lib/mock-data";
 
 const DEAL_PRODUCTS = FLASH_DEAL_PRODUCTS;
@@ -91,21 +91,6 @@ export function Colon() {
 
 export function FlashDeal() {
   const { status, days, hours, minutes, seconds } = useFlashSaleCountdown(DEAL_START, DEAL_END);
-  const scrollRef = useRef<HTMLDivElement>(null);
-
-  const scroll = (direction: "left" | "right") => {
-    if (scrollRef.current) {
-      const scrollAmount = 300;
-      const scrollTo = direction === "left" 
-        ? scrollRef.current.scrollLeft - scrollAmount 
-        : scrollRef.current.scrollLeft + scrollAmount;
-      
-      scrollRef.current.scrollTo({
-        left: scrollTo,
-        behavior: "smooth",
-      });
-    }
-  };
 
   return (
     <section className="pt-4 pb-4 bg-white">
@@ -113,69 +98,50 @@ export function FlashDeal() {
       <div className="max-w-7xl mx-auto px-4 md:px-6">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-2">
-            <Zap size={16} style={{ color: "#FFAC00", fill: "#FFAC00" }} />
+            <Lightning size={16} weight="fill" style={{ color: "#FFAC00" }} />
             <span className="text-[var(--km-text)] font-medium text-[18px] tracking-tight">Flash Sale</span>
           </div>
 
-          {/* Countdown & Navigation */}
-          <div className="flex items-center gap-2">
-            <div className="flex items-center gap-0.5">
-              <span className="text-[13px] font-normal text-[var(--km-text-secondary)]">
-                {status === "upcoming" ? "เริ่มใน" : status === "ended" ? "สิ้นสุดแล้ว" : "จบใน"}
-              </span>
-              <CountChip label={String(days).padStart(2, "0")} />
-              <Colon />
-              <CountChip label={String(hours).padStart(2, "0")} />
-              <Colon />
-              <CountChip label={String(minutes).padStart(2, "0")} />
-              <Colon />
-              <CountChip label={String(seconds).padStart(2, "0")} />
-            </div>
+          {/* Countdown */}
+          <div className="flex items-center gap-0.5">
+            <span className="text-[13px] font-normal text-[var(--km-text-secondary)] mr-1">
+              {status === "upcoming" ? "เริ่มใน" : status === "ended" ? "สิ้นสุดแล้ว" : "จบใน"}
+            </span>
+            <CountChip label={String(days).padStart(2, "0")} />
+            <Colon />
+            <CountChip label={String(hours).padStart(2, "0")} />
+            <Colon />
+            <CountChip label={String(minutes).padStart(2, "0")} />
+            <Colon />
+            <CountChip label={String(seconds).padStart(2, "0")} />
           </div>
         </div>
-
       </div>
 
-      {/* Product horizontal scroll — full viewport width, no clip */}
-      <div className="relative group/flash">
-        <div className="absolute inset-y-0 left-0 w-full pointer-events-none z-20">
-          <div className="relative h-full max-w-7xl mx-auto">
-          <button
-            onClick={() => scroll("left")}
-            className="hidden md:flex absolute left-0 top-1/2 -translate-y-1/2 -translate-x-1/2 pointer-events-auto w-12 h-12 bg-white rounded-full shadow-xl border border-[var(--km-border)] items-center justify-center text-[var(--km-text)] hover:bg-[var(--km-text)] hover:text-white transition-all opacity-0 group-hover/flash:opacity-100 group-hover/flash:translate-x-0"
-          >
-            <ChevronLeft size={24} />
-          </button>
-          <button
-            onClick={() => scroll("right")}
-            className="hidden md:flex absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2 pointer-events-auto w-12 h-12 bg-white rounded-full shadow-xl border border-[var(--km-border)] items-center justify-center text-[var(--km-text)] hover:bg-[var(--km-text)] hover:text-white transition-all opacity-0 group-hover/flash:opacity-100 group-hover/flash:translate-x-0"
-          >
-            <ChevronRight size={24} />
-          </button>
-          </div>
-        </div>
-
-        <div
-          ref={scrollRef}
-          className="overflow-x-auto scrollbar-none scroll-smooth"
-        >
-          <div className="flex gap-4 md:gap-5 w-max pb-4 px-4 md:px-[max(24px,calc((100vw-1280px)/2+24px))]">
-            {DEAL_PRODUCTS.map((p) => (
-              <div key={p.id} className="w-[160px] md:w-[220px] flex-shrink-0">
-                <DealCard product={p} />
-              </div>
-            ))}
-            <div className="w-[160px] md:w-[220px] flex-shrink-0 py-[1px]">
-              <Link
-                href="/campaign/flash-sale"
-                className="group flex flex-col items-center justify-center gap-3 p-3 bg-white rounded-[24px] transition-all h-full"
-              >
-                <div className="flex items-center justify-center text-[var(--km-text)] transition-all group-hover:scale-110">
-                  <ChevronRight size={40} strokeWidth={1} />
-                </div>
-                <span className="text-[14px] font-normal text-[var(--km-text)] text-center">ดู Flash Sale<br/>ทั้งหมด</span>
-              </Link>
+      {/* Product horizontal scroll with edge fade */}
+      <div
+        className="overflow-x-auto scrollbar-none scroll-smooth"
+        style={{
+          WebkitMaskImage: "linear-gradient(to right, transparent 0px, black max(24px, calc((100vw - 1280px) / 2 + 24px)), black calc(100% - max(24px, calc((100vw - 1280px) / 2 + 24px))), transparent 100%)",
+          maskImage: "linear-gradient(to right, transparent 0px, black max(24px, calc((100vw - 1280px) / 2 + 24px)), black calc(100% - max(24px, calc((100vw - 1280px) / 2 + 24px))), transparent 100%)",
+        }}
+      >
+        <div className="flex gap-4 md:gap-5 w-max pb-4 px-4 md:px-[max(24px,calc((100vw-1280px)/2+24px))]">
+          {DEAL_PRODUCTS.map((p) => (
+            <div key={p.id} className="w-[160px] md:w-[220px] flex-shrink-0">
+              <DealCard product={p} />
             </div>
+          ))}
+          <div className="w-[160px] md:w-[220px] flex-shrink-0 py-[1px]">
+            <Link
+              href="/campaign/flash-sale"
+              className="group flex flex-col items-center justify-center gap-3 p-3 bg-white rounded-[24px] transition-all h-full"
+            >
+              <div className="flex items-center justify-center text-[var(--km-text)] transition-all group-hover:scale-110">
+                <CaretRight size={40} weight="thin" />
+              </div>
+              <span className="text-[14px] font-normal text-[var(--km-text)] text-center">ดู Flash Sale<br/>ทั้งหมด</span>
+            </Link>
           </div>
         </div>
       </div>

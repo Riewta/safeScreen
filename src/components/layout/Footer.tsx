@@ -31,19 +31,12 @@ export function Footer() {
       { label: "AI Model Checker",    href: "/ai-checker" },
       { label: "Blog",                href: "/blog" },
     ],
-    [t.help]: [
-      { label: t.links.howToOrder, href: "/account/help" },
-      { label: t.links.shipping,   href: "/account/help" },
-      { label: t.links.returns,    href: "/privacy" },
-      { label: t.links.contactUs,  href: "/corporate" },
-      { label: t.links.privacy,    href: "/privacy" },
-    ],
   };
 
   return (
     <footer className="bg-white mt-auto border-t border-[var(--km-border)]">
       <div className="max-w-7xl mx-auto px-4 md:px-6 py-6 md:py-10">
-        <div className="flex flex-col-reverse md:grid md:grid-cols-[2fr_1fr_1fr_1fr] gap-4 md:gap-10">
+        <div className="flex flex-col-reverse md:grid md:grid-cols-[2fr_1fr_1fr] gap-4 md:gap-16">
           <div className="mt-4 md:mt-0">
             <Image src="/logo.png" alt="SafeScreen" width={120} height={32} className="h-7 w-auto mb-2" />
             <p className="text-sm text-[var(--km-text-secondary)] leading-relaxed mb-4 whitespace-pre-line">{t.tagline}</p>

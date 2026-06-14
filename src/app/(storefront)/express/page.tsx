@@ -16,70 +16,44 @@ export default function ExpressPage() {
 
   return (
     <div className="min-h-screen bg-[var(--km-surface-dark)] text-[var(--km-text-inverse)]">
-      {/* Hero */}
-      <div className="max-w-4xl mx-auto px-4 py-16 text-center">
-        <div className="inline-flex items-center gap-2 bg-white/10 rounded-full px-4 py-2 text-sm mb-6">
-          <Zap size={14} className="text-yellow-400" />
-          <span>{t.expressAvail}</span>
-        </div>
-        <h1 className="text-4xl md:text-5xl font-bold mb-4">Express Delivery</h1>
-        <p className="text-xl text-white/70 mb-8 whitespace-pre-line">
-          {t.expressSubtitle}
-        </p>
-        <Link
-          href="/products"
-          className="inline-flex items-center gap-2 bg-white text-black font-semibold px-8 py-4 rounded-full hover:bg-white/90 transition-colors text-lg"
-        >
-          <ShoppingBag size={20} />
-          Shop Express Now
-        </Link>
-      </div>
+      {/* Hero + How it works — side by side */}
+      <div className="max-w-5xl mx-auto px-8 md:px-16 py-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+          {/* Left: Hero */}
+          <div>
+            <div className="inline-flex items-center gap-2 bg-white/10 rounded-full px-4 py-2 text-sm mb-6">
+              <Zap size={14} className="text-yellow-400" />
+              <span>{t.expressAvail}</span>
+            </div>
+            <h1 className="text-4xl md:text-5xl font-bold mb-4">Express Delivery</h1>
+            <p className="text-xl text-white/70 mb-8 whitespace-pre-line">
+              {t.expressSubtitle}
+            </p>
+            <Link
+              href="/products"
+              className="inline-flex items-center gap-2 bg-white text-black font-semibold px-8 py-4 rounded-full hover:bg-white/90 transition-colors text-lg"
+            >
+              <ShoppingBag size={20} />
+              Shop Express Now
+            </Link>
+          </div>
 
-      {/* How it works */}
-      <div className="bg-white/5 border-t border-white/10">
-        <div className="max-w-4xl mx-auto px-4 py-12">
-          <h2 className="text-2xl font-bold text-center mb-10">{t.expressHowTitle}</h2>
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+          {/* Right: Steps */}
+          <div className="flex flex-col gap-5 md:pl-10">
             {steps.map((item) => (
-              <div key={item.step} className="text-center">
-                <div className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center mx-auto mb-3">
-                  <item.icon size={22} className="text-white" />
+              <div key={item.step} className="flex items-center gap-4">
+                <div className="w-11 h-11 rounded-full bg-white/10 flex items-center justify-center flex-shrink-0">
+                  <item.icon size={20} className="text-white" />
                 </div>
-                <div className="text-xs text-white/40 mb-1">Step {item.step}</div>
-                <div className="font-semibold mb-1">{item.title}</div>
-                <div className="text-sm text-white/60">{item.desc}</div>
+                <div>
+                  <div className="text-xs text-white/40 mb-0.5">Step {item.step}</div>
+                  <div className="font-semibold leading-tight">{item.title}</div>
+                  <div className="text-sm text-white/60">{item.desc}</div>
+                </div>
               </div>
             ))}
           </div>
         </div>
-      </div>
-
-      {/* Coverage areas */}
-      <div className="max-w-4xl mx-auto px-4 py-12">
-        <h2 className="text-2xl font-bold text-center mb-8">{t.expressCoverage}</h2>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-          {[
-            "สุขุมวิท",
-            "สีลม-สาทร",
-            "อโศก",
-            "พระราม 9",
-            "ลาดพร้าว",
-            "รัชดา",
-            "ดอนเมือง",
-            "พระราม 2",
-          ].map((area) => (
-            <div
-              key={area}
-              className="bg-white/10 rounded-xl px-4 py-3 text-center text-sm"
-            >
-              <MapPin size={14} className="inline mr-1 text-yellow-400" />
-              {area}
-            </div>
-          ))}
-        </div>
-        <p className="text-center text-white/50 text-sm mt-6">
-          *{t.expressCoverageDesc}
-        </p>
       </div>
 
       {/* Pricing highlights */}

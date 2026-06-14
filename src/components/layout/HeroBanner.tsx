@@ -122,15 +122,15 @@ export function HeroBanner({
   };
 
   return (
-    <div className="select-none w-full">
-    <div className="pb-[42%] md:pb-[22%]" style={{ position: "relative", overflow: "hidden" }}>
+    <div className="select-none overflow-hidden" suppressHydrationWarning>
+    <div className="pb-[100%] md:pb-[22%]" style={{ position: "relative", overflow: "hidden" }}>
       {/* Slides track */}
       <div
         style={{
           position: "absolute",
           inset: 0,
           display: "flex",
-          transform: `translateX(calc(-${index} * 100%))`,
+          transform: `translateX(${-index * 100}%)`,
           transition: animated ? "transform 0.7s cubic-bezier(0.32, 0.72, 0, 1)" : "none",
           willChange: "transform",
         }}

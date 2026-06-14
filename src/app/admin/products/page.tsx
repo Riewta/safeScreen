@@ -18,16 +18,16 @@ interface Product {
 const STORAGE_KEY = "safescreen-products";
 
 const SEED_PRODUCTS: Product[] = [
-  { id: "1",  name: "Magnetic Privacy Film — MacBook Air 13.3\" (M1/Retina)", brand: "SafeScreen", category: "magnetic-privacy", price: 1190, originalPrice: 1490, image: "/product/image.png", rating: 4.8, reviewCount: 124 },
-  { id: "2",  name: "Magnetic Privacy Film — MacBook Air 13.6\" (M2/M3/M4)", brand: "SafeScreen", category: "magnetic-privacy", price: 1290, originalPrice: 1590, image: "/product/image.png", rating: 4.9, reviewCount: 87  },
-  { id: "3",  name: "Magnetic Privacy Film — MacBook Pro 14.2\"",              brand: "SafeScreen", category: "magnetic-privacy", price: 1390, originalPrice: 1690, image: "/product/image.png", rating: 4.7, reviewCount: 63  },
-  { id: "4",  name: "Magnetic Privacy Film — MacBook Air 15.3\"",              brand: "SafeScreen", category: "magnetic-privacy", price: 1390, originalPrice: 1690, image: "/product/image.png", rating: 4.6, reviewCount: 41  },
-  { id: "5",  name: "Magnetic Privacy Film — Universal 13.3\" (16:9)",         brand: "SafeScreen", category: "magnetic-privacy", price: 890,  originalPrice: 1190, image: "/product/image.png", rating: 4.5, reviewCount: 29  },
-  { id: "6",  name: "Magnetic Privacy Film — Universal 15.6\" (16:9)",         brand: "SafeScreen", category: "magnetic-privacy", price: 990,  originalPrice: 1290, image: "/product/image.png", rating: 4.4, reviewCount: 17  },
-  { id: "7",  name: "Anti-Blue Light Film — MacBook Air 13.6\" M2/M3/M4",     brand: "SafeScreen", category: "anti-blue",        price: 1190, originalPrice: 1490, image: "/product/image.png", rating: 4.7, reviewCount: 55  },
-  { id: "8",  name: "Anti-Blue Light Film — Universal 14\" (16:10)",           brand: "SafeScreen", category: "anti-blue",        price: 890,  originalPrice: 1090, image: "/product/image.png", rating: 4.5, reviewCount: 38  },
-  { id: "9",  name: "Nano Privacy Film — MacBook Pro 14\"",                    brand: "SafeScreen", category: "nano",             price: 1490, originalPrice: 1890, image: "/product/image.png", rating: 4.9, reviewCount: 72  },
-  { id: "10", name: "Nano Privacy Film — Universal 16\" (16:10)",              brand: "SafeScreen", category: "nano",             price: 1190, originalPrice: 1490, image: "/product/image.png", rating: 4.6, reviewCount: 33  },
+  { id: "1",  name: "NanoSnap Privacy Screen — MacBook Air 13.3\" (M1/Retina)",      brand: "SafeScreen", category: "magnetic-privacy", price: 1290, originalPrice: 1590, image: "/products/nano-macbook/nano-macbook-air-13-3.jpg",  rating: 4.9, reviewCount: 1842 },
+  { id: "2",  name: "NanoSnap Privacy Screen — MacBook Air 13.6\" (M2/M3/M4)",       brand: "SafeScreen", category: "magnetic-privacy", price: 1390, originalPrice: 1690, image: "/products/nano-macbook/nano-macbook-air-13-6.jpg",  rating: 4.9, reviewCount: 2103 },
+  { id: "3",  name: "NanoSnap Privacy Screen — MacBook Air 15\" (M2/M3/M4/M5)",      brand: "SafeScreen", category: "magnetic-privacy", price: 1490, originalPrice: 1790, image: "/products/nano-macbook/nano-macbook-air-15.jpg",    rating: 4.8, reviewCount: 876  },
+  { id: "4",  name: "NanoSnap Privacy Screen — MacBook Pro 13.3\" (2019–2022)",      brand: "SafeScreen", category: "magnetic-privacy", price: 1290, originalPrice: 1590, image: "/products/nano-macbook/nano-macbook-pro-13-3.jpg", rating: 4.8, reviewCount: 654  },
+  { id: "5",  name: "NanoSnap Privacy Screen — MacBook Pro 14\" (M2/M3/M4/M5)",      brand: "SafeScreen", category: "magnetic-privacy", price: 1490, originalPrice: 1890, image: "/products/nano-macbook/nano-macbook-pro-14.jpg",   rating: 4.9, reviewCount: 987  },
+  { id: "6",  name: "NanoSnap Privacy Screen — MacBook Pro 16\" (M2/M3/M4/M5)",      brand: "SafeScreen", category: "magnetic-privacy", price: 1590, originalPrice: 1990, image: "/products/nano-macbook/nano-macbook-pro-16.jpg",   rating: 4.8, reviewCount: 521  },
+  { id: "7",  name: "NanoSnap Privacy Screen — Universal 13.3\" (16:9)",              brand: "SafeScreen", category: "magnetic-privacy", price: 990,  originalPrice: 1290, image: "/products/nano-universal/nano-universal-13-3.jpg", rating: 4.7, reviewCount: 3201 },
+  { id: "8",  name: "NanoSnap Privacy Screen — Universal 14\" (16:9)",                brand: "SafeScreen", category: "magnetic-privacy", price: 1090, originalPrice: 1390, image: "/products/nano-universal/nano-universal-14.jpg",   rating: 4.7, reviewCount: 1543 },
+  { id: "9",  name: "NanoSnap Privacy Screen — Universal 15.6\" (16:9)",              brand: "SafeScreen", category: "magnetic-privacy", price: 1090, originalPrice: 1390, image: "/products/nano-universal/nano-universal-15-6.jpg", rating: 4.7, reviewCount: 2109 },
+  { id: "10", name: "NanoSnap Privacy Screen — Universal 16\" (16:10)",               brand: "SafeScreen", category: "magnetic-privacy", price: 1190, originalPrice: 1490, image: "/products/nano-universal/nano-universal-16.jpg",   rating: 4.8, reviewCount: 598  },
 ];
 
 const CATEGORY_OPTIONS = [
@@ -49,7 +49,7 @@ const EMPTY_FORM: Omit<Product, "id" | "rating" | "reviewCount"> = {
   category: "magnetic-privacy",
   price: 0,
   originalPrice: undefined,
-  image: "/product/image.png",
+  image: "/products/nano-macbook/nano-macbook-air-13-6.jpg",
 };
 
 type SortKey = keyof Pick<Product, "name" | "brand" | "category" | "price" | "originalPrice">;
@@ -239,8 +239,7 @@ export default function AdminProductsPage() {
       {/* Header row */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
         <div>
-          <h1 className="text-xl font-bold text-gray-900">จัดการสินค้า</h1>
-          <p className="text-sm text-gray-500 mt-0.5">{products.length} รายการทั้งหมด</p>
+          <p className="text-sm text-gray-500">{products.length} รายการทั้งหมด</p>
         </div>
         <button
           onClick={openAdd}

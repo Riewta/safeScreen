@@ -4,7 +4,7 @@ import React, { useState, useEffect, useRef, useCallback, useMemo } from "react"
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { Heart, Star, Minus, Plus, ChevronRight, Check, Gift, X, ShoppingCart, Truck, ChevronLeft, Share2, MapPin, ChevronDown } from "lucide-react";
+import { Heart, Minus, Plus, CaretRight, Check, Gift, X, ShoppingCart, Truck, CaretLeft, ShareNetwork, MapPin, CaretDown } from "@phosphor-icons/react";
 import { ProductCard, type ProductCardProps } from "@/components/product/ProductCard";
 import { FLASH_DEAL_PRODUCTS, MOCK_REVIEWS } from "@/lib/mock-data";
 import { useCartStore, useCartSubtotal } from "@/stores/cart.store";
@@ -90,17 +90,10 @@ function FlashCountdown({ endsAt }: { endsAt: string }) {
 }
 
 /* ─── Mock extras ─── */
-const MOCK_IMAGES = [
-  "/product/image copy 2.png",
-  "/product/image copy 3.png",
-  "/product/image copy 4.png",
-  "/product/image copy 5.png",
-];
+const MOCK_IMAGES: string[] = [];
 
 const MOCK_VARIANTS = [
-  { label: "30 ml",  image: "/product/image copy 3.png",  stock: 12, price: 129, originalPrice: 189 },
-  { label: "50 ml",  image: "/product/image copy 7.png",  stock: 5,  price: 249, originalPrice: 349 },
-  { label: "100 ml", image: "/product/image copy 11.png", stock: 28, price: 399, originalPrice: 499 },
+  { label: "ชิ้นเดียว", image: "", stock: 50, price: 0, originalPrice: 0 },
 ];
 
 
@@ -128,23 +121,15 @@ type AccordionItem = {
 const MOCK_DETAIL_SECTIONS: AccordionItem[] = [
   {
     title: "รายละเอียดสินค้า",
-    content: "ผลิตภัณฑ์มอยส์เจอร์ไรเซอร์สูตรเข้มข้นที่ถูกคิดค้นมาเพื่อมอบความชุ่มชื้นยาวนานสูงสุดถึง 100 ชั่วโมง โดยใช้เทคโนโลยีล้ำสมัยที่ช่วยให้ผิวสามารถกักเก็บน้ำได้เองตามธรรมชาติอย่างมีประสิทธิภาพ เนื้อสัมผัสแบบเจลครีมบางเบาซึมซาบเข้าสู่ผิวได้อย่างรวดเร็วโดยไม่ทิ้งความเหนียวเหนอะหนะ เหมาะสำหรับการใช้งานในทุกสภาพอากาศไม่ว่าจะเป็นอากาศร้อนชื้นหรือในห้องแอร์ที่ทำให้ผิวขาดน้ำ ช่วยให้ผิวดูอิ่มน้ำ สดใส และมีสุขภาพดีอย่างต่อเนื่องตลอดทั้งวันและคืน",
+    content: "ฟิล์มกันรอยจอ SafeScreen ผลิตจากวัสดุ Nano-Ceramic เกรดพรีเมียม ที่ผ่านการออกแบบมาเฉพาะสำหรับหน้าจอแล็ปท็อป ให้ความคมชัดระดับ 99.9% ป้องกันรอยขีดข่วนจากการใช้งานประจำวัน พร้อมเทคโนโลยี Anti-Glare ลดแสงสะท้อนและลดความเมื่อยล้าของดวงตา รองรับการใช้งานยาวนานหน้าจอทั้งในสภาพแสงจ้าและห้องมืด เหมาะสำหรับผู้ที่ทำงานหน้าคอมพิวเตอร์เป็นเวลานาน",
   },
   {
-    title: "ส่วนผสมหลัก",
-    content: "ส่วนผสมอันทรงประสิทธิภาพที่คัดสรรมาเป็นพิเศษประกอบด้วยกรดไฮยาลูโรนิคเข้มข้นที่ช่วยดึงดูดโมเลกุลน้ำจากอากาศเข้าสู่ผิว ผสานพลังกับสารสกัดจากว่านหางจระเข้ที่ผ่านกระบวนการหมักแบบเฉพาะตัวเพื่อเพิ่มประสิทธิภาพในการปลอบประโลมผิวที่อ่อนล้า นอกจากนี้ยังมีส่วนผสมของคาเฟอีนคอมเพล็กซ์ที่ช่วยกระตุ้นการไหลเวียนและปลุกผิวให้ตื่นตัวดูมีชีวิตชีวา ลดอาการบวมและรอยหมองคล้ำบนใบหน้าเพื่อให้ผิวดูเปล่งปลั่งกระจ่างใสจากภายในสู่ภายนอก",
+    title: "คุณสมบัติเด่น",
+    content: "วัสดุ Nano-Ceramic ความแข็งระดับ 9H ทนต่อรอยขีดข่วน · เทคโนโลยี Anti-Glare ลดแสงสะท้อน 95% · ฟิล์มบาง 0.15 มม. ไม่กระทบความไวหน้าจอ · ระบบ Easy-Snap ติดง่าย ไม่เหลือฟองอากาศ · เคลือบ Anti-Fingerprint กันรอยนิ้วมือ · ผ่านมาตรฐาน RoHS ปลอดสารพิษ",
   },
   {
-    title: "ส่วนผสมทั้งหมด",
-    content: "น้ำบริสุทธิ์ กลีเซอรีน สารสกัดจากใบว่านหางจระเข้ โซเดียมไฮยาลูโรเนต คาเฟอีน สารสกัดจากชาเขียว วิตามินอี ไนอะซินาไมด์ แพนทีนอล สารสกัดจากแตงกวา สารสกัดจากดอกคาโมมายล์ สารช่วยกักเก็บความชุ่มชื้นธรรมชาติ แซนแทนกัม ฟีโนซีเอทานอล เอทิลเฮกซิลกลีเซอรีน สารปรับสภาพผิวที่อ่อนโยนและปลอดภัยต่อผิวแพ้ง่าย ปราศจากพาราเบน แอลกอฮอล์ และน้ำหอมสังเคราะห์ที่อาจก่อให้เกิดการระคายเคือง",
-  },
-  {
-    title: "วิธีใช้",
-    content: "เพื่อผลลัพธ์ที่ดีที่สุดควรใช้เป็นขั้นตอนสุดท้ายของการดูแลผิวในช่วงเช้าและก่อนนอน โดยตักเนื้อผลิตภัณฑ์ในปริมาณที่พอเหมาะแล้วค่อยๆ แต้มลงบนใบหน้าและลำคอที่ทำความสะอาดเรียบร้อยแล้ว จากนั้นใช้นิ้วมือนวดวนเป็นวงกลมเบาๆ เพื่อให้เนื้อเจลซึมซาบลงสู่ชั้นผิวได้อย่างล้ำลึก สามารถใช้เติมความชุ่มชื้นระหว่างวันได้ตามต้องการ หรือจะใช้พอกหน้าเป็นมาส์กก่อนนอนในวันที่รู้สึกว่าผิวแห้งกร้านเป็นพิเศษก็ได้เช่นกัน",
-  },
-  {
-    title: "ข้อควรระวัง",
-    content: "หลีกเลี่ยงการสัมผัสกับดวงตาโดยตรงหากผลิตภัณฑ์เข้าตาให้ล้างออกด้วยน้ำสะอาดทันที ในกรณีที่มีอาการแพ้ ผื่นแดง หรือการระคายเคืองอย่างรุนแรงควรหยุดใช้ผลิตภัณฑ์และปรึกษาแพทย์ผู้เชี่ยวชาญด้านผิวหนังทันที ควรเก็บผลิตภัณฑ์ไว้ในที่แห้งและเย็น หลีกเลี่ยงการวางไว้ในที่ที่แสงแดดส่องถึงโดยตรงหรือที่มีอุณหภูมิสูงเกินไปเพื่อรักษาคุณภาพและประสิทธิภาพของส่วนผสมสำคัญให้คงอยู่ได้ยาวนานที่สุด",
+    title: "วิธีติดตั้ง",
+    content: "1. ทำความสะอาดหน้าจอด้วยผ้าไมโครไฟเบอร์ที่ให้มาในกล่อง จนไม่มีฝุ่นหรือคราบใดๆ 2. ลอกฟิล์มป้องกันชั้นแรกออก แล้ววางฟิล์มให้ตรงกับหน้าจอโดยใช้รูมุมเป็นจุดอ้างอิง 3. ค่อยๆ ปิดฟิล์มจากด้านบนลงล่าง ใช้การ์ดพลาสติกไล่ฟองอากาศออกจากกลางไปขอบ 4. ลอกฟิล์มป้องกันชั้นนอกออกเป็นอันเสร็จสิ้น",
   },
 ];
 
@@ -169,7 +154,7 @@ function Accordion({ items }: { items: AccordionItem[] }) {
               className="flex items-center justify-between w-full py-4 text-left"
             >
               <span className="text-sm font-medium text-[var(--km-text)]">{item.title}</span>
-              <ChevronRight
+              <CaretRight
                 size={15}
                 className="text-[var(--km-text-muted)] shrink-0 transition-transform duration-200"
                 style={{ transform: isOpen ? "rotate(90deg)" : "rotate(0deg)" }}
@@ -266,7 +251,7 @@ function GallerySection({ images }: { images: string[] }) {
               className="flex items-center gap-1.5 px-4 py-2 rounded-full bg-white border border-[var(--km-border)] text-sm font-medium text-[var(--km-text)] hover:bg-[var(--km-surface)] transition-colors"
             >
               {expanded ? "ย่อกลับ" : "ดูเพิ่มเติม"}
-              <ChevronRight size={13} className={`transition-transform duration-300 ${expanded ? "-rotate-90" : "rotate-90"}`} />
+              <CaretRight size={13} className={`transition-transform duration-300 ${expanded ? "-rotate-90" : "rotate-90"}`} />
             </button>
           </div>
         )}
@@ -392,7 +377,7 @@ function ShippingSheet({ open, onClose, onSelect }: { open: boolean; onClose: ()
           {/* ── VIEW: address list ── */}
           <div className={`w-full shrink-0 flex flex-col ${view === "address" ? "h-auto" : "h-0 overflow-hidden"}`}>
             <div className="flex items-center gap-2 px-4 py-4 shrink-0 border-b border-[var(--km-border)]">
-              <button onClick={() => changeView("shipping")} className="w-8 h-8 flex items-center justify-center text-[var(--km-text-muted)]"><ChevronLeft size={20} /></button>
+              <button onClick={() => changeView("shipping")} className="w-8 h-8 flex items-center justify-center text-[var(--km-text-muted)]"><CaretLeft size={20} /></button>
               <h2 className="text-base font-medium text-[var(--km-text)]">เลือกที่อยู่จัดส่ง</h2>
             </div>
             <div className="overflow-y-auto" style={{ maxHeight: "calc(90vh - 120px)", overscrollBehavior: "contain" }}>
@@ -414,7 +399,7 @@ function ShippingSheet({ open, onClose, onSelect }: { open: boolean; onClose: ()
                         <p className="text-[13px] text-[var(--km-text-secondary)] leading-relaxed">{addr.address}, {addr.district}, {addr.province} {addr.postalCode}</p>
                       </div>
                       <div className="w-5 flex items-center justify-center shrink-0 mt-0.5">
-                        {isSel && <Check size={15} strokeWidth={2.5} style={{ color: "var(--km-success)" }} />}
+                        {isSel && <Check size={15} weight="bold" style={{ color: "var(--km-success)" }} />}
                       </div>
                     </button>
                     <div className="h-px bg-[var(--km-border)] mx-4" />
@@ -433,7 +418,7 @@ function ShippingSheet({ open, onClose, onSelect }: { open: boolean; onClose: ()
           {/* ── VIEW: address form ── */}
           <div className={`w-full shrink-0 flex flex-col ${view === "addressForm" ? "h-auto" : "h-0 overflow-hidden"}`}>
             <div className="flex items-center gap-2 px-4 py-4 shrink-0 border-b border-[var(--km-border)]">
-              <button onClick={() => changeView("address")} className="w-8 h-8 flex items-center justify-center text-[var(--km-text-muted)]"><ChevronLeft size={20} /></button>
+              <button onClick={() => changeView("address")} className="w-8 h-8 flex items-center justify-center text-[var(--km-text-muted)]"><CaretLeft size={20} /></button>
               <h2 className="text-base font-medium text-[var(--km-text)]">เพิ่มที่อยู่ใหม่</h2>
             </div>
             <div className="overflow-y-auto px-4 py-4 flex flex-col gap-3" style={{ maxHeight: "calc(90dvh - 120px)", overscrollBehavior: "contain" }}>
@@ -629,7 +614,7 @@ function ProductSheet({
       productId:     product.id,
       name:          product.name,
       brand:         product.brand,
-      image:         activeVariant.image,
+      image:         product.image,
       price:         variantPrice,
       originalPrice: variantOriginal,
       variant,
@@ -652,8 +637,8 @@ function ProductSheet({
   if (!mounted) return null;
 
   const isBuy  = mode === "buy";
-  const variantPrice = activeVariant.price;
-  const variantOriginal = activeVariant.originalPrice;
+  const variantPrice = activeVariant.price > 0 ? activeVariant.price : product.price;
+  const variantOriginal = activeVariant.originalPrice > 0 ? activeVariant.originalPrice : product.originalPrice;
   const discount = variantOriginal
     ? Math.round((1 - variantPrice / variantOriginal) * 100)
     : null;
@@ -694,7 +679,7 @@ function ProductSheet({
           {/* Product summary */}
           <div className="flex gap-3 mb-5">
             <div className="relative w-[120px] h-[120px] rounded-md overflow-hidden flex-shrink-0 bg-[var(--km-surface)]">
-              <Image src={activeVariant.image} alt={product.name} fill sizes="120px" className="object-cover" />
+              <Image src={product.image} alt={product.name} fill sizes="120px" className="object-cover" />
             </div>
             <div className="flex-1 min-w-0 flex flex-col justify-center gap-1">
               <p className="text-[14px] font-semibold tracking-widest uppercase text-[var(--km-text-secondary)]">{product.brand}</p>
@@ -844,7 +829,7 @@ function ProductSheet({
                     <p className="text-[11px] font-normal text-[#e05275] mt-0.5">{promoSubtitle}</p>
                   </div>
                 </div>
-                <ChevronRight size={14} className="text-[#e05275] shrink-0 animate-translate-x" />
+                <CaretRight size={14} className="text-[#e05275] shrink-0 animate-translate-x" />
               </div>
             );
           })()}
@@ -876,7 +861,7 @@ function ProductSheet({
           {/* Header */}
           <div className="flex items-center gap-2 px-4 py-4 shrink-0">
             <button onClick={() => goTo("main")} className="w-8 h-8 flex items-center justify-center text-[var(--km-text-muted)] hover:text-[var(--km-text)] transition-colors">
-              <ChevronLeft size={20} />
+              <CaretLeft size={20} />
             </button>
             <h2 className="text-base font-medium text-[var(--km-text)]">ข้อมูลการจัดส่ง</h2>
           </div>
@@ -908,7 +893,7 @@ function ProductSheet({
                   </div>
                 )}
               </div>
-              <ChevronRight size={13} className="shrink-0 mt-0.5 text-[var(--km-text-muted)]" />
+              <CaretRight size={13} className="shrink-0 mt-0.5 text-[var(--km-text-muted)]" />
             </button>
           </div>
 
@@ -941,7 +926,7 @@ function ProductSheet({
                         )}
                       </div>
                       <div className="w-5 flex items-center justify-center">
-                        {isSelected && <Check size={16} strokeWidth={2.5} style={{ color: "var(--km-success)" }} />}
+                        {isSelected && <Check size={16} weight="bold" style={{ color: "var(--km-success)" }} />}
                       </div>
                     </div>
                   </button>
@@ -956,7 +941,7 @@ function ProductSheet({
         <div className={`w-full shrink-0 flex flex-col max-h-[80dvh] md:max-h-[85dvh] ${sheetView === "address" ? "h-auto" : "h-0 overflow-hidden"}`}>
           <div className="flex items-center gap-2 px-4 py-4 shrink-0 border-b border-[var(--km-border)]">
             <button onClick={() => goTo("shipping")} className="w-8 h-8 flex items-center justify-center text-[var(--km-text-muted)] hover:text-[var(--km-text)] transition-colors">
-              <ChevronLeft size={20} />
+              <CaretLeft size={20} />
             </button>
             <h2 className="text-base font-medium text-[var(--km-text)]">เลือกที่อยู่จัดส่ง</h2>
           </div>
@@ -979,7 +964,7 @@ function ProductSheet({
                       <p className="text-[13px] text-[var(--km-text-secondary)] leading-relaxed">{addr.address}, {addr.district}, {addr.province} {addr.postalCode}</p>
                     </div>
                     <div className="w-5 flex items-center justify-center shrink-0 mt-0.5">
-                      {isSel && <Check size={15} strokeWidth={2.5} style={{ color: "var(--km-success)" }} />}
+                      {isSel && <Check size={15} weight="bold" style={{ color: "var(--km-success)" }} />}
                     </div>
                   </button>
                   <div className="h-px bg-[var(--km-border)] mx-4" />
@@ -1000,7 +985,7 @@ function ProductSheet({
         <div className={`w-full shrink-0 flex flex-col max-h-[80dvh] md:max-h-[85dvh] ${sheetView === "addressForm" ? "h-auto" : "h-0 overflow-hidden"}`}>
           <div className="flex items-center gap-2 px-4 py-4 shrink-0 border-b border-[var(--km-border)]">
             <button onClick={() => goTo("address")} className="w-8 h-8 flex items-center justify-center text-[var(--km-text-muted)] hover:text-[var(--km-text)] transition-colors">
-              <ChevronLeft size={20} />
+              <CaretLeft size={20} />
             </button>
             <h2 className="text-base font-medium text-[var(--km-text)]">เพิ่มที่อยู่ใหม่</h2>
           </div>
@@ -1311,13 +1296,13 @@ function LightboxCarousel({
             onClick={() => move(-1)}
             className="absolute left-4 top-1/2 -translate-y-1/2 w-11 h-11 flex items-center justify-center rounded-full bg-white/40 hover:bg-white/90 backdrop-blur-md transition-all border border-white/20 shadow-md group active:scale-95"
           >
-            <ChevronLeft size={24} className="text-[var(--km-text)] transition-transform group-hover:-translate-x-0.5" />
+            <CaretLeft size={24} className="text-[var(--km-text)] transition-transform group-hover:-translate-x-0.5" />
           </button>
           <button
             onClick={() => move(1)}
             className="absolute right-4 top-1/2 -translate-y-1/2 w-11 h-11 flex items-center justify-center rounded-full bg-white/40 hover:bg-white/90 backdrop-blur-md transition-all border border-white/20 shadow-md group active:scale-95"
           >
-            <ChevronRight size={24} className="text-[var(--km-text)] transition-transform group-hover:translate-x-0.5" />
+            <CaretRight size={24} className="text-[var(--km-text)] transition-transform group-hover:translate-x-0.5" />
           </button>
         </>
       )}
@@ -1375,14 +1360,9 @@ export function PDPClient({ product, related }: Props) {
   const [shippingOpen, setShippingOpen]   = useState(false);
   const [selectedShipping, setSelectedShipping] = useState(MOCK_SHIPPING[0].carrier);
   const activeShipping = MOCK_SHIPPING.find((s) => s.carrier === selectedShipping) ?? MOCK_SHIPPING[0];
-  const [selectedVariant, setSelectedVariant] = useState(MOCK_VARIANTS[1].label);
-  const pdpVariant = MOCK_VARIANTS.find((v) => v.label === selectedVariant) ?? MOCK_VARIANTS[1];
-  const images = isGift
-    ? [product.image]
-    : [
-        ...MOCK_IMAGES.filter((i) => !MOCK_VARIANTS.some((v) => v.image === i)),
-        ...MOCK_VARIANTS.map((v) => v.image),
-      ].slice(0, 6);
+  const [selectedVariant, setSelectedVariant] = useState(MOCK_VARIANTS[0].label);
+  const pdpVariant = MOCK_VARIANTS.find((v) => v.label === selectedVariant) ?? MOCK_VARIANTS[0];
+  const images = [product.image];
 
   const [visibleRelatedCount, setVisibleRelatedCount] = useState(10);
 
@@ -1503,9 +1483,9 @@ export function PDPClient({ product, related }: Props) {
         <div className="max-w-7xl mx-auto px-6 py-3">
           <nav className="text-xs text-[var(--km-text-muted)] flex items-center gap-1.5">
             <Link href="/" className="hover:text-[var(--km-text)] transition-colors">หน้าแรก</Link>
-            <ChevronRight size={10} />
+            <CaretRight size={10} />
             <Link href="/products" className="hover:text-[var(--km-text)] transition-colors">สินค้าทั้งหมด</Link>
-            <ChevronRight size={10} />
+            <CaretRight size={10} />
             <span className="text-[var(--km-text)] line-clamp-1">{product.name}</span>
           </nav>
         </div>
@@ -1556,13 +1536,13 @@ export function PDPClient({ product, related }: Props) {
                       onClick={(e) => { e.stopPropagation(); setActiveImg((activeImg - 1 + images.length) % images.length); }}
                       className="absolute left-3 top-1/2 -translate-y-1/2 z-10 w-9 h-9 rounded-full bg-white/80 backdrop-blur-sm flex items-center justify-center hover:bg-white transition-all opacity-0 group-hover:opacity-100 shadow-sm"
                     >
-                      <ChevronLeft size={16} className="text-[var(--km-text)]" />
+                      <CaretLeft size={16} className="text-[var(--km-text)]" />
                     </button>
                     <button
                       onClick={(e) => { e.stopPropagation(); setActiveImg((activeImg + 1) % images.length); }}
                       className="absolute right-3 top-1/2 -translate-y-1/2 z-10 w-9 h-9 rounded-full bg-white/80 backdrop-blur-sm flex items-center justify-center hover:bg-white transition-all opacity-0 group-hover:opacity-100 shadow-sm"
                     >
-                      <ChevronRight size={16} className="text-[var(--km-text)]" />
+                      <CaretRight size={16} className="text-[var(--km-text)]" />
                     </button>
                   </>
                 )}
@@ -1595,7 +1575,7 @@ export function PDPClient({ product, related }: Props) {
                   <span className="text-[16px] font-medium tracking-wide uppercase text-[var(--km-text)] group-hover:text-[var(--km-text-secondary)] transition-colors leading-tight">
                     {product.brand}
                   </span>
-                  <ChevronRight size={16} className="text-[var(--km-text-muted)] group-hover:text-[var(--km-text-secondary)] transition-colors" />
+                  <CaretRight size={16} className="text-[var(--km-text-muted)] group-hover:text-[var(--km-text-secondary)] transition-colors" />
                 </Link>
                 <h1 className="text-[14px] font-normal text-[var(--km-text-secondary)] leading-snug">
                   {product.name}
@@ -1620,7 +1600,7 @@ export function PDPClient({ product, related }: Props) {
                   className="p-2 text-[var(--km-text-muted)] hover:text-[var(--km-text)] transition-colors"
                   aria-label="Share product"
                 >
-                  <Share2 size={18} strokeWidth={1.5} />
+                  <ShareNetwork size={18} />
                 </button>
 
 
@@ -1635,11 +1615,8 @@ export function PDPClient({ product, related }: Props) {
                 >
                   <Heart
                     size={22}
-                    strokeWidth={1.5}
-                    style={{ 
-                      color: wishlisted ? "#E57373" : "inherit", 
-                      fill: wishlisted ? "#E57373" : "none" 
-                    }}
+                    weight={wishlisted ? "fill" : "regular"}
+                    style={{ color: wishlisted ? "#E57373" : "inherit" }}
                   />
                 </button>
               </div>
@@ -1665,15 +1642,15 @@ export function PDPClient({ product, related }: Props) {
             <div className="flex items-center justify-between">
               <div className="flex items-baseline gap-2">
                 <span className="text-[18px] font-medium text-[var(--km-text)]">
-                  {isGift ? <span className="text-[var(--km-success)]">ฟรี</span> : `฿${pdpVariant.price.toLocaleString()}`}
+                  {isGift ? <span className="text-[var(--km-success)]">ฟรี</span> : `฿${(pdpVariant.price || product.price).toLocaleString()}`}
                 </span>
-                {!isGift && pdpVariant.originalPrice && (
+                {!isGift && (pdpVariant.originalPrice || product.originalPrice) && (
                   <>
                     <span className="text-[13px] text-[var(--km-text-muted)] line-through">
-                      ฿{pdpVariant.originalPrice.toLocaleString()}
+                      ฿{(pdpVariant.originalPrice || product.originalPrice)!.toLocaleString()}
                     </span>
                     <span className="text-xs font-medium text-[var(--km-text-secondary)]">
-                      -{Math.round((1 - pdpVariant.price / pdpVariant.originalPrice) * 100)}%
+                      -{Math.round((1 - (pdpVariant.price || product.price) / (pdpVariant.originalPrice || product.originalPrice)!) * 100)}%
                     </span>
                   </>
                 )}
@@ -1733,11 +1710,11 @@ export function PDPClient({ product, related }: Props) {
                         onClick={() => setActivePromoCampaignId(campaign.id)}
                         className="flex items-center gap-2.5 w-full text-left hover:opacity-70 transition-opacity"
                       >
-                        <Gift size={14} className="text-[var(--km-text-muted)] shrink-0" strokeWidth={2} />
+                        <Gift size={14} className="text-[var(--km-text-muted)] shrink-0" />
                         <div className="flex-1 min-w-0">
                           <span className="text-[13px] font-medium text-[var(--km-text)] block">{campaign.title}</span>
                         </div>
-                        <ChevronRight size={14} className="text-[var(--km-text-muted)] shrink-0" />
+                        <CaretRight size={14} className="text-[var(--km-text-muted)] shrink-0" />
                       </button>
                     </div>
                   ))}
@@ -1791,7 +1768,7 @@ export function PDPClient({ product, related }: Props) {
                     : <p className="text-[13px] font-medium text-[var(--km-text)]">฿{activeShipping.fee}</p>
                   }
                 </div>
-                <ChevronRight size={14} className="text-[var(--km-text-muted)] shrink-0" />
+                <CaretRight size={14} className="text-[var(--km-text-muted)] shrink-0" />
               </button>
             </div>
           </div>
@@ -1801,22 +1778,8 @@ export function PDPClient({ product, related }: Props) {
       {/* ── Inline Sections ── */}
       <div className="max-w-7xl mx-auto px-4 md:px-6">
         <section id="detail" ref={setSectionRef("detail")} className="pt-4 pb-4">
-          <div className="hidden md:block max-w-4xl mx-auto">
-            <Accordion items={MOCK_DETAIL_SECTIONS} />
-          </div>
-          <div className="md:hidden">
-            <Accordion items={MOCK_DETAIL_SECTIONS} />
-          </div>
+          <Accordion items={MOCK_DETAIL_SECTIONS} />
         </section>
-
-        {/* ── Gallery Section ── */}
-        <GallerySection images={[
-          "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=800&q=80",
-          "https://images.unsplash.com/photo-1556228578-0d85b1a4d571?w=800&q=80",
-          "https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?w=800&q=80",
-          "https://images.unsplash.com/photo-1571781926291-c477ebfd024b?w=800&q=80",
-        ]} />
-
 
         {/* ── สินค้าที่เคยดู (Recently Viewed) ── */}
         {recentlyViewed.length > 0 && (
@@ -1832,7 +1795,7 @@ export function PDPClient({ product, related }: Props) {
                   className="hidden md:flex absolute left-4 top-1/2 -translate-y-1/2 -translate-x-1/2 pointer-events-auto w-12 h-12 bg-white rounded-full shadow-xl border border-[var(--km-border)] items-center justify-center text-[var(--km-text)] hover:bg-[var(--km-text)] hover:text-white transition-all opacity-0 group-hover/scroll-viewed:opacity-100 group-hover/scroll-viewed:translate-x-0"
                   aria-label="Previous products"
                 >
-                  <ChevronLeft size={24} />
+                  <CaretLeft size={24} />
                 </button>
                 
                 <button 
@@ -1840,7 +1803,7 @@ export function PDPClient({ product, related }: Props) {
                   className="hidden md:flex absolute right-4 top-1/2 -translate-y-1/2 translate-x-1/2 pointer-events-auto w-12 h-12 bg-white rounded-full shadow-xl border border-[var(--km-border)] items-center justify-center text-[var(--km-text)] hover:bg-[var(--km-text)] hover:text-white transition-all opacity-0 group-hover/scroll-viewed:opacity-100 group-hover/scroll-viewed:translate-x-0"
                   aria-label="Next products"
                 >
-                  <ChevronRight size={24} />
+                  <CaretRight size={24} />
                 </button>
               </div>
 
@@ -1897,7 +1860,7 @@ export function PDPClient({ product, related }: Props) {
                   className="flex items-center gap-2.5 px-8 py-3 rounded-full border border-[var(--km-border-strong)] text-sm font-medium text-[var(--km-text)] hover:bg-[var(--km-surface)] transition-all active:scale-95"
                 >
                   ดูเพิ่มเติม
-                  <ChevronDown size={15} />
+                  <CaretDown size={15} />
                 </button>
               </div>
             )}
@@ -1935,8 +1898,8 @@ export function PDPClient({ product, related }: Props) {
               >
                 <Heart
                   size={22}
-                  strokeWidth={1.5}
-                  style={{ color: wishlisted ? "#E57373" : "var(--km-text)", fill: wishlisted ? "#E57373" : "none" }}
+                  weight={wishlisted ? "fill" : "regular"}
+                  style={{ color: wishlisted ? "#E57373" : "var(--km-text)" }}
                 />
               </button>
 
@@ -1945,7 +1908,7 @@ export function PDPClient({ product, related }: Props) {
                 onClick={() => setSheetMode("cart")}
                 className="w-12 h-12 flex-shrink-0 flex items-center justify-center transition-colors"
               >
-                <ShoppingCart size={22} strokeWidth={1.5} className="text-[var(--km-text)]" />
+                <ShoppingCart size={22} className="text-[var(--km-text)]" />
               </button>
 
               {/* Buy now — full width */}

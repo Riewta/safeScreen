@@ -3,7 +3,6 @@ import { Header } from "@/components/layout/Header";
 import { HeaderSpacer } from "@/components/layout/HeaderSpacer";
 import { Footer } from "@/components/layout/Footer";
 import { BottomNav } from "@/components/layout/BottomNav";
-import { LiveChat } from "@/components/layout/LiveChat";
 import { SearchOverlay } from "@/components/layout/SearchOverlay";
 import { CheckoutSlideWrapper } from "@/components/layout/CheckoutSlideWrapper";
 import { CookieBanner } from "@/components/layout/CookieBanner";
@@ -32,7 +31,6 @@ export default async function StorefrontLayout({ children }: { children: React.R
       <BrandAccentStrip />
       <Footer />
       <BottomNav />
-      <LiveChat />
       <SearchOverlay />
       <CookieBanner />
       <CartDrawer />

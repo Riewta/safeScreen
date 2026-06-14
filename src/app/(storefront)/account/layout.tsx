@@ -5,7 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
   ClipboardList, Heart, MapPin, Wallet, Gift,
-  Shield, HelpCircle, LogOut, FileText, RotateCcw
+  Shield, LogOut, FileText, RotateCcw
 } from "lucide-react";
 import { useAuthStore } from "@/stores/auth.store";
 import { LogoutConfirmModal } from "@/components/account/LogoutConfirmModal";
@@ -28,7 +28,6 @@ const MENU_SECTIONS = [
     title: "เมนูเพิ่มเติม",
     items: [
       { label: "ความเป็นส่วนตัว",           icon: Shield,        href: "/account/privacy"                  },
-      { label: "ช่วยเหลือ / ติดต่อ",        icon: HelpCircle,    href: "/account/help"                     },
     ],
   },
 ];

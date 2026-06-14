@@ -106,6 +106,30 @@ export interface Translations {
     corpDeliveryTitle: string;
     corpDeliveryDesc: string;
 
+    // Corporate quotation form
+    corpFormTitle: string;
+    corpFormSubtitle: string;
+    corpFormCompany: string;
+    corpFormCompanyPH: string;
+    corpFormContact: string;
+    corpFormContactPH: string;
+    corpFormEmail: string;
+    corpFormPhone: string;
+    corpFormDevice: string;
+    corpFormDevicePH: string;
+    corpFormQty: string;
+    corpFormQtyPH: string;
+    corpFormFilm: string;
+    corpFormFilmPH: string;
+    corpFormNotes: string;
+    corpFormNotesPH: string;
+    corpFormSubmit: string;
+    corpFormPrivacy: string;
+    corpFormSuccess: string;
+    corpFormSuccessDesc: string;
+    corpFormSuccessEmail: string;
+    corpFormResubmit: string;
+
     // AI Checker page
     aiSubtitle: string;
     aiStepDevice: string;
@@ -298,6 +322,28 @@ const translations: Record<LangCode, Translations> = {
       corpInvoiceDesc: "ออกเอกสารครบถ้วนสำหรับบัญชีองค์กร รองรับการเบิกค่าใช้จ่าย",
       corpDeliveryTitle: "จัดส่งถึงออฟฟิศ",
       corpDeliveryDesc: "จัดส่งฟรีสำหรับ 20+ ชิ้น ทั่วกรุงเทพฯ และปริมณฑล",
+      corpFormTitle: "ขอใบเสนอราคา",
+      corpFormSubtitle: "กรอกข้อมูลด้านล่าง ทีม B2B จะติดต่อกลับภายใน 1 วันทำการ",
+      corpFormCompany: "ชื่อบริษัท",
+      corpFormCompanyPH: "บริษัท ABC จำกัด",
+      corpFormContact: "ชื่อผู้ติดต่อ",
+      corpFormContactPH: "คุณสมชาย ใจดี",
+      corpFormEmail: "อีเมล",
+      corpFormPhone: "เบอร์โทรศัพท์",
+      corpFormDevice: "ประเภทอุปกรณ์",
+      corpFormDevicePH: "-- เลือกประเภท --",
+      corpFormQty: "จำนวน (ชิ้น)",
+      corpFormQtyPH: "ขั้นต่ำ 5 ชิ้น",
+      corpFormFilm: "ประเภทฟิล์ม",
+      corpFormFilmPH: "-- เลือกประเภทฟิล์ม --",
+      corpFormNotes: "รายละเอียดเพิ่มเติม",
+      corpFormNotesPH: "เช่น รุ่นของ MacBook ที่ใช้ในองค์กร, ต้องการติดตั้งเองหรือให้ทีมงานติดตั้ง, วันที่ต้องการรับสินค้า ฯลฯ",
+      corpFormSubmit: "ส่งใบเสนอราคา",
+      corpFormPrivacy: "ข้อมูลของคุณจะถูกเก็บเป็นความลับ ใช้เพื่อการติดต่อทางธุรกิจเท่านั้น",
+      corpFormSuccess: "ส่งใบเสนอราคาเรียบร้อยแล้ว!",
+      corpFormSuccessDesc: "ทีม B2B ของเราจะติดต่อกลับภายใน 1 วันทำการ",
+      corpFormSuccessEmail: "อีเมล:",
+      corpFormResubmit: "ส่งใบเสนอราคาใหม่",
       aiSubtitle: "เลือกอุปกรณ์ ขนาดหน้าจอ และประเภทฟิล์ม — เราจะแนะนำสินค้าที่เหมาะสมให้คุณ",
       aiStepDevice: "อุปกรณ์",
       aiStepSize: "ขนาดหน้าจอ",
@@ -482,6 +528,28 @@ const translations: Record<LangCode, Translations> = {
       corpInvoiceDesc: "Full documentation for corporate accounts, expense-claim ready",
       corpDeliveryTitle: "Office Delivery",
       corpDeliveryDesc: "Free delivery for 20+ units across Bangkok and vicinity",
+      corpFormTitle: "Request a Quotation",
+      corpFormSubtitle: "Fill in the details below. Our B2B team will follow up within 1 business day.",
+      corpFormCompany: "Company Name",
+      corpFormCompanyPH: "ABC Co., Ltd.",
+      corpFormContact: "Contact Person",
+      corpFormContactPH: "John Smith",
+      corpFormEmail: "Email",
+      corpFormPhone: "Phone Number",
+      corpFormDevice: "Device Type",
+      corpFormDevicePH: "-- Select type --",
+      corpFormQty: "Quantity (units)",
+      corpFormQtyPH: "Minimum 5 units",
+      corpFormFilm: "Film Type",
+      corpFormFilmPH: "-- Select film type --",
+      corpFormNotes: "Additional Details",
+      corpFormNotesPH: "e.g. MacBook models used in your organization, self-install or staff install, preferred delivery date, etc.",
+      corpFormSubmit: "Submit Quotation",
+      corpFormPrivacy: "Your information is kept confidential and used only for business contact purposes.",
+      corpFormSuccess: "Quotation Submitted!",
+      corpFormSuccessDesc: "Our B2B team will contact you within 1 business day.",
+      corpFormSuccessEmail: "Email:",
+      corpFormResubmit: "Submit Another Quotation",
       aiSubtitle: "Select device, screen size, and film type — we'll recommend the right product for you",
       aiStepDevice: "Device",
       aiStepSize: "Screen Size",
