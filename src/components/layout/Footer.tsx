@@ -47,7 +47,12 @@ export function Footer() {
           ))}
         </div>
         <div className="mt-4 pt-4 border-t border-[var(--km-border)]/20 flex flex-wrap items-center justify-between gap-x-6 gap-y-2 text-[13px] text-[var(--km-text-muted)]">
-          <p>© 2026 SafeScreen Tech Co., Ltd.</p>
+          <div className="flex items-center gap-4">
+            <p>© 2026 SafeScreen Tech Co., Ltd.</p>
+            <a href="https://www.dbd.go.th" target="_blank" rel="noopener noreferrer">
+              <Image src="/dbd-logo.png" alt="DBD – Department of Business Development" width={56} height={56} className="h-12 w-auto opacity-80 hover:opacity-100 transition-opacity" />
+            </a>
+          </div>
           <div className="flex flex-wrap gap-x-6 gap-y-1">
             <Link href="/privacy" className="hover:text-[var(--km-text)] transition-colors">Privacy Policy</Link>
             <Link href="/terms" className="hover:text-[var(--km-text)] transition-colors">Terms of Service</Link>
