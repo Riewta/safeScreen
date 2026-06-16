@@ -5,14 +5,16 @@ import { useOrdersStore } from "./orders.store";
 import { useWishlistStore } from "./wishlist.store";
 
 interface AuthStore {
-  isLoggedIn: boolean;
-  email:      string;
-  name:       string;
-  login:      (email: string, name?: string) => void;
-  logout:     () => void;
+  isLoggedIn:   boolean;
+  email:        string;
+  name:         string;
+  accessToken:  string | null;
+  refreshToken: string | null;
+  login:        (email: string, name?: string) => void;
+  logout:       () => void;
+  setTokens:    (tokens: { accessToken: string; refreshToken: string }) => void;
 }
 
-// Mock profile ที่จะ populate เมื่อ login
 export const MOCK_LOGGED_IN_PROFILE = {
   name:   "ธนิดา โอวาท",
   email:  "thanida@example.com",
@@ -24,28 +26,30 @@ export const MOCK_LOGGED_IN_PROFILE = {
 export const useAuthStore = create<AuthStore>()(
   persist(
     (set) => ({
-      isLoggedIn: false,
-      email:      "",
-      name:       "",
+      isLoggedIn:   false,
+      email:        "",
+      name:         "",
+      accessToken:  null,
+      refreshToken: null,
+
+      setTokens: ({ accessToken, refreshToken }) => {
+        set({ accessToken, refreshToken });
+      },
 
       login: (email, name) => {
         set({ isLoggedIn: true, email, name: name ?? email.split("@")[0] });
-        // Populate user profile with mock data on login
         useUserStore.getState().updateProfile({
           ...MOCK_LOGGED_IN_PROFILE,
           email,
           name: name ?? MOCK_LOGGED_IN_PROFILE.name,
         });
-        // Seed mock orders if empty
         useOrdersStore.getState().seedIfEmpty();
-        // Auto-add pending wishlist item (กรณีกดหัวใจตอนยังไม่ได้ login)
         const pendingId = useWishlistStore.getState().consumePending();
         if (pendingId) useWishlistStore.getState().toggle(pendingId);
       },
 
       logout: () => {
-        set({ isLoggedIn: false, email: "", name: "" });
-        // Reset profile to guest state
+        set({ isLoggedIn: false, email: "", name: "", accessToken: null, refreshToken: null });
         useUserStore.getState().updateProfile({
           name:   "",
           email:  "",
@@ -53,7 +57,6 @@ export const useAuthStore = create<AuthStore>()(
           avatar: null,
           points: 0,
         });
-        // Clear orders
         useOrdersStore.getState().clearOrders();
       },
     }),

@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Noto_Sans_Thai, Montserrat } from "next/font/google";
+import { QueryProvider } from "@/providers/query-provider";
 import "./globals.css";
 
 const notoSansThai = Noto_Sans_Thai({
@@ -42,7 +43,7 @@ export default function RootLayout({
   return (
     <html lang="th" className={`${notoSansThai.variable} ${montserrat.variable} ${notoSansThai.className}`}>
       <body className="min-h-dvh flex flex-col antialiased">
-        {children}
+        <QueryProvider>{children}</QueryProvider>
       </body>
     </html>
   );

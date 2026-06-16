@@ -3,11 +3,14 @@
 import { useState, useEffect, useMemo } from "react";
 import { Plus, Pencil, Trash2, Search, X, Check, AlertTriangle, ToggleLeft, ToggleRight, Tag, Megaphone } from "lucide-react";
 import { ImageUploadField } from "@/components/admin/ImageUploadField";
+import { AdminPagination } from "@/components/admin/AdminPagination";
+
+const PAGE_SIZE = 10;
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
-type CampaignType = "campaign" | "promotion";
-type DiscountType = "none" | "percentage" | "fixed" | "buy1get1" | "free-gift";
+type CampaignType   = "campaign" | "promotion";
+type DiscountType   = "none" | "percentage" | "fixed" | "buy1get1" | "free-gift";
 type CampaignStatus = "active" | "inactive" | "scheduled" | "ended";
 
 interface Campaign {
@@ -18,8 +21,8 @@ interface Campaign {
   hero: string;
   type: CampaignType;
   discountType: DiscountType;
-  discountValue: number;       // % or ฿ depending on discountType
-  startDate: string;           // ISO date string YYYY-MM-DD
+  discountValue: number;
+  startDate: string;
   endDate: string;
   status: CampaignStatus;
   createdAt: string;
@@ -170,34 +173,30 @@ function TypeBadge({ type }: { type: CampaignType }) {
 }
 
 function DiscountLabel({ type, value }: { type: DiscountType; value: number }) {
-  const opt = DISCOUNT_OPTIONS.find((d) => d.value === type);
-  if (!opt) return <span className="text-[var(--km-text-muted)]">—</span>;
-  if (type === "none") return <span className="text-[var(--km-text-muted)]">—</span>;
-  if (type === "buy1get1") return <span className="text-orange-600 font-medium">1+1</span>;
-  if (type === "free-gift") return <span className="text-green-600 font-medium">ครบ ฿{value.toLocaleString()}</span>;
+  if (type === "none")       return <span className="text-[var(--km-text-muted)]">—</span>;
+  if (type === "buy1get1")   return <span className="text-orange-600 font-medium">1+1</span>;
+  if (type === "free-gift")  return <span className="text-green-600 font-medium">ครบ ฿{value.toLocaleString()}</span>;
   if (type === "percentage") return <span className="text-red-600 font-medium">-{value}%</span>;
-  if (type === "fixed") return <span className="text-red-600 font-medium">-฿{value.toLocaleString()}</span>;
+  if (type === "fixed")      return <span className="text-red-600 font-medium">-฿{value.toLocaleString()}</span>;
   return null;
 }
 
 // ── Modal ─────────────────────────────────────────────────────────────────────
 
 interface ModalProps {
-  form: Omit<Campaign, "id" | "createdAt">;
+  form:    Omit<Campaign, "id" | "createdAt">;
   setForm: React.Dispatch<React.SetStateAction<Omit<Campaign, "id" | "createdAt">>>;
-  onSave: () => void;
+  onSave:  () => void;
   onClose: () => void;
-  isEdit: boolean;
-  error: string;
+  isEdit:  boolean;
+  error:   string;
 }
 
 function CampaignModal({ form, setForm, onSave, onClose, isEdit, error }: ModalProps) {
   const discountOpt = DISCOUNT_OPTIONS.find((d) => d.value === form.discountType);
-
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40">
       <div className="bg-white rounded-xl shadow-2xl w-full max-w-2xl max-h-[90vh] flex flex-col">
-        {/* Header */}
         <div className="flex items-center justify-between px-6 py-4 border-b border-[var(--km-border)]">
           <h2 className="text-base font-semibold text-[var(--km-text)]">
             {isEdit ? "แก้ไขแคมเปญ / โปรโมชัน" : "เพิ่มแคมเปญ / โปรโมชัน"}
@@ -206,11 +205,7 @@ function CampaignModal({ form, setForm, onSave, onClose, isEdit, error }: ModalP
             <X size={20} />
           </button>
         </div>
-
-        {/* Body */}
         <div className="overflow-y-auto flex-1 px-6 py-5 space-y-5">
-
-          {/* Type */}
           <div>
             <label className="block text-xs font-medium text-[var(--km-text-muted)] mb-1.5">ประเภท</label>
             <div className="flex gap-2">
@@ -218,19 +213,13 @@ function CampaignModal({ form, setForm, onSave, onClose, isEdit, error }: ModalP
                 <button
                   key={t.value}
                   onClick={() => setForm((f) => ({ ...f, type: t.value }))}
-                  className={`flex-1 py-2 rounded-lg border text-sm font-medium transition-all ${
-                    form.type === t.value
-                      ? "border-[#F5A600] bg-[#F5A600] text-black font-semibold"
-                      : "border-[var(--km-border)] text-[var(--km-text-secondary)] hover:border-[var(--km-border-strong)]"
-                  }`}
+                  className={`flex-1 py-2 rounded-lg border text-sm font-medium transition-all ${form.type === t.value ? "border-[#F5A600] bg-[#F5A600] text-black font-semibold" : "border-[var(--km-border)] text-[var(--km-text-secondary)] hover:border-[var(--km-border-strong)]"}`}
                 >
                   {t.label}
                 </button>
               ))}
             </div>
           </div>
-
-          {/* Slug + Title row */}
           <div className="grid grid-cols-2 gap-4">
             <div>
               <label className="block text-xs font-medium text-[var(--km-text-muted)] mb-1.5">Slug (URL path)</label>
@@ -249,14 +238,10 @@ function CampaignModal({ form, setForm, onSave, onClose, isEdit, error }: ModalP
                 onChange={(e) => setForm((f) => ({ ...f, status: e.target.value as CampaignStatus }))}
                 className="w-full h-9 px-3 rounded-lg border border-[var(--km-border)] text-sm focus:outline-none focus:border-[var(--km-border-strong)] bg-white"
               >
-                {STATUS_OPTIONS.map((s) => (
-                  <option key={s.value} value={s.value}>{s.label}</option>
-                ))}
+                {STATUS_OPTIONS.map((s) => <option key={s.value} value={s.value}>{s.label}</option>)}
               </select>
             </div>
           </div>
-
-          {/* Title */}
           <div>
             <label className="block text-xs font-medium text-[var(--km-text-muted)] mb-1.5">ชื่อแคมเปญ</label>
             <input
@@ -266,8 +251,6 @@ function CampaignModal({ form, setForm, onSave, onClose, isEdit, error }: ModalP
               className="w-full h-9 px-3 rounded-lg border border-[var(--km-border)] text-sm focus:outline-none focus:border-[var(--km-border-strong)]"
             />
           </div>
-
-          {/* Description */}
           <div>
             <label className="block text-xs font-medium text-[var(--km-text-muted)] mb-1.5">คำอธิบาย</label>
             <textarea
@@ -278,15 +261,7 @@ function CampaignModal({ form, setForm, onSave, onClose, isEdit, error }: ModalP
               className="w-full px-3 py-2 rounded-lg border border-[var(--km-border)] text-sm focus:outline-none focus:border-[var(--km-border-strong)] resize-none"
             />
           </div>
-
-          {/* Hero image */}
-          <ImageUploadField
-            value={form.hero}
-            onChange={(v) => setForm((f) => ({ ...f, hero: v }))}
-            label="Hero Image"
-          />
-
-          {/* Discount */}
+          <ImageUploadField value={form.hero} onChange={(v) => setForm((f) => ({ ...f, hero: v }))} label="Hero Image" />
           <div>
             <label className="block text-xs font-medium text-[var(--km-text-muted)] mb-1.5">ประเภทส่วนลด</label>
             <div className="flex gap-3 items-start">
@@ -295,15 +270,12 @@ function CampaignModal({ form, setForm, onSave, onClose, isEdit, error }: ModalP
                 onChange={(e) => setForm((f) => ({ ...f, discountType: e.target.value as DiscountType, discountValue: 0 }))}
                 className="flex-1 h-9 px-3 rounded-lg border border-[var(--km-border)] text-sm focus:outline-none focus:border-[var(--km-border-strong)] bg-white"
               >
-                {DISCOUNT_OPTIONS.map((d) => (
-                  <option key={d.value} value={d.value}>{d.label}</option>
-                ))}
+                {DISCOUNT_OPTIONS.map((d) => <option key={d.value} value={d.value}>{d.label}</option>)}
               </select>
               {discountOpt?.hasValue && (
                 <div className="flex items-center gap-1">
                   <input
-                    type="number"
-                    min={0}
+                    type="number" min={0}
                     value={form.discountValue || ""}
                     onChange={(e) => setForm((f) => ({ ...f, discountValue: Number(e.target.value) }))}
                     placeholder="0"
@@ -314,49 +286,27 @@ function CampaignModal({ form, setForm, onSave, onClose, isEdit, error }: ModalP
               )}
             </div>
           </div>
-
-          {/* Dates */}
           <div className="grid grid-cols-2 gap-4">
             <div>
               <label className="block text-xs font-medium text-[var(--km-text-muted)] mb-1.5">วันเริ่มต้น</label>
-              <input
-                type="date"
-                value={form.startDate}
-                onChange={(e) => setForm((f) => ({ ...f, startDate: e.target.value }))}
-                className="w-full h-9 px-3 rounded-lg border border-[var(--km-border)] text-sm focus:outline-none focus:border-[var(--km-border-strong)]"
-              />
+              <input type="date" value={form.startDate} onChange={(e) => setForm((f) => ({ ...f, startDate: e.target.value }))} className="w-full h-9 px-3 rounded-lg border border-[var(--km-border)] text-sm focus:outline-none focus:border-[var(--km-border-strong)]" />
             </div>
             <div>
               <label className="block text-xs font-medium text-[var(--km-text-muted)] mb-1.5">วันสิ้นสุด</label>
-              <input
-                type="date"
-                value={form.endDate}
-                onChange={(e) => setForm((f) => ({ ...f, endDate: e.target.value }))}
-                className="w-full h-9 px-3 rounded-lg border border-[var(--km-border)] text-sm focus:outline-none focus:border-[var(--km-border-strong)]"
-              />
+              <input type="date" value={form.endDate} onChange={(e) => setForm((f) => ({ ...f, endDate: e.target.value }))} className="w-full h-9 px-3 rounded-lg border border-[var(--km-border)] text-sm focus:outline-none focus:border-[var(--km-border-strong)]" />
             </div>
           </div>
-
           {error && (
             <div className="flex items-center gap-2 p-3 bg-red-50 rounded-lg text-sm text-red-600">
-              <AlertTriangle size={16} className="shrink-0" />
-              {error}
+              <AlertTriangle size={16} className="shrink-0" /> {error}
             </div>
           )}
         </div>
-
-        {/* Footer */}
         <div className="flex items-center justify-end gap-3 px-6 py-4 border-t border-[var(--km-border)]">
-          <button
-            onClick={onClose}
-            className="px-4 py-2 text-sm text-[var(--km-text-secondary)] hover:text-[var(--km-text)] transition-colors"
-          >
+          <button onClick={onClose} className="px-4 py-2 text-sm text-[var(--km-text-secondary)] hover:text-[var(--km-text)] transition-colors">
             ยกเลิก
           </button>
-          <button
-            onClick={onSave}
-            className="px-5 py-2 rounded-lg bg-[#F5A600] text-black text-sm font-semibold hover:opacity-90 transition-colors flex items-center gap-2"
-          >
+          <button onClick={onSave} className="px-5 py-2 rounded-lg bg-[#F5A600] text-black text-sm font-semibold hover:opacity-90 transition-colors flex items-center gap-2">
             <Check size={15} />
             {isEdit ? "บันทึกการแก้ไข" : "เพิ่มแคมเปญ"}
           </button>
@@ -369,65 +319,54 @@ function CampaignModal({ form, setForm, onSave, onClose, isEdit, error }: ModalP
 // ── Main Page ─────────────────────────────────────────────────────────────────
 
 export default function AdminCampaignsPage() {
-  const [campaigns, setCampaigns]   = useState<Campaign[]>([]);
-  const [loaded, setLoaded]         = useState(false);
-  const [search, setSearch]         = useState("");
-  const [filterType, setFilterType] = useState<"all" | CampaignType>("all");
+  const [campaigns, setCampaigns]       = useState<Campaign[]>([]);
+  const [loaded, setLoaded]             = useState(false);
+  const [search, setSearch]             = useState("");
+  const [filterType, setFilterType]     = useState<"all" | CampaignType>("all");
   const [filterStatus, setFilterStatus] = useState<"all" | CampaignStatus>("all");
-  const [modalOpen, setModalOpen]   = useState(false);
-  const [editId, setEditId]         = useState<string | null>(null);
-  const [form, setForm]             = useState<Omit<Campaign, "id" | "createdAt">>(EMPTY_FORM);
-  const [formError, setFormError]   = useState("");
-  const [deleteId, setDeleteId]     = useState<string | null>(null);
+  const [page, setPage]                 = useState(1);
+  const [modalOpen, setModalOpen]       = useState(false);
+  const [editId, setEditId]             = useState<string | null>(null);
+  const [form, setForm]                 = useState<Omit<Campaign, "id" | "createdAt">>(EMPTY_FORM);
+  const [formError, setFormError]       = useState("");
+  const [deleteId, setDeleteId]         = useState<string | null>(null);
 
-  // Load from localStorage
-  useEffect(() => {
-    setCampaigns(loadCampaigns());
-    setLoaded(true);
-  }, []);
+  useEffect(() => { setCampaigns(loadCampaigns()); setLoaded(true); }, []);
+  useEffect(() => { if (loaded) saveCampaigns(campaigns); }, [campaigns, loaded]);
 
-  // Persist
-  useEffect(() => {
-    if (loaded) saveCampaigns(campaigns);
-  }, [campaigns, loaded]);
+  // Reset page when filters change
+  useEffect(() => { setPage(1); }, [search, filterType, filterStatus]);
 
-  // Filter + search
-  const filtered = useMemo(() => {
-    return campaigns.filter((c) => {
+  const filtered = useMemo(() =>
+    campaigns.filter((c) => {
       const q = search.toLowerCase();
-      const matchSearch = !q || c.title.toLowerCase().includes(q) || c.slug.includes(q);
-      const matchType   = filterType === "all" || c.type === filterType;
-      const matchStatus = filterStatus === "all" || c.status === filterStatus;
-      return matchSearch && matchType && matchStatus;
-    });
-  }, [campaigns, search, filterType, filterStatus]);
+      return (
+        (!q || c.title.toLowerCase().includes(q) || c.slug.includes(q)) &&
+        (filterType   === "all" || c.type   === filterType) &&
+        (filterStatus === "all" || c.status === filterStatus)
+      );
+    }),
+    [campaigns, search, filterType, filterStatus]
+  );
 
-  // Stats
   const stats = useMemo(() => ({
     total:     campaigns.length,
     active:    campaigns.filter((c) => c.status === "active").length,
-    campaign:  campaigns.filter((c) => c.type === "campaign").length,
-    promotion: campaigns.filter((c) => c.type === "promotion").length,
+    campaign:  campaigns.filter((c) => c.type   === "campaign").length,
+    promotion: campaigns.filter((c) => c.type   === "promotion").length,
   }), [campaigns]);
 
-  // ── Handlers ──────────────────────────────────────────────────────────────
+  const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
+  const pageItems  = filtered.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
 
   function openAdd() {
-    setEditId(null);
-    setForm(EMPTY_FORM);
-    setFormError("");
-    setModalOpen(true);
+    setEditId(null); setForm(EMPTY_FORM); setFormError(""); setModalOpen(true);
   }
 
   function openEdit(c: Campaign) {
     setEditId(c.id);
-    setForm({
-      slug: c.slug, title: c.title, description: c.description, hero: c.hero,
-      type: c.type, discountType: c.discountType, discountValue: c.discountValue,
-      startDate: c.startDate, endDate: c.endDate, status: c.status,
-    });
-    setFormError("");
-    setModalOpen(true);
+    setForm({ slug: c.slug, title: c.title, description: c.description, hero: c.hero, type: c.type, discountType: c.discountType, discountValue: c.discountValue, startDate: c.startDate, endDate: c.endDate, status: c.status });
+    setFormError(""); setModalOpen(true);
   }
 
   function validateForm(): string {
@@ -435,7 +374,6 @@ export default function AdminCampaignsPage() {
     if (!form.title.trim()) return "กรุณากรอกชื่อแคมเปญ";
     if (!form.hero.trim())  return "กรุณากรอก Hero Image Path";
     if (form.startDate > form.endDate) return "วันเริ่มต้นต้องน้อยกว่าหรือเท่ากับวันสิ้นสุด";
-    // Slug unique check
     const conflict = campaigns.find((c) => c.slug === form.slug.trim() && c.id !== editId);
     if (conflict) return `Slug "${form.slug}" ซ้ำกับแคมเปญอื่น`;
     return "";
@@ -444,18 +382,10 @@ export default function AdminCampaignsPage() {
   function handleSave() {
     const err = validateForm();
     if (err) { setFormError(err); return; }
-
     if (editId) {
-      setCampaigns((prev) =>
-        prev.map((c) => c.id === editId ? { ...c, ...form } : c)
-      );
+      setCampaigns((prev) => prev.map((c) => c.id === editId ? { ...c, ...form } : c));
     } else {
-      const newItem: Campaign = {
-        id: Date.now().toString(),
-        createdAt: new Date().toISOString().split("T")[0],
-        ...form,
-      };
-      setCampaigns((prev) => [newItem, ...prev]);
+      setCampaigns((prev) => [{ id: Date.now().toString(), createdAt: new Date().toISOString().split("T")[0], ...form }, ...prev]);
     }
     setModalOpen(false);
   }
@@ -466,20 +396,10 @@ export default function AdminCampaignsPage() {
   }
 
   function toggleStatus(id: string) {
-    setCampaigns((prev) =>
-      prev.map((c) =>
-        c.id === id
-          ? { ...c, status: c.status === "active" ? "inactive" : "active" }
-          : c
-      )
-    );
+    setCampaigns((prev) => prev.map((c) => c.id === id ? { ...c, status: c.status === "active" ? "inactive" : "active" } : c));
   }
 
-  if (!loaded) {
-    return (
-      <div className="p-8 text-center text-[var(--km-text-muted)] text-sm">กำลังโหลด...</div>
-    );
-  }
+  if (!loaded) return <div className="p-8 text-center text-[var(--km-text-muted)] text-sm">กำลังโหลด...</div>;
 
   return (
     <div className="p-6 max-w-7xl mx-auto">
@@ -490,22 +410,18 @@ export default function AdminCampaignsPage() {
           <h1 className="text-xl font-bold text-[var(--km-text)]">Campaigns & Promotions</h1>
           <p className="text-sm text-[var(--km-text-muted)] mt-0.5">จัดการแคมเปญและโปรโมชันทั้งหมด</p>
         </div>
-        <button
-          onClick={openAdd}
-          className="flex items-center gap-2 px-4 py-2 bg-[#F5A600] text-black rounded-lg text-sm font-semibold hover:opacity-90 transition-colors"
-        >
-          <Plus size={16} />
-          เพิ่มแคมเปญ
+        <button onClick={openAdd} className="flex items-center gap-2 px-4 py-2 bg-[#F5A600] text-black rounded-lg text-sm font-semibold hover:opacity-90 transition-colors">
+          <Plus size={16} /> เพิ่มแคมเปญ
         </button>
       </div>
 
       {/* Stats */}
       <div className="grid grid-cols-4 gap-4 mb-6">
         {[
-          { label: "ทั้งหมด",   value: stats.total,     color: "text-[var(--km-text)]" },
-          { label: "Active",    value: stats.active,    color: "text-green-600" },
-          { label: "แคมเปญ",    value: stats.campaign,  color: "text-purple-600" },
-          { label: "โปรโมชัน",  value: stats.promotion, color: "text-orange-600" },
+          { label: "ทั้งหมด",  value: stats.total,     color: "text-[var(--km-text)]" },
+          { label: "Active",   value: stats.active,    color: "text-green-600" },
+          { label: "แคมเปญ",   value: stats.campaign,  color: "text-purple-600" },
+          { label: "โปรโมชัน", value: stats.promotion, color: "text-orange-600" },
         ].map((s) => (
           <div key={s.label} className="bg-white rounded-xl border border-[var(--km-border)] p-4">
             <p className="text-xs text-[var(--km-text-muted)] mb-1">{s.label}</p>
@@ -530,31 +446,16 @@ export default function AdminCampaignsPage() {
             </button>
           )}
         </div>
-
-        <select
-          value={filterType}
-          onChange={(e) => setFilterType(e.target.value as typeof filterType)}
-          className="h-9 px-3 rounded-lg border border-[var(--km-border)] text-sm focus:outline-none focus:border-[var(--km-border-strong)] bg-white"
-        >
+        <select value={filterType} onChange={(e) => setFilterType(e.target.value as typeof filterType)} className="h-9 px-3 rounded-lg border border-[var(--km-border)] text-sm focus:outline-none focus:border-[var(--km-border-strong)] bg-white">
           <option value="all">ทุกประเภท</option>
           <option value="campaign">แคมเปญ</option>
           <option value="promotion">โปรโมชัน</option>
         </select>
-
-        <select
-          value={filterStatus}
-          onChange={(e) => setFilterStatus(e.target.value as typeof filterStatus)}
-          className="h-9 px-3 rounded-lg border border-[var(--km-border)] text-sm focus:outline-none focus:border-[var(--km-border-strong)] bg-white"
-        >
+        <select value={filterStatus} onChange={(e) => setFilterStatus(e.target.value as typeof filterStatus)} className="h-9 px-3 rounded-lg border border-[var(--km-border)] text-sm focus:outline-none focus:border-[var(--km-border-strong)] bg-white">
           <option value="all">ทุกสถานะ</option>
-          {STATUS_OPTIONS.map((s) => (
-            <option key={s.value} value={s.value}>{s.label}</option>
-          ))}
+          {STATUS_OPTIONS.map((s) => <option key={s.value} value={s.value}>{s.label}</option>)}
         </select>
-
-        <span className="text-sm text-[var(--km-text-muted)] ml-auto">
-          {filtered.length} รายการ
-        </span>
+        <span className="text-sm text-[var(--km-text-muted)] ml-auto">{filtered.length} รายการ</span>
       </div>
 
       {/* Table */}
@@ -572,56 +473,35 @@ export default function AdminCampaignsPage() {
             </tr>
           </thead>
           <tbody>
-            {filtered.length === 0 && (
+            {pageItems.length === 0 && (
               <tr>
-                <td colSpan={7} className="text-center py-12 text-[var(--km-text-muted)] text-sm">
-                  ไม่พบแคมเปญ
-                </td>
+                <td colSpan={7} className="text-center py-12 text-[var(--km-text-muted)] text-sm">ไม่พบแคมเปญ</td>
               </tr>
             )}
-            {filtered.map((c) => (
+            {pageItems.map((c) => (
               <tr key={c.id} className="border-b border-[var(--km-border)] hover:bg-[var(--km-surface)] transition-colors">
                 <td className="px-4 py-3">
                   <p className="font-medium text-[var(--km-text)] truncate max-w-[180px]" title={c.title}>{c.title}</p>
                   <p className="text-xs text-[var(--km-text-muted)] font-mono mt-0.5">{c.slug}</p>
                 </td>
-                <td className="px-4 py-3">
-                  <TypeBadge type={c.type} />
-                </td>
-                <td className="px-4 py-3">
-                  <DiscountLabel type={c.discountType} value={c.discountValue} />
-                </td>
+                <td className="px-4 py-3"><TypeBadge type={c.type} /></td>
+                <td className="px-4 py-3"><DiscountLabel type={c.discountType} value={c.discountValue} /></td>
                 <td className="px-4 py-3">
                   <p className="text-xs text-[var(--km-text-secondary)]">{c.startDate}</p>
                   <p className="text-xs text-[var(--km-text-muted)]">→ {c.endDate}</p>
                 </td>
+                <td className="px-4 py-3"><StatusBadge status={c.status} /></td>
                 <td className="px-4 py-3">
-                  <StatusBadge status={c.status} />
-                </td>
-                <td className="px-4 py-3">
-                  <button
-                    onClick={() => toggleStatus(c.id)}
-                    title={c.status === "active" ? "คลิกเพื่อ Deactivate" : "คลิกเพื่อ Activate"}
-                    className="text-[var(--km-text-muted)] hover:text-[var(--km-text-secondary)] transition-colors"
-                  >
-                    {c.status === "active"
-                      ? <ToggleRight size={22} className="text-green-500" />
-                      : <ToggleLeft size={22} />
-                    }
+                  <button onClick={() => toggleStatus(c.id)} title={c.status === "active" ? "คลิกเพื่อ Deactivate" : "คลิกเพื่อ Activate"} className="text-[var(--km-text-muted)] hover:text-[var(--km-text-secondary)] transition-colors">
+                    {c.status === "active" ? <ToggleRight size={22} className="text-green-500" /> : <ToggleLeft size={22} />}
                   </button>
                 </td>
                 <td className="px-4 py-3 text-right">
                   <div className="flex items-center justify-end gap-1">
-                    <button
-                      onClick={() => openEdit(c)}
-                      className="p-1.5 rounded text-[var(--km-text-muted)] hover:text-[var(--km-text-secondary)] hover:bg-[var(--km-surface)] transition-all"
-                    >
+                    <button onClick={() => openEdit(c)} className="p-1.5 rounded text-[var(--km-text-muted)] hover:text-[var(--km-text-secondary)] hover:bg-[var(--km-surface)] transition-all">
                       <Pencil size={14} />
                     </button>
-                    <button
-                      onClick={() => setDeleteId(c.id)}
-                      className="p-1.5 rounded text-[var(--km-text-muted)] hover:text-red-600 hover:bg-red-50 transition-all"
-                    >
+                    <button onClick={() => setDeleteId(c.id)} className="p-1.5 rounded text-[var(--km-text-muted)] hover:text-red-600 hover:bg-red-50 transition-all">
                       <Trash2 size={14} />
                     </button>
                   </div>
@@ -632,17 +512,16 @@ export default function AdminCampaignsPage() {
         </table>
       </div>
 
+      <AdminPagination
+        page={page}
+        totalPages={totalPages}
+        totalItems={filtered.length}
+        pageSize={PAGE_SIZE}
+        onChange={setPage}
+      />
+
       {/* Modal */}
-      {modalOpen && (
-        <CampaignModal
-          form={form}
-          setForm={setForm}
-          onSave={handleSave}
-          onClose={() => setModalOpen(false)}
-          isEdit={!!editId}
-          error={formError}
-        />
-      )}
+      {modalOpen && <CampaignModal form={form} setForm={setForm} onSave={handleSave} onClose={() => setModalOpen(false)} isEdit={!!editId} error={formError} />}
 
       {/* Delete confirm */}
       {deleteId && (
@@ -654,22 +533,14 @@ export default function AdminCampaignsPage() {
               </div>
               <div>
                 <p className="font-semibold text-[var(--km-text)]">ลบแคมเปญนี้?</p>
-                <p className="text-sm text-[var(--km-text-muted)] mt-0.5">
-                  {campaigns.find((c) => c.id === deleteId)?.title}
-                </p>
+                <p className="text-sm text-[var(--km-text-muted)] mt-0.5">{campaigns.find((c) => c.id === deleteId)?.title}</p>
               </div>
             </div>
             <div className="flex gap-3">
-              <button
-                onClick={() => setDeleteId(null)}
-                className="flex-1 py-2 rounded-lg border border-[var(--km-border)] text-sm text-[var(--km-text-secondary)] hover:bg-[var(--km-surface)] transition-colors"
-              >
+              <button onClick={() => setDeleteId(null)} className="flex-1 py-2 rounded-lg border border-[var(--km-border)] text-sm text-[var(--km-text-secondary)] hover:bg-[var(--km-surface)] transition-colors">
                 ยกเลิก
               </button>
-              <button
-                onClick={() => handleDelete(deleteId)}
-                className="flex-1 py-2 rounded-lg bg-red-600 text-white text-sm font-medium hover:bg-red-700 transition-colors"
-              >
+              <button onClick={() => handleDelete(deleteId)} className="flex-1 py-2 rounded-lg bg-red-600 text-white text-sm font-medium hover:bg-red-700 transition-colors">
                 ลบเลย
               </button>
             </div>

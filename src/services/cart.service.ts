@@ -1,4 +1,7 @@
+import { apiClient } from "@/lib/api-client";
 import type { CouponValidatePayload, CouponValidateResponse } from "@/types/cart";
+
+const USE_MOCK = !process.env.NEXT_PUBLIC_API_BASE_URL;
 
 const MOCK_COUPONS: Record<string, number> = {
   "KARMART10":    10,
@@ -8,7 +11,9 @@ const MOCK_COUPONS: Record<string, number> = {
 };
 
 export async function validateCoupon(payload: CouponValidatePayload): Promise<CouponValidateResponse> {
-  // TODO: return apiClient.post<CouponValidateResponse>("/api/coupons/validate", payload)
+  if (!USE_MOCK) {
+    return apiClient.post<CouponValidateResponse>("/api/coupons/validate", payload);
+  }
   const pct = MOCK_COUPONS[payload.code.toUpperCase()];
   if (!pct) {
     return { valid: false, message: "Coupon not found or expired" };

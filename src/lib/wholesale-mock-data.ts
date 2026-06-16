@@ -17,48 +17,6 @@ export interface WholesaleProduct {
 
 export const WHOLESALE_PRODUCTS: WholesaleProduct[] = [
   {
-    id: "w-cd-1",
-    name: "Speed White CC Cream SPF50 PA+++",
-    brand: "Cathy Doll",
-    sku: "CD-CC-001",
-    image: "https://images.unsplash.com/photo-1512496015851-a90fb38ba796?w=600&q=80",
-    category: "makeup",
-    packSize: 6,
-    tiers: [
-      { minQty: 1,  maxQty: 5,  pricePerUnit: 220 },
-      { minQty: 6,  maxQty: 11, pricePerUnit: 199 },
-      { minQty: 12, maxQty: null, pricePerUnit: 179 },
-    ],
-  },
-  {
-    id: "w-cd-2",
-    name: "Magic Kiss Lip & Cheek Tint",
-    brand: "Cathy Doll",
-    sku: "CD-LIP-002",
-    image: "https://images.unsplash.com/photo-1512496015851-a90fb38ba796?w=600&q=80",
-    category: "lip",
-    packSize: 6,
-    tiers: [
-      { minQty: 1,  maxQty: 5,  pricePerUnit: 180 },
-      { minQty: 6,  maxQty: 11, pricePerUnit: 159 },
-      { minQty: 12, maxQty: null, pricePerUnit: 139 },
-    ],
-  },
-  {
-    id: "w-cd-3",
-    name: "Super Matte BB Cream SPF30",
-    brand: "Cathy Doll",
-    sku: "CD-BB-003",
-    image: "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=600&q=80",
-    category: "makeup",
-    packSize: 6,
-    tiers: [
-      { minQty: 1,  maxQty: 5,  pricePerUnit: 200 },
-      { minQty: 6,  maxQty: 11, pricePerUnit: 179 },
-      { minQty: 12, maxQty: null, pricePerUnit: 159 },
-    ],
-  },
-  {
     id: "w-ms-1",
     name: "Mistine Super Fit Cushion SPF50+",
     brand: "Mistine",
