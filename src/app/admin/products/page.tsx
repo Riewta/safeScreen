@@ -3,6 +3,9 @@
 import { useState, useEffect, useMemo } from "react";
 import { Plus, Pencil, Trash2, Search, ChevronUp, ChevronDown, X, Check, AlertTriangle } from "lucide-react";
 import { ImageUploadField } from "@/components/admin/ImageUploadField";
+import { AdminPagination } from "@/components/admin/AdminPagination";
+
+const PAGE_SIZE = 10;
 
 interface Product {
   id: string;
@@ -62,20 +65,16 @@ export default function AdminProductsPage() {
   const [search, setSearch]     = useState("");
   const [sortKey, setSortKey]   = useState<SortKey>("id" as SortKey);
   const [sortDir, setSortDir]   = useState<SortDir>("asc");
+  const [page, setPage]         = useState(1);
 
-  // Modal state
   const [modalOpen, setModalOpen]   = useState(false);
   const [editingId, setEditingId]   = useState<string | null>(null);
   const [form, setForm]             = useState<Omit<Product, "id" | "rating" | "reviewCount">>(EMPTY_FORM);
   const [formErrors, setFormErrors] = useState<Partial<Record<string, string>>>({});
 
-  // Delete confirm
   const [deleteId, setDeleteId] = useState<string | null>(null);
+  const [toast, setToast]       = useState<{ msg: string; type: "success" | "error" } | null>(null);
 
-  // Toast
-  const [toast, setToast] = useState<{ msg: string; type: "success" | "error" } | null>(null);
-
-  /* ─── Load from localStorage ─── */
   useEffect(() => {
     try {
       const raw = localStorage.getItem(STORAGE_KEY);
@@ -97,20 +96,20 @@ export default function AdminProductsPage() {
     setLoaded(true);
   }, []);
 
-  /* ─── Persist to localStorage ─── */
   useEffect(() => {
     if (!loaded) return;
     localStorage.setItem(STORAGE_KEY, JSON.stringify(products));
   }, [products, loaded]);
 
-  /* ─── Toast auto-dismiss ─── */
   useEffect(() => {
     if (!toast) return;
     const t = setTimeout(() => setToast(null), 2500);
     return () => clearTimeout(t);
   }, [toast]);
 
-  /* ─── Sort + Filter ─── */
+  // Reset page when search or sort changes
+  useEffect(() => { setPage(1); }, [search, sortKey, sortDir]);
+
   const displayed = useMemo(() => {
     let list = [...products];
     const q = search.trim().toLowerCase();
@@ -134,7 +133,9 @@ export default function AdminProductsPage() {
     return list;
   }, [products, search, sortKey, sortDir]);
 
-  /* ─── Helpers ─── */
+  const totalPages = Math.max(1, Math.ceil(displayed.length / PAGE_SIZE));
+  const pageItems  = displayed.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
+
   const handleSort = (key: SortKey) => {
     if (sortKey === key) setSortDir((d) => (d === "asc" ? "desc" : "asc"));
     else { setSortKey(key); setSortDir("asc"); }
@@ -156,28 +157,17 @@ export default function AdminProductsPage() {
 
   const openEdit = (p: Product) => {
     setEditingId(p.id);
-    setForm({
-      name: p.name,
-      brand: p.brand,
-      category: p.category,
-      price: p.price,
-      originalPrice: p.originalPrice,
-      image: p.image,
-    });
+    setForm({ name: p.name, brand: p.brand, category: p.category, price: p.price, originalPrice: p.originalPrice, image: p.image });
     setFormErrors({});
     setModalOpen(true);
   };
 
-  const closeModal = () => {
-    setModalOpen(false);
-    setEditingId(null);
-    setFormErrors({});
-  };
+  const closeModal = () => { setModalOpen(false); setEditingId(null); setFormErrors({}); };
 
   const validateForm = (): boolean => {
     const errors: Partial<Record<string, string>> = {};
-    if (!form.name.trim()) errors.name = "กรุณาใส่ชื่อสินค้า";
-    if (!form.brand.trim()) errors.brand = "กรุณาใส่แบรนด์";
+    if (!form.name.trim())       errors.name  = "กรุณาใส่ชื่อสินค้า";
+    if (!form.brand.trim())      errors.brand = "กรุณาใส่แบรนด์";
     if (!form.price || form.price <= 0) errors.price = "กรุณาใส่ราคาที่ถูกต้อง";
     setFormErrors(errors);
     return Object.keys(errors).length === 0;
@@ -185,32 +175,13 @@ export default function AdminProductsPage() {
 
   const handleSave = () => {
     if (!validateForm()) return;
-
     if (editingId) {
       setProducts((prev) =>
-        prev.map((p) =>
-          p.id === editingId
-            ? {
-                ...p,
-                ...form,
-                originalPrice: form.originalPrice || undefined,
-              }
-            : p
-        )
+        prev.map((p) => p.id === editingId ? { ...p, ...form, originalPrice: form.originalPrice || undefined } : p)
       );
       setToast({ msg: "แก้ไขสินค้าสำเร็จ", type: "success" });
     } else {
-      const newId = String(Date.now());
-      setProducts((prev) => [
-        ...prev,
-        {
-          id: newId,
-          ...form,
-          originalPrice: form.originalPrice || undefined,
-          rating: 0,
-          reviewCount: 0,
-        },
-      ]);
+      setProducts((prev) => [...prev, { id: String(Date.now()), ...form, originalPrice: form.originalPrice || undefined, rating: 0, reviewCount: 0 }]);
       setToast({ msg: "เพิ่มสินค้าสำเร็จ", type: "success" });
     }
     closeModal();
@@ -262,10 +233,7 @@ export default function AdminProductsPage() {
           className="w-full pl-9 pr-4 py-2.5 border border-[var(--km-border)] rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[var(--km-border-strong)] bg-white"
         />
         {search && (
-          <button
-            onClick={() => setSearch("")}
-            className="absolute right-3 top-1/2 -translate-y-1/2 text-[var(--km-text-muted)] hover:text-[var(--km-text-secondary)]"
-          >
+          <button onClick={() => setSearch("")} className="absolute right-3 top-1/2 -translate-y-1/2 text-[var(--km-text-muted)] hover:text-[var(--km-text-secondary)]">
             <X size={14} />
           </button>
         )}
@@ -278,50 +246,37 @@ export default function AdminProductsPage() {
             <thead>
               <tr className="border-b border-[var(--km-border)] bg-[var(--km-surface)]">
                 <th className="text-left px-4 py-3 text-xs font-semibold text-[var(--km-text-muted)] uppercase tracking-wider w-8">#</th>
-                <th
-                  className="text-left px-4 py-3 text-xs font-semibold text-[var(--km-text-muted)] uppercase tracking-wider cursor-pointer hover:text-[var(--km-text)] select-none"
-                  onClick={() => handleSort("name")}
-                >
+                <th className="text-left px-4 py-3 text-xs font-semibold text-[var(--km-text-muted)] uppercase tracking-wider cursor-pointer hover:text-[var(--km-text)] select-none" onClick={() => handleSort("name")}>
                   ชื่อสินค้า <SortIcon col="name" />
                 </th>
-                <th
-                  className="text-left px-4 py-3 text-xs font-semibold text-[var(--km-text-muted)] uppercase tracking-wider cursor-pointer hover:text-[var(--km-text)] select-none whitespace-nowrap"
-                  onClick={() => handleSort("brand")}
-                >
+                <th className="text-left px-4 py-3 text-xs font-semibold text-[var(--km-text-muted)] uppercase tracking-wider cursor-pointer hover:text-[var(--km-text)] select-none whitespace-nowrap" onClick={() => handleSort("brand")}>
                   แบรนด์ <SortIcon col="brand" />
                 </th>
-                <th
-                  className="text-left px-4 py-3 text-xs font-semibold text-[var(--km-text-muted)] uppercase tracking-wider cursor-pointer hover:text-[var(--km-text)] select-none whitespace-nowrap"
-                  onClick={() => handleSort("category")}
-                >
+                <th className="text-left px-4 py-3 text-xs font-semibold text-[var(--km-text-muted)] uppercase tracking-wider cursor-pointer hover:text-[var(--km-text)] select-none whitespace-nowrap" onClick={() => handleSort("category")}>
                   หมวดหมู่ <SortIcon col="category" />
                 </th>
-                <th
-                  className="text-right px-4 py-3 text-xs font-semibold text-[var(--km-text-muted)] uppercase tracking-wider cursor-pointer hover:text-[var(--km-text)] select-none whitespace-nowrap"
-                  onClick={() => handleSort("price")}
-                >
+                <th className="text-right px-4 py-3 text-xs font-semibold text-[var(--km-text-muted)] uppercase tracking-wider cursor-pointer hover:text-[var(--km-text)] select-none whitespace-nowrap" onClick={() => handleSort("price")}>
                   ราคา <SortIcon col="price" />
                 </th>
-                <th
-                  className="text-right px-4 py-3 text-xs font-semibold text-[var(--km-text-muted)] uppercase tracking-wider cursor-pointer hover:text-[var(--km-text)] select-none whitespace-nowrap"
-                  onClick={() => handleSort("originalPrice")}
-                >
+                <th className="text-right px-4 py-3 text-xs font-semibold text-[var(--km-text-muted)] uppercase tracking-wider cursor-pointer hover:text-[var(--km-text)] select-none whitespace-nowrap" onClick={() => handleSort("originalPrice")}>
                   ราคาเต็ม <SortIcon col="originalPrice" />
                 </th>
                 <th className="text-center px-4 py-3 text-xs font-semibold text-[var(--km-text-muted)] uppercase tracking-wider whitespace-nowrap">Actions</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-[var(--km-border)]">
-              {displayed.length === 0 ? (
+              {pageItems.length === 0 ? (
                 <tr>
                   <td colSpan={7} className="px-4 py-12 text-center text-[var(--km-text-muted)] text-sm">
                     {search ? `ไม่พบสินค้าที่ค้นหา "${search}"` : "ยังไม่มีสินค้า"}
                   </td>
                 </tr>
               ) : (
-                displayed.map((p, idx) => (
+                pageItems.map((p, idx) => (
                   <tr key={p.id} className="hover:bg-[var(--km-surface)]/50 transition-colors">
-                    <td className="px-4 py-3 text-[var(--km-text-muted)] text-xs">{idx + 1}</td>
+                    <td className="px-4 py-3 text-[var(--km-text-muted)] text-xs">
+                      {(page - 1) * PAGE_SIZE + idx + 1}
+                    </td>
                     <td className="px-4 py-3">
                       <span className="font-medium text-[var(--km-text)] leading-snug">{p.name}</span>
                     </td>
@@ -339,18 +294,10 @@ export default function AdminProductsPage() {
                     </td>
                     <td className="px-4 py-3">
                       <div className="flex items-center justify-center gap-2">
-                        <button
-                          onClick={() => openEdit(p)}
-                          className="p-1.5 rounded text-[var(--km-text-muted)] hover:text-blue-600 hover:bg-blue-50 transition-colors"
-                          title="แก้ไข"
-                        >
+                        <button onClick={() => openEdit(p)} className="p-1.5 rounded text-[var(--km-text-muted)] hover:text-blue-600 hover:bg-blue-50 transition-colors" title="แก้ไข">
                           <Pencil size={14} />
                         </button>
-                        <button
-                          onClick={() => setDeleteId(p.id)}
-                          className="p-1.5 rounded text-[var(--km-text-muted)] hover:text-red-600 hover:bg-red-50 transition-colors"
-                          title="ลบ"
-                        >
+                        <button onClick={() => setDeleteId(p.id)} className="p-1.5 rounded text-[var(--km-text-muted)] hover:text-red-600 hover:bg-red-50 transition-colors" title="ลบ">
                           <Trash2 size={14} />
                         </button>
                       </div>
@@ -363,34 +310,28 @@ export default function AdminProductsPage() {
         </div>
       </div>
 
-      <p className="text-xs text-[var(--km-text-muted)] mt-3">
-        แสดง {displayed.length} จาก {products.length} รายการ · บันทึกใน localStorage อัตโนมัติ
-      </p>
+      <AdminPagination
+        page={page}
+        totalPages={totalPages}
+        totalItems={displayed.length}
+        pageSize={PAGE_SIZE}
+        onChange={setPage}
+      />
 
       {/* ─── Add / Edit Modal ─── */}
       {modalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-          <div
-            className="absolute inset-0 bg-black/40"
-            onClick={closeModal}
-          />
+          <div className="absolute inset-0 bg-black/40" onClick={closeModal} />
           <div className="relative bg-white rounded-2xl shadow-xl w-full max-w-lg mx-auto flex flex-col max-h-[90vh]">
-            {/* Modal header */}
             <div className="flex items-center justify-between px-6 py-4 border-b border-[var(--km-border)]">
               <h2 className="text-base font-semibold text-[var(--km-text)]">
                 {editingId ? "แก้ไขสินค้า" : "เพิ่มสินค้าใหม่"}
               </h2>
-              <button
-                onClick={closeModal}
-                className="w-8 h-8 flex items-center justify-center rounded-full text-[var(--km-text-muted)] hover:text-[var(--km-text-secondary)] hover:bg-[var(--km-surface)] transition-colors"
-              >
+              <button onClick={closeModal} className="w-8 h-8 flex items-center justify-center rounded-full text-[var(--km-text-muted)] hover:text-[var(--km-text-secondary)] hover:bg-[var(--km-surface)] transition-colors">
                 <X size={16} />
               </button>
             </div>
-
-            {/* Modal body */}
             <div className="overflow-y-auto flex-1 px-6 py-5 flex flex-col gap-4">
-              {/* Name */}
               <div>
                 <label className="block text-xs font-semibold text-[var(--km-text-secondary)] uppercase tracking-wider mb-1.5">
                   ชื่อสินค้า <span className="text-red-500">*</span>
@@ -400,16 +341,10 @@ export default function AdminProductsPage() {
                   value={form.name}
                   onChange={(e) => updateField("name", e.target.value)}
                   placeholder='เช่น Magnetic Privacy Film — MacBook Air 13.3"'
-                  className={`w-full px-3 py-2.5 border rounded-lg text-sm focus:outline-none focus:ring-2 transition-colors ${
-                    formErrors.name ? "border-red-400 focus:ring-red-200" : "border-[var(--km-border)] focus:ring-[var(--km-border)]"
-                  }`}
+                  className={`w-full px-3 py-2.5 border rounded-lg text-sm focus:outline-none focus:ring-2 transition-colors ${formErrors.name ? "border-red-400 focus:ring-red-200" : "border-[var(--km-border)] focus:ring-[var(--km-border)]"}`}
                 />
-                {formErrors.name && (
-                  <p className="text-xs text-red-500 mt-1">{formErrors.name}</p>
-                )}
+                {formErrors.name && <p className="text-xs text-red-500 mt-1">{formErrors.name}</p>}
               </div>
-
-              {/* Brand */}
               <div>
                 <label className="block text-xs font-semibold text-[var(--km-text-secondary)] uppercase tracking-wider mb-1.5">
                   แบรนด์ <span className="text-red-500">*</span>
@@ -419,34 +354,22 @@ export default function AdminProductsPage() {
                   value={form.brand}
                   onChange={(e) => updateField("brand", e.target.value)}
                   placeholder="SafeScreen"
-                  className={`w-full px-3 py-2.5 border rounded-lg text-sm focus:outline-none focus:ring-2 transition-colors ${
-                    formErrors.brand ? "border-red-400 focus:ring-red-200" : "border-[var(--km-border)] focus:ring-[var(--km-border)]"
-                  }`}
+                  className={`w-full px-3 py-2.5 border rounded-lg text-sm focus:outline-none focus:ring-2 transition-colors ${formErrors.brand ? "border-red-400 focus:ring-red-200" : "border-[var(--km-border)] focus:ring-[var(--km-border)]"}`}
                 />
-                {formErrors.brand && (
-                  <p className="text-xs text-red-500 mt-1">{formErrors.brand}</p>
-                )}
+                {formErrors.brand && <p className="text-xs text-red-500 mt-1">{formErrors.brand}</p>}
               </div>
-
-              {/* Category */}
               <div>
-                <label className="block text-xs font-semibold text-[var(--km-text-secondary)] uppercase tracking-wider mb-1.5">
-                  หมวดหมู่
-                </label>
+                <label className="block text-xs font-semibold text-[var(--km-text-secondary)] uppercase tracking-wider mb-1.5">หมวดหมู่</label>
                 <select
                   value={form.category}
                   onChange={(e) => updateField("category", e.target.value)}
                   className="w-full px-3 py-2.5 border border-[var(--km-border)] rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[var(--km-border)] bg-white"
                 >
                   {CATEGORY_OPTIONS.map((c) => (
-                    <option key={c.value} value={c.value}>
-                      {c.label}
-                    </option>
+                    <option key={c.value} value={c.value}>{c.label}</option>
                   ))}
                 </select>
               </div>
-
-              {/* Price + Original Price */}
               <div className="grid grid-cols-2 gap-3">
                 <div>
                   <label className="block text-xs font-semibold text-[var(--km-text-secondary)] uppercase tracking-wider mb-1.5">
@@ -458,13 +381,9 @@ export default function AdminProductsPage() {
                     onChange={(e) => updateField("price", Number(e.target.value))}
                     placeholder="1190"
                     min={0}
-                    className={`w-full px-3 py-2.5 border rounded-lg text-sm focus:outline-none focus:ring-2 transition-colors ${
-                      formErrors.price ? "border-red-400 focus:ring-red-200" : "border-[var(--km-border)] focus:ring-[var(--km-border)]"
-                    }`}
+                    className={`w-full px-3 py-2.5 border rounded-lg text-sm focus:outline-none focus:ring-2 transition-colors ${formErrors.price ? "border-red-400 focus:ring-red-200" : "border-[var(--km-border)] focus:ring-[var(--km-border)]"}`}
                   />
-                  {formErrors.price && (
-                    <p className="text-xs text-red-500 mt-1">{formErrors.price}</p>
-                  )}
+                  {formErrors.price && <p className="text-xs text-red-500 mt-1">{formErrors.price}</p>}
                 </div>
                 <div>
                   <label className="block text-xs font-semibold text-[var(--km-text-secondary)] uppercase tracking-wider mb-1.5">
@@ -473,36 +392,20 @@ export default function AdminProductsPage() {
                   <input
                     type="number"
                     value={form.originalPrice ?? ""}
-                    onChange={(e) =>
-                      updateField("originalPrice", e.target.value ? Number(e.target.value) : undefined)
-                    }
+                    onChange={(e) => updateField("originalPrice", e.target.value ? Number(e.target.value) : undefined)}
                     placeholder="1490"
                     min={0}
                     className="w-full px-3 py-2.5 border border-[var(--km-border)] rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[var(--km-border)]"
                   />
                 </div>
               </div>
-
-              {/* Image */}
-              <ImageUploadField
-                value={form.image}
-                onChange={(v) => updateField("image", v)}
-                label="รูปสินค้า"
-              />
+              <ImageUploadField value={form.image} onChange={(v) => updateField("image", v)} label="รูปสินค้า" />
             </div>
-
-            {/* Modal footer */}
             <div className="px-6 py-4 border-t border-[var(--km-border)] flex items-center justify-end gap-3">
-              <button
-                onClick={closeModal}
-                className="px-4 py-2 rounded-lg text-sm text-[var(--km-text-secondary)] border border-[var(--km-border)] hover:bg-[var(--km-surface)] transition-colors"
-              >
+              <button onClick={closeModal} className="px-4 py-2 rounded-lg text-sm text-[var(--km-text-secondary)] border border-[var(--km-border)] hover:bg-[var(--km-surface)] transition-colors">
                 ยกเลิก
               </button>
-              <button
-                onClick={handleSave}
-                className="flex items-center gap-2 px-5 py-2 rounded-lg text-sm font-semibold bg-[#F5A600] text-black hover:opacity-90 transition-colors"
-              >
+              <button onClick={handleSave} className="flex items-center gap-2 px-5 py-2 rounded-lg text-sm font-semibold bg-[#F5A600] text-black hover:opacity-90 transition-colors">
                 <Check size={14} />
                 {editingId ? "บันทึกการแก้ไข" : "เพิ่มสินค้า"}
               </button>
@@ -514,10 +417,7 @@ export default function AdminProductsPage() {
       {/* ─── Delete Confirm Modal ─── */}
       {deleteId && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-          <div
-            className="absolute inset-0 bg-black/40"
-            onClick={() => setDeleteId(null)}
-          />
+          <div className="absolute inset-0 bg-black/40" onClick={() => setDeleteId(null)} />
           <div className="relative bg-white rounded-2xl shadow-xl w-full max-w-sm p-6 flex flex-col gap-4">
             <div className="flex items-start gap-3">
               <div className="w-10 h-10 rounded-full bg-red-50 flex items-center justify-center flex-shrink-0">
@@ -531,16 +431,10 @@ export default function AdminProductsPage() {
               </div>
             </div>
             <div className="flex items-center justify-end gap-3">
-              <button
-                onClick={() => setDeleteId(null)}
-                className="px-4 py-2 rounded-lg text-sm text-[var(--km-text-secondary)] border border-[var(--km-border)] hover:bg-[var(--km-surface)] transition-colors"
-              >
+              <button onClick={() => setDeleteId(null)} className="px-4 py-2 rounded-lg text-sm text-[var(--km-text-secondary)] border border-[var(--km-border)] hover:bg-[var(--km-surface)] transition-colors">
                 ยกเลิก
               </button>
-              <button
-                onClick={() => handleDelete(deleteId)}
-                className="px-4 py-2 rounded-lg text-sm font-semibold bg-red-600 text-white hover:bg-red-700 transition-colors"
-              >
+              <button onClick={() => handleDelete(deleteId)} className="px-4 py-2 rounded-lg text-sm font-semibold bg-red-600 text-white hover:bg-red-700 transition-colors">
                 ลบออก
               </button>
             </div>
@@ -550,13 +444,7 @@ export default function AdminProductsPage() {
 
       {/* ─── Toast ─── */}
       {toast && (
-        <div
-          className={`fixed bottom-6 left-1/2 -translate-x-1/2 z-[60] flex items-center gap-2 px-4 py-3 rounded-xl shadow-lg text-sm font-medium transition-all animate-[fadeIn_0.2s_ease] ${
-            toast.type === "success"
-              ? "bg-[var(--km-text)] text-white"
-              : "bg-red-600 text-white"
-          }`}
-        >
+        <div className={`fixed bottom-6 left-1/2 -translate-x-1/2 z-[60] flex items-center gap-2 px-4 py-3 rounded-xl shadow-lg text-sm font-medium transition-all animate-[fadeIn_0.2s_ease] ${toast.type === "success" ? "bg-[var(--km-text)] text-white" : "bg-red-600 text-white"}`}>
           {toast.type === "success" ? <Check size={14} /> : <X size={14} />}
           {toast.msg}
         </div>

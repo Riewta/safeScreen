@@ -4,14 +4,17 @@ import { useState, useMemo, useEffect } from "react";
 import Image from "next/image";
 import { Search, Package, ChevronDown, ChevronUp, X } from "lucide-react";
 import { useOrdersStore, type Order, type OrderStatus } from "@/stores/orders.store";
+import { AdminPagination } from "@/components/admin/AdminPagination";
+
+const PAGE_SIZE = 10;
 
 /* ─── Status config ────────────────────────────────────────────────────────── */
 const STATUS_CONFIG: Record<OrderStatus, { label: string; bg: string; text: string }> = {
-  pending_payment: { label: "รอชำระ",    bg: "#FEF3C7", text: "#92400E" },
-  processing:      { label: "กำลังจัดส่ง", bg: "#DBEAFE", text: "#1E40AF" },
+  pending_payment: { label: "รอชำระ",           bg: "#FEF3C7", text: "#92400E" },
+  processing:      { label: "กำลังจัดส่ง",       bg: "#DBEAFE", text: "#1E40AF" },
   shipped:         { label: "อยู่ระหว่างจัดส่ง", bg: "#E0E7FF", text: "#3730A3" },
-  delivered:       { label: "ส่งแล้ว",    bg: "#D1FAE5", text: "#065F46" },
-  cancelled:       { label: "ยกเลิก",     bg: "#FEE2E2", text: "#991B1B" },
+  delivered:       { label: "ส่งแล้ว",           bg: "#D1FAE5", text: "#065F46" },
+  cancelled:       { label: "ยกเลิก",            bg: "#FEE2E2", text: "#991B1B" },
 };
 
 const ALL_STATUSES = Object.keys(STATUS_CONFIG) as OrderStatus[];
@@ -65,7 +68,6 @@ function OrderDetail({ order, onClose }: { order: Order; onClose: () => void }) 
         </button>
       </div>
 
-      {/* Items */}
       <div className="flex flex-col gap-2">
         {order.items.map((item, i) => (
           <div key={i} className="flex items-center gap-3 bg-white rounded-lg px-3 py-2.5 border border-[var(--km-border)]">
@@ -87,7 +89,6 @@ function OrderDetail({ order, onClose }: { order: Order; onClose: () => void }) 
         ))}
       </div>
 
-      {/* Totals */}
       <div className="mt-3 flex justify-end">
         <div className="text-sm space-y-1 min-w-[200px]">
           <div className="flex justify-between text-[var(--km-text-muted)]">
@@ -117,11 +118,15 @@ export default function AdminOrdersPage() {
   const [statusFilter, setStatus]   = useState<OrderStatus | "all">("all");
   const [expandedId, setExpandedId] = useState<string | null>(null);
   const [mounted, setMounted]       = useState(false);
+  const [page, setPage]             = useState(1);
 
   useEffect(() => {
     seedIfEmpty();
     setMounted(true);
   }, [seedIfEmpty]);
+
+  // Reset page when filter changes
+  useEffect(() => { setPage(1); setExpandedId(null); }, [query, statusFilter]);
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -136,6 +141,9 @@ export default function AdminOrdersPage() {
       )
       .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
   }, [orders, query, statusFilter]);
+
+  const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
+  const pageItems  = filtered.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
 
   const counts = useMemo(() => {
     const all = orders ?? [];
@@ -201,7 +209,6 @@ export default function AdminOrdersPage() {
 
       {/* Table */}
       <div className="bg-white rounded-2xl border border-[var(--km-border)] overflow-hidden shadow-sm">
-        {/* Header */}
         <div className="grid grid-cols-[2fr_2fr_1fr_1fr_1fr_40px] gap-4 px-5 py-3 bg-[var(--km-surface)] border-b border-[var(--km-border)] text-[11px] font-medium text-[var(--km-text-muted)] uppercase tracking-wide">
           <span>เลขออเดอร์</span>
           <span>ลูกค้า</span>
@@ -211,18 +218,17 @@ export default function AdminOrdersPage() {
           <span />
         </div>
 
-        {filtered.length === 0 ? (
+        {pageItems.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-16 gap-3 text-[var(--km-text-muted)]">
             <Package size={32} strokeWidth={1.5} />
             <p className="text-sm">ไม่พบออเดอร์ที่ตรงกัน</p>
           </div>
         ) : (
           <div className="divide-y divide-[var(--km-border)]">
-            {filtered.map((order) => {
+            {pageItems.map((order) => {
               const isOpen = expandedId === order.id;
               return (
                 <div key={order.id}>
-                  {/* Row */}
                   <div
                     className="grid grid-cols-[2fr_2fr_1fr_1fr_1fr_40px] gap-4 px-5 py-3.5 items-center hover:bg-[var(--km-surface)] transition-colors cursor-pointer"
                     onClick={() => setExpandedId(isOpen ? null : order.id)}
@@ -247,8 +253,6 @@ export default function AdminOrdersPage() {
                         : <ChevronDown size={14} className="text-[var(--km-text-muted)]" />}
                     </button>
                   </div>
-
-                  {/* Detail panel */}
                   {isOpen && <OrderDetail order={order} onClose={() => setExpandedId(null)} />}
                 </div>
               );
@@ -256,6 +260,14 @@ export default function AdminOrdersPage() {
           </div>
         )}
       </div>
+
+      <AdminPagination
+        page={page}
+        totalPages={totalPages}
+        totalItems={filtered.length}
+        pageSize={PAGE_SIZE}
+        onChange={(p) => { setPage(p); setExpandedId(null); }}
+      />
     </div>
   );
 }

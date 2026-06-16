@@ -1,5 +1,26 @@
 const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL ?? "";
 
+export class ApiError extends Error {
+  constructor(
+    public readonly status: number,
+    message: string,
+  ) {
+    super(message);
+    this.name = "ApiError";
+  }
+}
+
+function getAccessToken(): string | null {
+  if (typeof window === "undefined") return null;
+  try {
+    const raw = localStorage.getItem("karmart-auth");
+    if (!raw) return null;
+    return (JSON.parse(raw) as { state?: { accessToken?: string } }).state?.accessToken ?? null;
+  } catch {
+    return null;
+  }
+}
+
 type RequestOptions = Omit<RequestInit, "body"> & {
   body?: unknown;
   params?: Record<string, string | number | boolean | undefined>;
@@ -15,10 +36,13 @@ async function request<T>(path: string, options: RequestOptions = {}): Promise<T
     }
   }
 
+  const token = getAccessToken();
+
   const res = await fetch(BASE_URL ? url.toString() : path, {
     ...rest,
     headers: {
       "Content-Type": "application/json",
+      ...(token ? { Authorization: `Bearer ${token}` } : {}),
       ...headers,
     },
     ...(body !== undefined ? { body: JSON.stringify(body) } : {}),
@@ -26,7 +50,7 @@ async function request<T>(path: string, options: RequestOptions = {}): Promise<T
 
   if (!res.ok) {
     const text = await res.text().catch(() => res.statusText);
-    throw new Error(`API ${res.status}: ${text}`);
+    throw new ApiError(res.status, text);
   }
 
   return res.json() as Promise<T>;

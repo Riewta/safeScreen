@@ -1,19 +1,26 @@
+import { apiClient } from "@/lib/api-client";
 import type { FlashDealProduct } from "@/types/product";
 
+const USE_MOCK = !process.env.NEXT_PUBLIC_API_BASE_URL;
+
+export interface FlashSaleSession {
+  startsAt: string;
+  endsAt:   string;
+  isActive: boolean;
+}
+
 export async function getFlashSaleProducts(): Promise<FlashDealProduct[]> {
-  // TODO: return apiClient.get<FlashDealProduct[]>("/api/campaigns/flash-sale")
+  if (!USE_MOCK) {
+    return apiClient.get<FlashDealProduct[]>("/api/campaigns/flash-sale");
+  }
   const { FLASH_DEAL_PRODUCTS } = await import("@/lib/mock-data");
   return FLASH_DEAL_PRODUCTS as FlashDealProduct[];
 }
 
-export interface FlashSaleSession {
-  startsAt: string;
-  endsAt: string;
-  isActive: boolean;
-}
-
 export async function getFlashSaleSession(): Promise<FlashSaleSession> {
-  // TODO: return apiClient.get<FlashSaleSession>("/api/campaigns/flash-sale/session")
+  if (!USE_MOCK) {
+    return apiClient.get<FlashSaleSession>("/api/campaigns/flash-sale/session");
+  }
   const now = Date.now();
   return {
     startsAt: new Date(now - 2 * 60 * 60 * 1000).toISOString(),
