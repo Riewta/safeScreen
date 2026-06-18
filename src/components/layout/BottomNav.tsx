@@ -43,10 +43,10 @@ export function BottomNav() {
 
   const SHOP_ITEMS = [
     { label: sd.all,      href: "/products" },
-    { label: sd.paper,    href: "/products?type=paper" },
     { label: sd.privacy,  href: "/products?type=privacy" },
-    { label: sd.antiBlue, href: "/products?type=anti-blue" },
     { label: sd.nano,     href: "/products?type=nano" },
+    { label: sd.antiBlue, href: "/products?type=anti-blue" },
+    { label: sd.paper,    href: "/products?type=paper" },
   ];
 
   const NAV_ITEMS: { label: string; href: string; dropdown?: boolean }[] = [
@@ -72,7 +72,7 @@ export function BottomNav() {
         {/* Top bar */}
         <div className="flex items-center justify-between px-5" style={{ paddingTop: "max(16px, env(safe-area-inset-top))", paddingBottom: 8 }}>
           <Link href="/" onClick={closeDrawer}>
-            <Image src="/logo.png" alt="SafeScreen" width={110} height={28} className="h-7 w-auto" priority />
+            <Image src="/logo.svg" alt="SafeScreen" width={220} height={28} className="h-7 w-auto" priority unoptimized />
           </Link>
           <button onClick={closeDrawer} className="w-12 h-12 flex items-center justify-center" aria-label="ปิดเมนู">
             <X size={20} weight="bold" className="text-[var(--km-text)]" />

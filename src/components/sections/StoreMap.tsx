@@ -2,10 +2,10 @@
 
 import { useLang } from "@/contexts/lang";
 
-/* พิกัด: อาคารเดอะไนน์ ทาวเวอร์ พระราม 9 */
-const LAT = 13.7559;
-const LNG = 100.5672;
-const ZOOM = 16;
+/* พิกัด: Smoosh สามย่าน */
+const LAT = 13.7352042;
+const LNG = 100.526381;
+const ZOOM = 17;
 
 export function StoreMap() {
   const { home: t } = useLang();
@@ -23,7 +23,7 @@ export function StoreMap() {
             </p>
           </div>
           <a
-            href={`https://www.google.com/maps?q=${LAT},${LNG}`}
+            href="https://maps.app.goo.gl/dNWBbuyBDFWRo4Zq5"
             target="_blank"
             rel="noopener noreferrer"
             className="text-[13px] font-medium px-4 py-2 rounded-full border border-[var(--km-border)] text-[var(--km-text-secondary)] hover:border-[var(--km-border-strong)] hover:text-[var(--km-text)] transition-all flex-shrink-0"

@@ -38,26 +38,24 @@ export function Footer() {
       <div className="max-w-7xl mx-auto px-4 md:px-6 py-6 md:py-10">
         <div className="flex flex-col-reverse md:grid md:grid-cols-[2fr_1fr_1fr] gap-4 md:gap-16">
           <div className="mt-4 md:mt-0">
-            <Image src="/logo.png" alt="SafeScreen" width={120} height={32} className="h-7 w-auto mb-2" />
+            <Image src="/logo.svg" alt="SafeScreen" width={220} height={28} className="h-7 w-auto mb-2" unoptimized />
             <p className="text-sm text-[var(--km-text-secondary)] leading-relaxed mb-4 whitespace-pre-line">{t.tagline}</p>
             <SocialLinks />
+            <a href="https://www.dbd.go.th" target="_blank" rel="noopener noreferrer" className="inline-block mt-4">
+              <Image src="/dbd-logo.png" alt="DBD – Department of Business Development" width={56} height={56} className="h-10 w-auto opacity-80 hover:opacity-100 transition-opacity" />
+            </a>
           </div>
           {Object.entries(FOOTER_LINKS).map(([title, links]) => (
             <FooterSection key={title} title={title} links={links} />
           ))}
         </div>
-        <div className="mt-4 pt-4 border-t border-[var(--km-border)]/20 flex flex-wrap items-center justify-between gap-x-6 gap-y-2 text-[13px] text-[var(--km-text-muted)]">
-          <div className="flex items-center gap-4">
-            <p>© 2026 SafeScreen Tech Co., Ltd.</p>
-            <a href="https://www.dbd.go.th" target="_blank" rel="noopener noreferrer">
-              <Image src="/dbd-logo.png" alt="DBD – Department of Business Development" width={56} height={56} className="h-12 w-auto opacity-80 hover:opacity-100 transition-opacity" />
-            </a>
-          </div>
-          <div className="flex flex-wrap gap-x-6 gap-y-1">
-            <Link href="/privacy" className="hover:text-[var(--km-text)] transition-colors">Privacy Policy</Link>
-            <Link href="/terms" className="hover:text-[var(--km-text)] transition-colors">Terms of Service</Link>
-          </div>
+        <div className="mt-1 pt-1 flex flex-wrap items-center justify-center gap-x-6 gap-y-1 text-[13px] text-[var(--km-text-muted)]">
+            <Link href="/privacy" className="hover:text-[var(--km-text)] transition-colors">{t.privacyPolicy}</Link>
+            <Link href="/terms" className="hover:text-[var(--km-text)] transition-colors">{t.termsOfService}</Link>
         </div>
+        <p className="mt-3 text-center text-[13px] text-[var(--km-text-muted)] leading-relaxed">
+          {t.copyright}
+        </p>
       </div>
     </footer>
   );

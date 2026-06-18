@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowRight, ShieldCheck, BadgeCheck, Sparkles } from "lucide-react";
+import { ArrowRight, ShieldCheck, BadgeCheck, Sparkles, MapPin, Phone } from "lucide-react";
 import { useLang } from "@/contexts/lang";
 import { useEffect, useRef, type ReactNode } from "react";
 import { FaInstagram, FaLine, FaTiktok } from "react-icons/fa6";
@@ -97,7 +97,7 @@ function FaqCard({ q, a }: { q: string; a: string }) {
 
 /* ── Page ─────────────────────────────────────────────────── */
 export default function AboutPage() {
-  const { about: t } = useLang();
+  const { about: t, pages: p } = useLang();
 
 
   const faqs = [
@@ -183,9 +183,9 @@ export default function AboutPage() {
       {/* Blog Preview */}
       <section className="max-w-5xl mx-auto px-4 py-16">
         <Reveal>
-          <p className="text-xs tracking-[0.2em] text-[var(--km-text-muted)] uppercase mb-3 text-center">KNOWLEDGE BASE</p>
-          <h2 className="text-2xl md:text-3xl font-bold text-[var(--km-text)] mb-2 text-center">บทความที่น่าสนใจ</h2>
-          <p className="text-center text-[var(--km-text-secondary)] mb-10">ความรู้เกี่ยวกับฟิล์มกันมอง การดูแลสายตา และเทคโนโลยีหน้าจอ</p>
+          <p className="text-xs tracking-[0.2em] text-[var(--km-text-muted)] uppercase mb-3 text-center">{p.aboutBlogTag}</p>
+          <h2 className="text-2xl md:text-3xl font-bold text-[var(--km-text)] mb-2 text-center">{p.aboutBlogTitle}</h2>
+          <p className="text-center text-[var(--km-text-secondary)] mb-10">{p.aboutBlogSubtitle}</p>
         </Reveal>
         <div className="grid md:grid-cols-3 gap-5">
           {BLOG_POSTS.map((post, i) => (
@@ -206,7 +206,7 @@ export default function AboutPage() {
         <Reveal delay={100}>
           <div className="text-center mt-8">
             <Link href="/blog" className="inline-flex items-center gap-2 text-[14px] font-medium px-6 py-3 rounded-full border-2 transition-all" style={{ borderColor: "#F5A600", color: "#F5A600" }}>
-              ดูบทความทั้งหมด <ArrowRight size={14} />
+              {p.aboutBlogViewAll} <ArrowRight size={14} />
             </Link>
           </div>
         </Reveal>
@@ -239,6 +239,34 @@ export default function AboutPage() {
             </Reveal>
           ))}
         </div>
+
+        {/* Phone */}
+        <Reveal>
+          <a href="tel:0962286998" className="mt-6 flex items-center gap-3 p-5 rounded-2xl border border-[var(--km-border)] bg-[var(--km-surface)] hover:shadow-md hover:-translate-y-0.5 transition-all">
+            <div className="w-10 h-10 rounded-xl bg-white flex items-center justify-center flex-shrink-0 shadow-sm">
+              <Phone size={18} className="text-[#F5A600]" />
+            </div>
+            <div>
+              <p className="font-semibold text-[var(--km-text)]">{p.aboutPhoneLabel}</p>
+              <p className="text-sm text-[var(--km-text-secondary)]">096-228-6998</p>
+            </div>
+          </a>
+        </Reveal>
+
+        {/* Company Address */}
+        <Reveal>
+          <div className="mt-4 flex items-start gap-3 p-5 rounded-2xl border border-[var(--km-border)] bg-[var(--km-surface)]">
+            <div className="w-10 h-10 rounded-xl bg-white flex items-center justify-center flex-shrink-0 shadow-sm">
+              <MapPin size={18} className="text-[#F5A600]" />
+            </div>
+            <div>
+              <p className="font-semibold text-[var(--km-text)] mb-0.5">{p.aboutAddressLabel}</p>
+              <p className="text-sm text-[var(--km-text-secondary)] leading-relaxed whitespace-pre-line">
+                {t.companyAddress}
+              </p>
+            </div>
+          </div>
+        </Reveal>
       </section>
 
       {/* FAQ */}

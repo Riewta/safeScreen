@@ -7,9 +7,7 @@ export default function StorePage() {
   const { pages: t } = useLang();
 
   const STORES = [
-    { name: "SafeScreen MBK Center",    address: t.storeAddr1, hours: "10:00 – 21:00", phone: "02-xxx-xxxx", zone: t.storeZone1 },
-    { name: "SafeScreen Pantip Plaza",  address: t.storeAddr2, hours: "10:00 – 21:00", phone: "02-xxx-xxxx", zone: t.storeZone2 },
-    { name: "SafeScreen IT Square",     address: t.storeAddr3, hours: "10:00 – 20:00", phone: "02-xxx-xxxx", zone: t.storeZone3 },
+    { name: "Smoosh", address: "Smoosh สามย่าน, กรุงเทพฯ", hours: "10:00 – 21:00", phone: "096-228-6998", zone: "Partner Store", mapsHref: "https://maps.app.goo.gl/dNWBbuyBDFWRo4Zq5" },
   ];
 
   const SERVICES = [
@@ -57,7 +55,7 @@ export default function StorePage() {
                 </div>
               </div>
               <a
-                href={`https://maps.google.com/?q=${encodeURIComponent(store.address)}`}
+                href={store.mapsHref}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 px-5 py-2.5 bg-[var(--km-surface)] border border-[var(--km-border)] rounded-full text-sm font-medium text-[var(--km-text)] hover:bg-[var(--km-border)] transition-colors whitespace-nowrap"
@@ -67,6 +65,56 @@ export default function StorePage() {
               </a>
             </div>
           ))}
+        </div>
+
+        {/* Smoosh Map */}
+        <div className="mt-8">
+          <div className="mb-3 flex items-center justify-between">
+            <div>
+              <h2 className="text-[18px] font-medium text-[var(--km-text)]">{t.storeFindUs}</h2>
+              <p className="text-[13px] text-[var(--km-text-muted)] mt-0.5">{t.storeMapSubtitle}</p>
+            </div>
+            <a
+              href="https://maps.app.goo.gl/dNWBbuyBDFWRo4Zq5"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-[13px] font-medium px-4 py-2 rounded-full border border-[var(--km-border)] text-[var(--km-text-secondary)] hover:border-[var(--km-border-strong)] hover:text-[var(--km-text)] transition-all flex-shrink-0"
+            >
+              {t.storeNavigate}
+            </a>
+          </div>
+          <div className="relative w-full rounded-2xl overflow-hidden border border-[var(--km-border)]" style={{ height: 220 }}>
+            <iframe
+              src={`https://maps.google.com/maps?q=13.7352042,100.526381&z=17&output=embed`}
+              width="100%"
+              height="100%"
+              style={{ border: 0 }}
+              allowFullScreen
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+              title="Smoosh location"
+            />
+            {/* Yellow pin overlay */}
+            <div className="absolute pointer-events-none" style={{ top: "50%", left: "50%", transform: "translate(-50%, -100%)" }}>
+              <div style={{
+                position: "absolute", width: 44, height: 44, borderRadius: "50%",
+                top: "50%", left: "50%", transform: "translate(-50%, -30%)",
+                background: "rgba(245,166,0,0.2)",
+                boxShadow: "0 0 0 6px rgba(245,166,0,0.1), 0 0 24px 8px rgba(245,166,0,0.3)",
+                animation: "mapPinPulse 2s ease-in-out infinite",
+              }} />
+              <svg width="36" height="48" viewBox="0 0 36 48" fill="none" style={{ filter: "drop-shadow(0 4px 12px rgba(245,166,0,0.7))" }}>
+                <path d="M18 0C8.059 0 0 8.059 0 18c0 12.657 18 30 18 30S36 30.657 36 18C36 8.059 27.941 0 18 0z" fill="#F5A600" />
+                <circle cx="18" cy="17" r="7" fill="white" opacity="0.95" />
+              </svg>
+            </div>
+          </div>
+          <style>{`
+            @keyframes mapPinPulse {
+              0%, 100% { transform: translate(-50%, -30%) scale(1); opacity: 0.9; }
+              50%       { transform: translate(-50%, -30%) scale(1.5); opacity: 0.3; }
+            }
+          `}</style>
         </div>
 
         {/* Services available in-store */}

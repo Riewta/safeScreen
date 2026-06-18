@@ -6,7 +6,7 @@ import { useState, useEffect, useRef } from "react";
 
 const SLIDES = [
   { type: "image" as const, src: "/banner_promotions/21-9.png", href: "/products" },
-  { type: "video" as const, src: "/Wide_LTR_1.mp4" },
+  { type: "video" as const, src: "/banner_video.mp4" },
 ];
 
 const AUTO_PLAY_INTERVAL = 6000;
@@ -39,9 +39,7 @@ export function HeroBanner({ squareMobile }: { squareMobile?: boolean } = {}) {
 
   return (
     <div
-      className={`relative w-full overflow-hidden bg-black ${
-        squareMobile ? "pb-[43%] md:pb-[43%]" : "pb-[43%]"
-      }`}
+      className="relative w-full overflow-hidden bg-black h-[220px] md:h-[420px]"
     >
       {SLIDES.map((slide, i) => (
         <div
@@ -68,7 +66,7 @@ export function HeroBanner({ squareMobile }: { squareMobile?: boolean } = {}) {
               loop
               playsInline
               autoPlay
-              className="absolute inset-0 w-full h-full object-cover"
+              className="absolute inset-0 w-full h-full object-cover object-center"
             />
           )}
         </div>

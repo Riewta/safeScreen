@@ -70,28 +70,7 @@ const SIZE_OPTIONS: Record<DeviceBrand, string[]> = {
 };
 
 // ── Device → film type options ────────────────────────────────────────────────
-
-const FILM_OPTIONS: Record<DeviceBrand, FilmOption[]> = {
-  "MacBook Air": [
-    { type: "Privacy",  label: "Privacy Screen",  desc: "กันคนแอบมอง มุมมองแคบ 30°" },
-    { type: "AntiBlue", label: "Anti-Blue",        desc: "กรองแสงสีฟ้า ถนอมสายตา", comingSoon: true },
-  ],
-  "MacBook Pro": [
-    { type: "Privacy",  label: "Privacy Screen",  desc: "กันคนแอบมอง มุมมองแคบ 30°" },
-    { type: "AntiBlue", label: "Anti-Blue",        desc: "กรองแสงสีฟ้า ถนอมสายตา", comingSoon: true },
-  ],
-  "Universal Laptop": [
-    { type: "Privacy",  label: "Privacy Screen",  desc: "กันคนแอบมอง มุมมองแคบ 30°" },
-    { type: "AntiBlue", label: "Anti-Blue",        desc: "กรองแสงสีฟ้า ถนอมสายตา", comingSoon: true },
-  ],
-  iPad: [
-    { type: "Privacy",   label: "Privacy Film",   desc: "กันคนแอบมอง มุมมองแคบ 30°" },
-    { type: "Paperlike", label: "Paperlike Film",  desc: "เหมือนกระดาษ — เหมาะสำหรับวาด/เขียนด้วย Apple Pencil" },
-  ],
-  Surface: [
-    { type: "Privacy", label: "Privacy Screen", desc: "กันคนแอบมอง มุมมองแคบ 30°" },
-  ],
-};
+// desc values are replaced with i18n keys at render time — see filmOptions below
 
 // ── Compatibility table: (device, size, film) → product ID ───────────────────
 //    null  = not available / no product
@@ -156,6 +135,7 @@ function ProductResultCard({ productId }: { productId: string }) {
   const product = PRODUCTS.find((p) => p.id === productId);
   const addItem = useCartStore((s) => s.addItem);
   const [added, setAdded] = useState(false);
+  const { pages: t } = useLang();
 
   if (!product) return null;
 
@@ -234,13 +214,13 @@ function ProductResultCard({ productId }: { productId: string }) {
           }}
         >
           <ShoppingCart size={16} />
-          {added ? "เพิ่มแล้ว ✓" : "หยิบใส่ตะกร้า"}
+          {added ? t.aiAdded : t.aiAddToCart}
         </button>
         <Link
           href="/products"
           className="flex items-center justify-center px-4 py-2.5 border border-[var(--km-border)] rounded-xl text-sm text-[var(--km-text-secondary)] hover:bg-[var(--km-surface)] transition-colors whitespace-nowrap"
         >
-          ดูเพิ่มเติม
+          {t.aiViewMore}
         </Link>
       </div>
     </div>
@@ -275,6 +255,28 @@ export default function AiCheckerPage() {
     { brand: "Surface",           label: "Surface" },
   ];
 
+  const FILM_OPTIONS: Record<DeviceBrand, FilmOption[]> = {
+    "MacBook Air": [
+      { type: "Privacy",  label: "Privacy Screen",  desc: t.aiPrivacyDesc },
+      { type: "AntiBlue", label: "Anti-Blue",        desc: t.aiAntiBlueDesc, comingSoon: true },
+    ],
+    "MacBook Pro": [
+      { type: "Privacy",  label: "Privacy Screen",  desc: t.aiPrivacyDesc },
+      { type: "AntiBlue", label: "Anti-Blue",        desc: t.aiAntiBlueDesc, comingSoon: true },
+    ],
+    "Universal Laptop": [
+      { type: "Privacy",  label: "Privacy Screen",  desc: t.aiPrivacyDesc },
+      { type: "AntiBlue", label: "Anti-Blue",        desc: t.aiAntiBlueDesc, comingSoon: true },
+    ],
+    iPad: [
+      { type: "Privacy",   label: "Privacy Film",   desc: t.aiPrivacyDesc },
+      { type: "Paperlike", label: "Paperlike Film",  desc: t.aiPaperlikeDesc },
+    ],
+    Surface: [
+      { type: "Privacy", label: "Privacy Screen", desc: t.aiPrivacyDesc },
+    ],
+  };
+
   const filmOptions = device ? FILM_OPTIONS[device] : [];
 
   return (
@@ -283,7 +285,7 @@ export default function AiCheckerPage() {
         {/* Header */}
         <div className="text-center mb-10">
           <h1 className="text-3xl font-bold text-[var(--km-text)] mb-2">
-            AI Compatibility Checker
+            {t.aiTitle}
           </h1>
           <p className="text-[var(--km-text-secondary)]">{t.aiSubtitle}</p>
         </div>
@@ -349,13 +351,13 @@ export default function AiCheckerPage() {
                 onClick={() => setDevice(null)}
                 className="text-sm text-[var(--km-text-muted)] hover:text-[var(--km-text)] transition-colors"
               >
-                ← กลับ
+                {t.aiBack}
               </button>
               <span className="text-[var(--km-text-muted)]">/</span>
               <span className="text-sm font-medium text-[var(--km-text)]">{device}</span>
             </div>
             <h2 className="text-lg font-semibold text-[var(--km-text)] mb-4">
-              เลือกขนาดหน้าจอ
+              {t.aiSelectSize}
             </h2>
             <div className="space-y-2">
               {SIZE_OPTIONS[device].map((s) => (
@@ -383,7 +385,7 @@ export default function AiCheckerPage() {
                 onClick={() => setSize(null)}
                 className="text-sm text-[var(--km-text-muted)] hover:text-[var(--km-text)] transition-colors"
               >
-                ← กลับ
+                {t.aiBack}
               </button>
               <span className="text-[var(--km-text-muted)]">/</span>
               <span className="text-sm text-[var(--km-text-secondary)]">{device}</span>
@@ -391,7 +393,7 @@ export default function AiCheckerPage() {
               <span className="text-sm font-medium text-[var(--km-text)]">{size}</span>
             </div>
             <h2 className="text-lg font-semibold text-[var(--km-text)] mb-4">
-              เลือกประเภทฟิล์ม
+              {t.aiSelectFilm}
             </h2>
             <div className="space-y-3">
               {filmOptions.map((f) => (
@@ -419,7 +421,7 @@ export default function AiCheckerPage() {
                           }}
                         >
                           <Clock size={10} />
-                          เร็วๆ นี้
+                          {t.aiComingSoon}
                         </span>
                       )}
                     </div>
@@ -457,10 +459,10 @@ export default function AiCheckerPage() {
             {productId ? (
               <div>
                 <h2 className="text-lg font-semibold text-[var(--km-text)] mb-1">
-                  ✅ รองรับ! สินค้าที่แนะนำ
+                  {t.aiFoundTitle}
                 </h2>
                 <p className="text-sm text-[var(--km-text-secondary)] mb-5">
-                  สินค้านี้เหมาะกับ {device} {size} ของคุณ
+                  {t.aiFoundDesc} {device} {size}
                 </p>
                 <div className="mb-8">
                   <ProductResultCard productId={productId} />
@@ -470,30 +472,30 @@ export default function AiCheckerPage() {
                   className="flex items-center justify-center gap-2 w-full py-3.5 bg-[var(--km-surface)] border border-[var(--km-border)] text-[var(--km-text-secondary)] font-medium rounded-xl hover:bg-[var(--km-border)] transition-colors text-sm"
                 >
                   <ShoppingBag size={16} />
-                  ดูสินค้าทั้งหมด
+                  {t.aiViewAll}
                 </Link>
               </div>
             ) : (
               <div className="bg-[var(--km-surface)] border border-[var(--km-border)] rounded-2xl p-8 text-center">
                 <div className="text-4xl mb-4">😕</div>
                 <h2 className="text-lg font-semibold text-[var(--km-text)] mb-2">
-                  ยังไม่มีสินค้ารองรับ combination นี้
+                  {t.aiNotFoundTitle}
                 </h2>
                 <p className="text-sm text-[var(--km-text-secondary)] mb-6">
-                  {device} {size} ยังอยู่ในแผนพัฒนา — ลองเลือก combination อื่น หรือติดต่อทีมงานเพื่อขอข้อมูลเพิ่มเติม
+                  {device} {size} {t.aiNotFoundDesc}
                 </p>
                 <div className="flex flex-col sm:flex-row gap-3 justify-center">
                   <Link
                     href="/products"
                     className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-[var(--km-brand)] text-white font-semibold rounded-xl hover:opacity-90 transition-opacity"
                   >
-                    ดูสินค้าทั้งหมด
+                    {t.aiViewAll}
                   </Link>
                   <Link
                     href="/corporate"
                     className="inline-flex items-center justify-center gap-2 px-6 py-3 border border-[var(--km-border)] text-[var(--km-text-secondary)] font-medium rounded-xl hover:bg-white transition-colors"
                   >
-                    ติดต่อทีมงาน
+                    {t.aiContactTeam}
                   </Link>
                 </div>
               </div>
@@ -504,7 +506,7 @@ export default function AiCheckerPage() {
               className="flex items-center justify-center gap-2 w-full mt-4 py-3 border border-[var(--km-border)] text-[var(--km-text-secondary)] text-sm font-medium rounded-xl hover:bg-[var(--km-surface)] transition-colors"
             >
               <RotateCcw size={15} />
-              เริ่มใหม่
+              {t.aiReset}
             </button>
           </div>
         )}

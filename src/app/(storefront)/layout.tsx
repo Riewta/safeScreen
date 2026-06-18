@@ -11,7 +11,6 @@ import { SectionReveal } from "@/components/layout/SectionReveal";
 import { CartDrawer } from "@/components/cart/CartDrawer";
 import { NotifDrawer } from "@/components/layout/NotifDrawer";
 import { SplashScreen } from "@/components/layout/SplashScreen";
-import { BrandAccentStrip } from "@/components/layout/BrandAccentStrip";
 import { LangProvider } from "@/contexts/lang";
 import type { LangCode } from "@/lib/i18n";
 
@@ -30,7 +29,6 @@ export default async function StorefrontLayout({ children }: { children: React.R
       <main className="flex-1 bg-[var(--km-surface)] overflow-x-hidden">
         <CheckoutSlideWrapper>{children}</CheckoutSlideWrapper>
       </main>
-      <BrandAccentStrip />
       <Footer />
       <BottomNav />
       <SearchOverlay />
