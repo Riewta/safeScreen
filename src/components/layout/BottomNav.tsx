@@ -51,11 +51,11 @@ export function BottomNav() {
 
   const NAV_ITEMS: { label: string; href: string; dropdown?: boolean }[] = [
     { label: nav.shop,        href: "/products", dropdown: true },
-    { label: "Express",       href: "/express" },
-    { label: "Store",         href: "/store" },
-    { label: "Corporate",     href: "/corporate" },
-    { label: "AI Checker",    href: "/ai-checker" },
-    { label: "About Us",      href: "/about" },
+    { label: nav.express,      href: "/express" },
+    { label: nav.store,        href: "/store" },
+    { label: nav.corporate,    href: "/corporate" },
+    { label: nav.aiChecker,    href: "/ai-checker" },
+    { label: nav.about,        href: "/about" },
   ];
 
   return (

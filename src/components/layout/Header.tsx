@@ -272,7 +272,7 @@ export function Header() {
             <ShopDropdown />
             <NavItem label="Express" href="/express" />
             <NavItem label="Store" href="/store" />
-            <NavItem label="Corporate" href="/corporate" />
+            <NavItem label="B2B" href="/corporate" />
             <NavItem label="AI Checker" href="/ai-checker" />
             <NavItem label="About Us" href="/about" />
           </nav>
