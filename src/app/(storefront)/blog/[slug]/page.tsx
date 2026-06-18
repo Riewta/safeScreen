@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { Calendar, Clock, ArrowLeft } from "lucide-react";
 import type { Metadata } from "next";
+import translations from "@/lib/i18n";
 
 // ── Article data ──────────────────────────────────────────────────────────────
 
@@ -236,6 +237,7 @@ export default async function BlogDetailPage({
   const { slug } = await params;
   const article = ARTICLES.find((a) => a.slug === slug);
   if (!article) notFound();
+  const t = translations.TH.pages;
 
   return (
     <div className="min-h-screen bg-[var(--km-bg)]">
@@ -246,7 +248,7 @@ export default async function BlogDetailPage({
           className="inline-flex items-center gap-1.5 text-sm text-[var(--km-text-secondary)] hover:text-[var(--km-text)] transition-colors mb-8"
         >
           <ArrowLeft size={15} />
-          กลับไปหน้า Blog
+          {t.blogBackToList}
         </Link>
 
         {/* Category & meta */}
@@ -290,16 +292,15 @@ export default async function BlogDetailPage({
 
         {/* CTA */}
         <div className="mt-12 p-6 bg-[var(--km-surface)] rounded-2xl border border-[var(--km-border)] text-center">
-          <h3 className="font-semibold text-[var(--km-text)] mb-2">ยังไม่รู้จะเลือกรุ่นไหน?</h3>
+          <h3 className="font-semibold text-[var(--km-text)] mb-2">{t.blogCtaTitle}</h3>
           <p className="text-sm text-[var(--km-text-secondary)] mb-4">
-            ลอง AI Compatibility Checker เลือกอุปกรณ์ ขนาดหน้าจอ และประเภทฟิล์ม
-            แล้วเราจะแนะนำสินค้าที่เหมาะสมให้ทันที
+            {t.blogCtaSubtitle}
           </p>
           <Link
             href="/ai-checker"
             className="inline-flex items-center gap-2 px-6 py-3 bg-[var(--km-brand)] text-white font-semibold rounded-full hover:opacity-90 transition-opacity"
           >
-            ลอง AI Checker →
+            {t.blogCtaBtn}
           </Link>
         </div>
 
@@ -310,7 +311,7 @@ export default async function BlogDetailPage({
             className="inline-flex items-center gap-1.5 text-sm text-[var(--km-text-secondary)] hover:text-[var(--km-text)] transition-colors"
           >
             <ArrowLeft size={15} />
-            บทความอื่นๆ
+            {t.blogBackOther}
           </Link>
         </div>
       </div>

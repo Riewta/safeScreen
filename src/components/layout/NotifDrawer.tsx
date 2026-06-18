@@ -1,12 +1,49 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Bell, X, ChevronRight, ChevronLeft } from "lucide-react";
 import Image from "next/image";
 import { useUIStore } from "@/stores/ui.store";
 import { useNotificationsStore } from "@/stores/notifications.store";
 import { useRouter } from "next/navigation";
 import { useLang } from "@/contexts/lang";
+
+/* ── Relative time hook ───────────────────────────────────────────
+   อัปเดตทุก 30 วินาที เพื่อให้วันที่/เวลาตรงกับปัจจุบันเสมอ
+   - render null ตอน SSR → ไม่เกิด hydration mismatch
+─────────────────────────────────────────────────────────────── */
+function useRelativeTime(iso: string): string | null {
+  const [now, setNow] = useState<Date | null>(null);
+
+  useEffect(() => {
+    setNow(new Date());
+    const id = setInterval(() => setNow(new Date()), 30_000);
+    return () => clearInterval(id);
+  }, []);
+
+  if (!now) return null;
+
+  const diff = Math.floor((now.getTime() - new Date(iso).getTime()) / 1000);
+
+  if (diff < 60)                  return "เมื่อกี้";
+  if (diff < 3_600)               return `${Math.floor(diff / 60)} นาทีที่แล้ว`;
+  if (diff < 86_400)              return `${Math.floor(diff / 3_600)} ชั่วโมงที่แล้ว`;
+  if (diff < 86_400 * 2)         return "เมื่อวาน";
+  if (diff < 86_400 * 7)         return `${Math.floor(diff / 86_400)} วันที่แล้ว`;
+
+  return new Date(iso).toLocaleDateString("th-TH", { day: "numeric", month: "short" });
+}
+
+/* ── Wrapper component ──────────────────────────────────────────── */
+function NotifTime({ time }: { time: string }) {
+  const label = useRelativeTime(time);
+  if (!label) return null;
+  return (
+    <p className="text-[11px] text-[var(--km-text-muted)] mt-1.5 uppercase tracking-wider">
+      {label}
+    </p>
+  );
+}
 
 export function NotifDrawer() {
   const { pages: t } = useLang();
@@ -82,9 +119,7 @@ export function NotifDrawer() {
                     {!n.read && <span className="w-2 h-2 rounded-full flex-shrink-0 mt-1 bg-[var(--km-brand)]" />}
                   </div>
                   <p className="text-[12px] text-[var(--km-text-secondary)] mt-1 leading-relaxed line-clamp-2">{n.body}</p>
-                  <p className="text-[11px] text-[var(--km-text-muted)] mt-1.5 uppercase tracking-wider">
-                    {new Date(n.time).toLocaleDateString("th-TH", { day: "numeric", month: "short" })}
-                  </p>
+                  <NotifTime time={n.time} />
                 </div>
                 <div className="absolute right-3 top-4 flex flex-col items-center gap-3">
                   <button onClick={(e) => { e.stopPropagation(); deleteNotification(n.id); }}

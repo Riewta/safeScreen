@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { Zap, Clock, MapPin, ShoppingBag, CheckCircle } from "lucide-react";
 import { useLang } from "@/contexts/lang";
 
@@ -115,16 +116,25 @@ export default function ExpressPage() {
                 style={{ color: "#F5A600" }}>
                 Delivery
               </h1>
-              <p className="text-lg text-white/60 mb-10 whitespace-pre-line leading-relaxed">
+              <p className="text-lg text-white/60 mb-6 whitespace-pre-line leading-relaxed">
                 {t.expressSubtitle}
               </p>
+              {/* Shipping origin */}
+              <div className="flex items-center gap-3 mb-10 p-3 rounded-xl border"
+                style={{ background: "rgba(245,166,0,0.07)", borderColor: "rgba(245,166,0,0.2)" }}>
+                <MapPin size={16} style={{ color: "#F5A600", flexShrink: 0 }} />
+                <div>
+                  <div className="text-xs text-white/40 mb-0.5">{t.expressShipFrom}</div>
+                  <div className="text-sm font-semibold text-white">SafeScreen Hub · กรุงเทพฯ (สุขุมวิท)</div>
+                </div>
+              </div>
               <Link
                 href="/products"
                 className="inline-flex items-center gap-3 font-bold px-8 py-4 rounded-full text-black transition-all hover:scale-105"
                 style={{ background: "#F5A600", boxShadow: "0 0 24px rgba(245,166,0,0.5)" }}
               >
                 <ShoppingBag size={20} />
-                Shop Express Now
+                {t.expressShopNow}
               </Link>
             </div>
 
@@ -156,7 +166,7 @@ export default function ExpressPage() {
         {/* Pricing */}
         <div className="border-t border-white/10" style={{ background: "rgba(255,255,255,0.03)" }}>
           <div className="max-w-4xl mx-auto px-4 py-14">
-            <h2 className="text-2xl font-bold text-center mb-10">อัตราค่าจัดส่ง Express</h2>
+            <h2 className="text-2xl font-bold text-center mb-10">{t.expressPricingTitle}</h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               {[
                 { label: "ระยะใกล้ (≤5 กม.)",      price: "49 ฿", detail: "จัดส่งภายใน 60 นาที" },
@@ -174,17 +184,31 @@ export default function ExpressPage() {
           </div>
         </div>
 
+        {/* Smoosh Banner */}
+        <div className="max-w-4xl mx-auto px-4 py-10">
+          <div className="relative w-full rounded-3xl overflow-hidden shadow-2xl">
+            <Image
+              src="/Banner_4_PNG.png"
+              alt="Now at Smoosh สามย่าน – SafeScreen Express"
+              width={1080}
+              height={1080}
+              className="w-full h-auto object-contain"
+              priority
+            />
+          </div>
+        </div>
+
         {/* CTA */}
         <div className="max-w-4xl mx-auto px-4 py-16 text-center">
-          <h2 className="text-2xl font-bold mb-3">สินค้าพร้อมส่ง Express</h2>
-          <p className="text-white/50 mb-8">ฟิล์มกันเสือกทุกรุ่น พร้อมส่งด่วน ไม่ต้องรอนาน</p>
+          <h2 className="text-2xl font-bold mb-3">{t.expressCtaTitle}</h2>
+          <p className="text-white/50 mb-8">{t.expressCtaSubtitle}</p>
           <Link
             href="/products"
             className="inline-flex items-center gap-2 font-bold px-8 py-4 rounded-full text-black transition-all hover:scale-105"
             style={{ background: "#F5A600", boxShadow: "0 0 32px rgba(245,166,0,0.4)" }}
           >
             <Zap size={18} />
-            ดูสินค้า Express
+            {t.expressCtaBtn}
           </Link>
         </div>
 

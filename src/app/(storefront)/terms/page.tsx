@@ -129,8 +129,8 @@ export default function TermsPage() {
 
       <div className="mt-10 pt-6 border-t border-[var(--km-border)] text-[12px] text-[var(--km-text-muted)] text-center">
         {lang === "TH"
-          ? "เงื่อนไขนี้อยู่ภายใต้กฎหมายไทย © 2026 SafeScreen Tech Co., Ltd."
-          : "These terms are governed by the laws of the Kingdom of Thailand. © 2026 SafeScreen Tech Co., Ltd."}
+          ? "เงื่อนไขนี้อยู่ภายใต้กฎหมายไทย © 2026 Ruay Samoe Co., Ltd. (Safescreen) · safescreentech.com · All rights reserved."
+          : "These terms are governed by the laws of the Kingdom of Thailand. © 2026 Ruay Samoe Co., Ltd. (Safescreen) · safescreentech.com · All rights reserved."}
       </div>
     </div>
   );

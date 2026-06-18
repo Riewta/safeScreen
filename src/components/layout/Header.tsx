@@ -20,13 +20,13 @@ import { type Translations } from "@/lib/i18n";
 const useCartCount = () => useCartStore((s) => s.items.reduce((n, i) => n + i.quantity, 0));
 
 /* ── Route config ──────────────────────────────────────────────
-   left:   "hamburger" | "back"
+   left:   "hamburger" | "back" | "logo"
    title:  string | null  (null = show KARMARTS logo)
    right:  "full" | "cart-only" | "none"
    announcement: show top bar?
 ─────────────────────────────────────────────────────────────── */
 type HeaderConfig = {
-  left:         "hamburger" | "back";
+  left:         "hamburger" | "back" | "logo";
   title:        string | null;
   right:        "full" | "cart-only" | "none";
   announcement: boolean;
@@ -44,21 +44,21 @@ function buildRouteConfigs(t: Translations["header"]): RouteConfigEntry[] {
     { pattern: "/order-confirmation",    config: { left: "back",      title: t.orderSuccess,        right: "none",      announcement: false } },
     // ── Account sub-pages (must be before /account catch-all) ──
     { pattern: "/account/preferences",   config: { left: "back",      title: t.regionLanguage,      right: "none",      announcement: false } },
-    { pattern: "/account/profile",       config: { left: "back",      title: t.profile,             right: "full",      announcement: true  } },
+    { pattern: "/account/profile",       config: { left: "logo",      title: null,                  right: "full",      announcement: true  } },
     { pattern: /^\/account\/orders\/[^/]+\/return$/, config: { left: "back", title: t.returnItem,   right: "none",      announcement: true  } },
     { pattern: /^\/account\/orders\/[^/]+\/review\//, config: { left: "back", title: t.reviewProduct, right: "none",    announcement: false } },
-    { pattern: "/account/orders/",       config: { left: "back",      title: t.orderDetail,         right: "full",      announcement: true  } },
-    { pattern: "/account/orders",        config: { left: "back",      title: t.orders,              right: "full",      announcement: true  } },
+    { pattern: "/account/orders/",       config: { left: "logo",      title: null,                  right: "full",      announcement: true  } },
+    { pattern: "/account/orders",        config: { left: "logo",      title: null,                  right: "full",      announcement: true  } },
     { pattern: "/account/points",        config: { left: "back",      title: t.points,              right: "none",      announcement: true  } },
     { pattern: "/account/reviews",       config: { left: "back",      title: t.reviews,             right: "none",      announcement: false } },
     { pattern: "/account/addresses",     config: { left: "back",      title: t.addresses,           right: "none",      announcement: true  } },
-    { pattern: "/account/wishlist",      config: { left: "back",      title: t.wishlist,            right: "full",      announcement: true  } },
-    { pattern: "/account/payments",      config: { left: "back",      title: t.payments,            right: "full",      announcement: true  } },
+    { pattern: "/account/wishlist",      config: { left: "logo",      title: null,                  right: "full",      announcement: true  } },
+    { pattern: "/account/payments",      config: { left: "logo",      title: null,                  right: "full",      announcement: true  } },
     { pattern: "/account/notifications", config: { left: "back",      title: t.notifications,       right: "cart-only", announcement: true  } },
-    { pattern: "/account/tax-invoice",   config: { left: "back",      title: t.taxInvoice,          right: "full",      announcement: true  } },
-    { pattern: "/account/privacy",       config: { left: "back",      title: t.privacy,             right: "full",      announcement: true  } },
-    { pattern: "/account/help",          config: { left: "back",      title: t.help,                right: "full",      announcement: true  } },
-    { pattern: /^\/campaign\/[^/]+$/,    config: { left: "back",      title: t.campaignDetail,      right: "full",      announcement: true  } },
+    { pattern: "/account/tax-invoice",   config: { left: "logo",      title: null,                  right: "full",      announcement: true  } },
+    { pattern: "/account/privacy",       config: { left: "logo",      title: null,                  right: "full",      announcement: true  } },
+    { pattern: "/account/help",          config: { left: "logo",      title: null,                  right: "full",      announcement: true  } },
+    { pattern: /^\/campaign\/[^/]+$/,    config: { left: "logo",      title: null,                  right: "full",      announcement: true  } },
     { pattern: "/campaign",             config: { left: "hamburger", title: null,                   right: "full",      announcement: true  } },
     { pattern: "/privacy",              config: { left: "back",      title: t.privacyPolicy,        right: "none",      announcement: false } },
     { pattern: "/terms",                config: { left: "back",      title: t.terms,                right: "none",      announcement: false } },
@@ -67,15 +67,15 @@ function buildRouteConfigs(t: Translations["header"]): RouteConfigEntry[] {
     // ── Account root (tab page) ──
     { pattern: "/account",              config: { left: "hamburger", title: null,                   right: "full",      announcement: true  } },
     // ── PDP ──
-    { pattern: /^\/products\/[^/]+\/reviews$/, config: { left: "back", title: t.allReviews,         right: "full",      announcement: true  } },
-    { pattern: /^\/products\/[^/]+\/$/,  config: { left: "back",      title: null,                  right: "full",      announcement: true  } },
-    { pattern: /^\/products\/[^/]+$/,    config: { left: "back",      title: null,                  right: "full",      announcement: true  } },
+    { pattern: /^\/products\/[^/]+\/reviews$/, config: { left: "logo", title: null,                 right: "full",      announcement: true  } },
+    { pattern: /^\/products\/[^/]+\/$/,  config: { left: "logo",      title: null,                  right: "full",      announcement: true  } },
+    { pattern: /^\/products\/[^/]+$/,    config: { left: "logo",      title: null,                  right: "full",      announcement: true  } },
     // ── SafeScreen pages ──
-    { pattern: "/express",    config: { left: "back", title: "Express Delivery", right: "full", announcement: true } },
-    { pattern: "/store",      config: { left: "back", title: "Store Locations",  right: "full", announcement: true } },
-    { pattern: "/corporate",  config: { left: "back", title: "Corporate / B2B",  right: "full", announcement: true } },
-    { pattern: "/ai-checker", config: { left: "back", title: "AI Model Checker", right: "full", announcement: true } },
-    { pattern: "/blog",       config: { left: "back", title: null,               right: "full", announcement: true } },
+    { pattern: "/express",    config: { left: "logo", title: null, right: "full", announcement: true } },
+    { pattern: "/store",      config: { left: "logo", title: null, right: "full", announcement: true } },
+    { pattern: "/corporate",  config: { left: "logo", title: null, right: "full", announcement: true } },
+    { pattern: "/ai-checker", config: { left: "logo", title: null, right: "full", announcement: true } },
+    { pattern: "/blog",       config: { left: "logo", title: null, right: "full", announcement: true } },
     { pattern: "/admin",      config: { left: "back", title: "Admin",            right: "none", announcement: false } },
   ];
 }
@@ -264,7 +264,7 @@ export function Header() {
         <div className="flex-1 flex items-center h-full">
           {/* Logo */}
           <Link href="/" className={`${title ? "hidden md:flex" : "flex"} md:static md:translate-x-0 md:mr-6 items-center flex-shrink-0`}>
-            <Image src="/logo.png" alt="SafeScreen" width={90} height={24} className="h-4 md:h-6 w-auto" priority suppressHydrationWarning />
+            <Image src="/logo.svg" alt="SafeScreen" width={220} height={28} className="h-6 md:h-5 w-auto" priority unoptimized suppressHydrationWarning />
           </Link>
 
           {/* Desktop Nav */}
@@ -402,10 +402,10 @@ function ShopDropdown() {
   const { shopDropdown: t, nav } = useLang();
   const items = [
     { label: t.all,      href: "/products" },
-    { label: t.paper,    href: "/products?type=paper" },
     { label: t.privacy,  href: "/products?type=privacy" },
-    { label: t.antiBlue, href: "/products?type=anti-blue" },
     { label: t.nano,     href: "/products?type=nano" },
+    { label: t.antiBlue, href: "/products?type=anti-blue" },
+    { label: t.paper,    href: "/products?type=paper" },
   ];
   return <NavDropdown label={nav.shop} href="/products" items={items} />;
 }
@@ -431,7 +431,7 @@ function NavDropdown({ label, href, items }: {
     >
       <Link
         href={href}
-        className={`flex items-center gap-1 text-[13px] font-medium transition-colors whitespace-nowrap tracking-wide h-full px-1 ${isActive ? "text-[var(--km-text)]" : "text-[var(--km-text-secondary)] hover:text-[var(--km-text)]"}`}
+        className={`flex items-center gap-1 text-[13px] font-medium transition-colors whitespace-nowrap tracking-wide h-full px-3 ${isActive ? "text-[var(--km-text)]" : "text-[var(--km-text-secondary)] hover:text-[var(--km-text)]"}`}
       >
         {label}
         <ChevronDown size={12} strokeWidth={2} className={`transition-transform duration-200 ${open ? "rotate-180" : ""}`} />

@@ -42,10 +42,11 @@ export function SplashScreen() {
       >
         {/* Brand logo */}
         <Image
-          src="/logo.png"
+          src="/logo.svg"
           alt="SafeScreen"
-          width={180}
-          height={48}
+          width={360}
+          height={46}
+          unoptimized
           className="object-contain"
           priority
         />

@@ -6,6 +6,7 @@ import { PromoScroll } from "@/components/sections/PromoScroll";
 import { StoreMap } from "@/components/sections/StoreMap";
 import { StoreServices } from "@/components/sections/StoreServices";
 import { ScrollReveal } from "@/components/shared/ScrollReveal";
+import { ReviewsStrip } from "@/components/layout/ReviewsStrip";
 
 export default function HomePage() {
   return (
@@ -28,6 +29,9 @@ export default function HomePage() {
       </ScrollReveal>
       <ScrollReveal>
         <StoreServices />
+      </ScrollReveal>
+      <ScrollReveal>
+        <ReviewsStrip />
       </ScrollReveal>
     </div>
   );

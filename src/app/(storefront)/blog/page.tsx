@@ -1,11 +1,9 @@
+"use client";
+
 import Link from "next/link";
 import Image from "next/image";
 import { Calendar, Clock } from "lucide-react";
-
-export const metadata = {
-  title: "Blog — SafeScreen Tech",
-  description: "ความรู้เกี่ยวกับฟิล์มกันเสือก การดูแลหน้าจอ และเทคโนโลยีที่เกี่ยวข้อง",
-};
+import { useLang } from "@/contexts/lang";
 
 const ARTICLES = [
   {
@@ -46,12 +44,13 @@ const CATEGORY_COLORS: Record<string, string> = {
 };
 
 export default function BlogPage() {
+  const { pages: t } = useLang();
   return (
     <div className="min-h-screen bg-[var(--km-bg)]">
       <div className="max-w-4xl mx-auto px-4 py-12">
-        <h1 className="text-3xl font-bold text-[var(--km-text)] mb-2">Blog</h1>
+        <h1 className="text-3xl font-bold text-[var(--km-text)] mb-2">{t.blogTitle}</h1>
         <p className="text-[var(--km-text-secondary)] mb-10">
-          ความรู้เกี่ยวกับฟิล์มกันเสือก การดูแลหน้าจอ และเทคโนโลยีที่เกี่ยวข้อง
+          {t.blogSubtitle}
         </p>
 
         <div className="space-y-6">
@@ -101,7 +100,7 @@ export default function BlogPage() {
                   </p>
 
                   <div className="mt-4 text-sm font-medium text-[var(--km-brand)] group-hover:underline">
-                    อ่านต่อ →
+                    {t.blogReadMore}
                   </div>
                 </div>
               </div>
@@ -112,10 +111,10 @@ export default function BlogPage() {
         {/* Subscribe CTA */}
         <div className="mt-12 p-8 bg-[var(--km-surface)] rounded-2xl text-center border border-[var(--km-border)]">
           <h3 className="text-lg font-semibold text-[var(--km-text)] mb-2">
-            รับบทความใหม่ก่อนใคร
+            {t.blogSubscribeTitle}
           </h3>
           <p className="text-sm text-[var(--km-text-secondary)] mb-4">
-            สมัครรับ Newsletter ทิปส์ดูแลหน้าจอและโปรโมชันพิเศษ
+            {t.blogSubscribeSubtitle}
           </p>
           <div className="flex flex-col sm:flex-row gap-2 max-w-sm mx-auto">
             <input
@@ -124,7 +123,7 @@ export default function BlogPage() {
               className="flex-1 px-4 py-2.5 rounded-full border border-[var(--km-border)] text-sm outline-none focus:border-[var(--km-brand)] bg-white text-[var(--km-text)]"
             />
             <button className="px-5 py-2.5 bg-[var(--km-brand)] text-white text-sm font-semibold rounded-full hover:opacity-90 transition-opacity whitespace-nowrap">
-              สมัคร
+              {t.blogSubscribeBtn}
             </button>
           </div>
         </div>

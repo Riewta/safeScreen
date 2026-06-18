@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { CheckCircle, Building2, Users, FileText, Truck } from "lucide-react";
+import { CheckCircle, Building2, Users, Monitor, Landmark, Hospital, Coffee, Phone, type LucideIcon } from "lucide-react";
 import { useLang } from "@/contexts/lang";
 
 type DeviceType = "MacBook" | "Universal" | "Both";
@@ -18,13 +18,6 @@ interface LeadForm {
   notes: string;
 }
 
-const PRICING_TIERS = [
-  { range: "5–19 ชิ้น", discount: "ราคาปกติ", badge: "", highlight: false },
-  { range: "20–49 ชิ้น", discount: "ลด 5%", badge: "Popular", highlight: false },
-  { range: "50–99 ชิ้น", discount: "ลด 10%", badge: "Best Value", highlight: true },
-  { range: "100+ ชิ้น", discount: "Custom Quote", badge: "Enterprise", highlight: false },
-];
-
 
 const INITIAL_FORM: LeadForm = {
   companyName: "",
@@ -39,16 +32,26 @@ const INITIAL_FORM: LeadForm = {
 
 export default function CorporatePage() {
   const { pages: t } = useLang();
+
+  const PRICING_TIERS = [
+    { range: t.corpTier1Range, discount: t.corpTier1Discount, badge: "",              highlight: false },
+    { range: t.corpTier2Range, discount: t.corpTier2Discount, badge: t.corpTier2Badge, highlight: false },
+    { range: t.corpTier3Range, discount: t.corpTier3Discount, badge: t.corpTier3Badge, highlight: true  },
+    { range: t.corpTier4Range, discount: t.corpTier4Discount, badge: t.corpTier4Badge, highlight: false },
+  ];
+
+  const USE_CASES: { icon: LucideIcon; badge: string; badgeColor: string; title: string; desc: string; scenario: string }[] = [
+    { icon: Monitor,  badge: t.corpUC1Badge, badgeColor: "bg-blue-50 text-blue-600 border-blue-100",    title: t.corpUC1Title, desc: t.corpUC1Desc, scenario: t.corpUC1Scenario },
+    { icon: Landmark, badge: t.corpUC2Badge, badgeColor: "bg-red-50 text-red-500 border-red-100",       title: t.corpUC2Title, desc: t.corpUC2Desc, scenario: t.corpUC2Scenario },
+    { icon: Hospital, badge: t.corpUC3Badge, badgeColor: "bg-red-50 text-red-500 border-red-100",       title: t.corpUC3Title, desc: t.corpUC3Desc, scenario: t.corpUC3Scenario },
+    { icon: Coffee,   badge: t.corpUC4Badge, badgeColor: "bg-yellow-50 text-yellow-600 border-yellow-100", title: t.corpUC4Title, desc: t.corpUC4Desc, scenario: t.corpUC4Scenario },
+    { icon: Building2,badge: t.corpUC5Badge, badgeColor: "bg-blue-50 text-blue-600 border-blue-100",    title: t.corpUC5Title, desc: t.corpUC5Desc, scenario: t.corpUC5Scenario },
+    { icon: Users,    badge: t.corpUC6Badge, badgeColor: "bg-green-50 text-green-600 border-green-100", title: t.corpUC6Title, desc: t.corpUC6Desc, scenario: t.corpUC6Scenario },
+  ];
+
   const [form, setForm] = useState<LeadForm>(INITIAL_FORM);
   const [submitted, setSubmitted] = useState(false);
   const [errors, setErrors] = useState<Partial<Record<keyof LeadForm, string>>>({});
-
-  const BENEFITS = [
-    { icon: Building2, title: t.corpBulkTitle,     desc: t.corpBulkDesc },
-    { icon: Users,     title: t.corpManagerTitle,  desc: t.corpManagerDesc },
-    { icon: FileText,  title: t.corpInvoiceTitle,  desc: t.corpInvoiceDesc },
-    { icon: Truck,     title: t.corpDeliveryTitle, desc: t.corpDeliveryDesc },
-  ];
 
   function validate(): boolean {
     const newErrors: Partial<Record<keyof LeadForm, string>> = {};
@@ -58,8 +61,8 @@ export default function CorporatePage() {
       newErrors.email = "กรุณากรอกอีเมลที่ถูกต้อง";
     if (!form.phone.trim()) newErrors.phone = "กรุณากรอกเบอร์โทรศัพท์";
     if (!form.deviceType) newErrors.deviceType = "กรุณาเลือกประเภทอุปกรณ์";
-    if (!form.quantity.trim() || isNaN(Number(form.quantity)) || Number(form.quantity) < 5)
-      newErrors.quantity = "จำนวนขั้นต่ำ 5 ชิ้น";
+    if (!form.quantity.trim() || isNaN(Number(form.quantity)) || Number(form.quantity) < 1)
+      newErrors.quantity = "กรุณากรอกจำนวน";
     if (!form.filmType) newErrors.filmType = "กรุณาเลือกประเภทฟิล์ม";
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -122,37 +125,62 @@ export default function CorporatePage() {
   return (
     <div className="min-h-screen bg-[var(--km-bg)]">
       {/* Hero */}
-      <div className="bg-[var(--km-surface-dark)] text-[var(--km-text-inverse)]">
-        <div className="max-w-4xl mx-auto px-4 py-14 text-center">
-          <div className="inline-flex items-center gap-2 bg-white/10 rounded-full px-4 py-2 text-sm mb-6">
-            <Building2 size={14} />
-            <span>B2B / Corporate</span>
+      <div className="relative bg-[var(--km-surface-dark)] text-[var(--km-text-inverse)] overflow-hidden">
+        {/* Subtle gradient overlay */}
+        <div className="absolute inset-0 pointer-events-none"
+          style={{ background: "radial-gradient(ellipse at 60% 40%, rgba(245,166,0,0.08) 0%, transparent 65%)" }} />
+        <div className="relative max-w-4xl mx-auto px-4 py-20 text-center">
+          <div className="inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-xs font-semibold mb-6 border"
+            style={{ background: "rgba(245,166,0,0.12)", borderColor: "rgba(245,166,0,0.35)", color: "#F5A600" }}>
+            <Building2 size={12} />
+            <span>{t.corpHeroTag}</span>
           </div>
-          <h1 className="text-4xl md:text-5xl font-bold mb-4">{t.corpTitle}</h1>
-          <p className="text-xl text-white/70 max-w-xl mx-auto">
+          <h1 className="text-4xl md:text-6xl font-bold mb-5 leading-tight">{t.corpTitle}</h1>
+          <p className="text-lg md:text-xl text-white/65 max-w-2xl mx-auto mb-10">
             {t.corpSubtitle}
           </p>
+          {/* Quick stats */}
+          <div className="flex flex-wrap justify-center gap-8 text-center">
+            <div>
+              <div className="text-2xl md:text-3xl font-bold text-white">{t.corpStat1Val}</div>
+              <div className="text-xs text-white/45 mt-1">{t.corpStat1Sub}</div>
+            </div>
+            <div>
+              <div className="text-2xl md:text-3xl font-bold text-white">{t.corpStat2Val}</div>
+              <div className="text-xs text-white/45 mt-1">{t.corpStat2Sub}</div>
+            </div>
+            <div>
+              <div className="text-2xl md:text-3xl font-bold text-white">{t.corpStat3Val}</div>
+              <div className="text-xs text-white/45 mt-1">{t.corpStat3Sub}</div>
+            </div>
+          </div>
         </div>
       </div>
 
-      {/* Benefits */}
+      {/* Use Cases */}
       <div className="border-b border-[var(--km-border)]">
-        <div className="max-w-4xl mx-auto px-4 py-12">
-          <h2 className="text-2xl font-bold text-[var(--km-text)] text-center mb-8">
-            {t.corpWhyTitle}
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-            {BENEFITS.map((b) => (
-              <div
-                key={b.title}
-                className="flex gap-4 bg-[var(--km-surface)] rounded-2xl p-5 border border-[var(--km-border)]"
-              >
-                <div className="w-10 h-10 rounded-xl bg-[var(--km-brand-light)] flex items-center justify-center flex-shrink-0">
-                  <b.icon size={20} className="text-[var(--km-brand)]" />
+        <div className="max-w-5xl mx-auto px-4 py-12">
+          <h2 className="text-2xl font-bold text-[var(--km-text)] text-center mb-8">{t.corpUseCaseTitle}</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {USE_CASES.map((uc) => (
+              <div key={uc.title} className="flex flex-col bg-white rounded-2xl p-5 border border-[var(--km-border)] gap-3">
+                {/* Icon + Badge */}
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-xl bg-[var(--km-surface)] flex items-center justify-center flex-shrink-0">
+                    <uc.icon size={20} className="text-[var(--km-text-secondary)]" />
+                  </div>
+                  <span className="text-[11px] font-semibold px-2.5 py-1 rounded-full border border-[var(--km-border)] bg-transparent text-[var(--km-text-secondary)]">
+                    {uc.badge}
+                  </span>
                 </div>
+                {/* Title + Desc */}
                 <div>
-                  <div className="font-semibold text-[var(--km-text)] mb-1">{b.title}</div>
-                  <div className="text-sm text-[var(--km-text-secondary)]">{b.desc}</div>
+                  <div className="font-bold text-[var(--km-text)] mb-1.5 leading-snug">{uc.title}</div>
+                  <div className="text-sm text-[var(--km-text-secondary)] leading-relaxed">{uc.desc}</div>
+                </div>
+                {/* Scenario quote */}
+                <div className="mt-auto pt-2 rounded-xl bg-[var(--km-surface)] px-3.5 py-2.5">
+                  <p className="text-[12.5px] text-[var(--km-text-secondary)] italic leading-snug">{uc.scenario}</p>
                 </div>
               </div>
             ))}
@@ -163,69 +191,63 @@ export default function CorporatePage() {
       {/* Pricing tiers */}
       <div className="border-b border-[var(--km-border)]">
         <div className="max-w-4xl mx-auto px-4 py-12">
-          <h2 className="text-2xl font-bold text-[var(--km-text)] text-center mb-8">
-            Volume Pricing
-          </h2>
-          <div className="overflow-x-auto">
-            <table className="w-full text-sm">
-              <thead>
-                <tr className="bg-[var(--km-surface)] border-y border-[var(--km-border)]">
-                  <th className="text-left px-5 py-3.5 font-semibold text-[var(--km-text)]">
-                    จำนวนสั่งซื้อ
-                  </th>
-                  <th className="text-left px-5 py-3.5 font-semibold text-[var(--km-text)]">
-                    ส่วนลด
-                  </th>
-                  <th className="text-left px-5 py-3.5 font-semibold text-[var(--km-text)]">
-                    หมายเหตุ
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {PRICING_TIERS.map((tier) => (
-                  <tr
-                    key={tier.range}
-                    className={`border-b border-[var(--km-border)] ${
-                      tier.highlight ? "bg-[var(--km-brand-light)]" : "bg-white"
-                    }`}
-                  >
-                    <td className="px-5 py-4 font-medium text-[var(--km-text)]">
-                      {tier.range}
-                    </td>
-                    <td className="px-5 py-4">
-                      <span
-                        className={`font-semibold ${
-                          tier.highlight
-                            ? "text-[var(--km-brand)]"
-                            : "text-[var(--km-text)]"
-                        }`}
-                      >
-                        {tier.discount}
-                      </span>
-                    </td>
-                    <td className="px-5 py-4">
-                      {tier.badge && (
-                        <span className="inline-block text-xs font-semibold bg-[var(--km-brand)] text-white px-2.5 py-1 rounded-full">
-                          {tier.badge}
-                        </span>
-                      )}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+          <div className="text-center mb-10">
+            <p className="text-xs tracking-[0.25em] text-[var(--km-text-muted)] uppercase mb-2">{t.corpPricingTag}</p>
+            <h2 className="text-2xl font-bold text-[var(--km-text)]">{t.corpPricingTitle}</h2>
           </div>
-          <p className="text-xs text-[var(--km-text-muted)] mt-4 text-center">
-            *ราคาขึ้นอยู่กับรุ่นสินค้าและปริมาณ ทีมงานจะยืนยันราคาสุดท้ายหลังรับใบเสนอราคา
+          <div className="space-y-3">
+            {PRICING_TIERS.map((tier) => (
+              <div
+                key={tier.range}
+                className={`relative flex items-center justify-between px-6 py-5 rounded-2xl border transition-colors ${
+                  tier.highlight
+                    ? "bg-[#0A0A0A] border-[#0A0A0A]"
+                    : "bg-white border-[var(--km-border)]"
+                }`}
+              >
+                {/* Left: quantity */}
+                <div className="flex items-center gap-4 min-w-[120px]">
+                  <span className={`text-base font-semibold ${tier.highlight ? "text-white" : "text-[var(--km-text)]"}`}>
+                    {tier.range}
+                  </span>
+                </div>
+                {/* Center: discount */}
+                <div className="flex-1 text-center">
+                  <span className={`text-xl font-bold ${tier.highlight ? "text-[#F5A600]" : "text-[var(--km-text)]"}`}>
+                    {tier.discount}
+                  </span>
+                </div>
+                {/* Right: badge */}
+                <div className="min-w-[100px] flex justify-end">
+                  {tier.badge && (
+                    <span className={`text-xs font-semibold px-3 py-1 rounded-full border ${
+                      tier.highlight
+                        ? "border-white/20 text-white/70 bg-white/10"
+                        : "border-[var(--km-border)] text-[var(--km-text-muted)]"
+                    }`}>
+                      {tier.badge}
+                    </span>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+          <p className="text-xs text-[var(--km-text-muted)] mt-5 text-center">
+            {t.corpPricingNote}
           </p>
         </div>
       </div>
 
       {/* Quotation form */}
       <div className="max-w-4xl mx-auto px-4 py-12">
-        <div>
+        <div className="border border-[var(--km-border)] rounded-2xl p-6 md:p-10">
           <h2 className="text-2xl font-bold text-[var(--km-text)] mb-2">{t.corpFormTitle}</h2>
-          <p className="text-[var(--km-text-secondary)] mb-8">{t.corpFormSubtitle}</p>
+          <p className="text-[var(--km-text-secondary)] mb-5">{t.corpFormSubtitle}</p>
+          <a href="tel:0962286998" className="inline-flex items-center gap-2.5 mb-8 px-4 py-2.5 rounded-xl border border-[var(--km-border)] bg-[var(--km-surface)] hover:border-[var(--km-border-strong)] transition-colors">
+            <Phone size={15} className="text-[#F5A600]" />
+            <span className="text-sm font-medium text-[var(--km-text)]">096-228-6998</span>
+            <span className="text-xs text-[var(--km-text-muted)]">{t.corpPhoneCTA}</span>
+          </a>
 
           <form onSubmit={handleSubmit} noValidate className="space-y-5">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -279,7 +301,7 @@ export default function CorporatePage() {
                 <label className="block text-sm font-medium text-[var(--km-text)] mb-1.5">
                   {t.corpFormQty} <span className="text-[var(--km-error)]">*</span>
                 </label>
-                <input type="number" name="quantity" value={form.quantity} onChange={handleChange} placeholder={t.corpFormQtyPH} min={5} className={fieldClass("quantity")} />
+                <input type="number" name="quantity" value={form.quantity} onChange={handleChange} placeholder="เช่น 10" min={1} className={fieldClass("quantity")} />
                 {errors.quantity && <p className="text-xs text-[var(--km-error)] mt-1">{errors.quantity}</p>}
               </div>
             </div>

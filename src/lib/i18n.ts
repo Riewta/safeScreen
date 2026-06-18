@@ -46,7 +46,7 @@ export interface Translations {
     why1Icon: string; why1Title: string; why1Body: string;
     why2Icon: string; why2Title: string; why2Body: string;
     why3Icon: string; why3Title: string; why3Body: string;
-    contactTag: string; contactTitle: string; contactHours: string;
+    contactTag: string; contactTitle: string; contactHours: string; companyAddress: string;
     faqTag: string; faqTitle: string; faqSubtitle: string;
     faqReadMore: string; faqCollapse: string; faqViewAll: string;
     faq1Q: string; faq1A: string; faq1Detail: string;
@@ -76,6 +76,7 @@ export interface Translations {
   footer: {
     tagline: string;
     products: string; services: string; help: string;
+    privacyPolicy: string; termsOfService: string; copyright: string;
     links: {
       storeFront: string; corporate: string;
       howToOrder: string; shipping: string; returns: string; contactUs: string; privacy: string;
@@ -167,6 +168,31 @@ export interface Translations {
     corpFormSuccessEmail: string;
     corpFormResubmit: string;
 
+    // Corporate page — hero & stats
+    corpHeroTag: string;
+    corpStat1Val: string; corpStat1Sub: string;
+    corpStat2Val: string; corpStat2Sub: string;
+    corpStat3Val: string; corpStat3Sub: string;
+
+    // Corporate page — use cases section
+    corpUseCaseTitle: string;
+    corpUC1Badge: string; corpUC1Title: string; corpUC1Desc: string; corpUC1Scenario: string;
+    corpUC2Badge: string; corpUC2Title: string; corpUC2Desc: string; corpUC2Scenario: string;
+    corpUC3Badge: string; corpUC3Title: string; corpUC3Desc: string; corpUC3Scenario: string;
+    corpUC4Badge: string; corpUC4Title: string; corpUC4Desc: string; corpUC4Scenario: string;
+    corpUC5Badge: string; corpUC5Title: string; corpUC5Desc: string; corpUC5Scenario: string;
+    corpUC6Badge: string; corpUC6Title: string; corpUC6Desc: string; corpUC6Scenario: string;
+
+    // Corporate page — pricing section
+    corpPricingTag: string; corpPricingTitle: string;
+    corpPricingColQty: string; corpPricingColDiscount: string; corpPricingColNote: string;
+    corpTier1Range: string; corpTier1Discount: string;
+    corpTier2Range: string; corpTier2Discount: string; corpTier2Badge: string;
+    corpTier3Range: string; corpTier3Discount: string; corpTier3Badge: string;
+    corpTier4Range: string; corpTier4Discount: string; corpTier4Badge: string;
+    corpPricingNote: string;
+    corpPhoneCTA: string;
+
     // AI Checker page
     aiSubtitle: string;
     aiStepDevice: string;
@@ -210,6 +236,69 @@ export interface Translations {
     flashStartsIn: string;
     flashNextDesc: string;
     viewAllPromos: string;
+
+    // Store page — map section
+    storeFindUs: string;
+    storeNavigate: string;
+    storeMapSubtitle: string;
+
+    // About page
+    aboutPhoneLabel: string;
+    aboutAddressLabel: string;
+    aboutBlogTag: string;
+    aboutBlogTitle: string;
+    aboutBlogSubtitle: string;
+    aboutBlogViewAll: string;
+
+    // ReviewsStrip
+    reviewsTag: string;
+    reviewsTitle: string;
+    reviewsSubtitle: string;
+    reviewsShopeeBtn: string;
+    reviewsCount: string;
+
+    // Express page
+    expressShipFrom: string;
+    expressShopNow: string;
+    expressPricingTitle: string;
+    expressCtaTitle: string;
+    expressCtaSubtitle: string;
+    expressCtaBtn: string;
+
+    // AI Checker page
+    aiTitle: string;
+    aiSelectSize: string;
+    aiSelectFilm: string;
+    aiBack: string;
+    aiFoundTitle: string;
+    aiFoundDesc: string;
+    aiAddToCart: string;
+    aiAdded: string;
+    aiViewMore: string;
+    aiViewAll: string;
+    aiNotFoundTitle: string;
+    aiNotFoundDesc: string;
+    aiContactTeam: string;
+    aiReset: string;
+    aiPrivacyDesc: string;
+    aiAntiBlueDesc: string;
+    aiPaperlikeDesc: string;
+    aiComingSoon: string;
+
+    // Blog page
+    blogTitle: string;
+    blogSubtitle: string;
+    blogReadMore: string;
+    blogSubscribeTitle: string;
+    blogSubscribeSubtitle: string;
+    blogSubscribeBtn: string;
+
+    // Blog detail page
+    blogBackToList: string;
+    blogBackOther: string;
+    blogCtaTitle: string;
+    blogCtaSubtitle: string;
+    blogCtaBtn: string;
   };
 }
 
@@ -288,8 +377,8 @@ const translations: Record<LangCode, Translations> = {
       heroTag: "Our Story",
       heroTitle: "ปกป้องความเป็นส่วนตัวของคุณ ทุกที่ ทุกเวลา",
       heroSubtitle: "เราเชื่อว่าความเป็นส่วนตัวคือสิทธิ์พื้นฐาน ไม่ควรแลกกับอะไรทั้งนั้น",
-      stat1Num: "3", stat1Label: "ปีในตลาด",
-      stat2Num: "20,000+", stat2Label: "Orders Nationwide",
+      stat1Num: "20,000+", stat1Label: "Orders Nationwide",
+      stat2Num: "10,000+", stat2Label: "Shopee Reviews",
       stat3Num: "4.9★", stat3Label: "Customer Rating",
       stat4Num: "500+", stat4Label: "Corporate Clients",
       originTag: "Origin Story",
@@ -308,6 +397,7 @@ const translations: Record<LangCode, Translations> = {
       why3Icon: "✦", why3Title: "CHOICE BY DESIGN",
       why3Body: "ออกแบบมาเพื่อให้คุณเลือกได้ว่าต้องการความเป็นส่วนตัวเมื่อไหร่ ไม่ใช่ติดแล้วติดเลย คุณเป็นคนควบคุม ไม่ใช่ฟิล์ม",
       contactTag: "ติดต่อเรา", contactTitle: "ช่องทางการติดต่อ", contactHours: "พร้อมตอบทุกวัน 9:00–22:00",
+      companyAddress: "บริษัท รวยเสมอ จำกัด\n38 หมู่ 4 ซอยกระทุ่มล้ม 27 ถนนพุทธมณฑลสาย 4\nตำบลกระทุ่มล้ม อำเภอสามพราน จังหวัดนครปฐม 73220",
       faqTag: "FAQ", faqTitle: "ถามตอบ คำถามที่คุณอยากรู้", faqSubtitle: "คำถามที่พบบ่อยเกี่ยวกับสินค้าและบริการ",
       faqReadMore: "อ่านเพิ่มเติม", faqCollapse: "ย่อ", faqViewAll: "ดูคำถามทั้งหมด",
       faq1Q: "ฟิล์มแม่เหล็กติดตั้งอย่างไร?",
@@ -387,6 +477,9 @@ const translations: Record<LangCode, Translations> = {
       products: "ผลิตภัณฑ์",
       services: "บริการ",
       help: "ช่วยเหลือ",
+      privacyPolicy: "Privacy Policy",
+      termsOfService: "Terms of Service",
+      copyright: "Prices and offers are subject to change without notice. © 2026 Ruay Samoe Co., Ltd. (Safescreen) · safescreentech.com · All rights reserved.",
       links: {
         storeFront: "หน้าร้าน",
         corporate: "ลูกค้าองค์กร",
@@ -457,7 +550,7 @@ const translations: Record<LangCode, Translations> = {
       storeSvc2Title: "บริการติดตั้ง",   storeSvc2Desc: "ทีมงานมืออาชีพช่วยติดฟิล์มให้อย่างระวัง ไม่มีฟองอากาศ",
       storeSvc3Title: "รับเปลี่ยนคืน",  storeSvc3Desc: "รับเปลี่ยนสินค้าใหม่ภายใน 7 วัน หากมีปัญหาจากการผลิต",
       storeContactQ: "มีคำถามเกี่ยวกับหน้าร้าน หรือต้องการสอบถามก่อนมา?",
-      storeContactA: "Line OA: @safescreenofficial  |  โทร 02-xxx-xxxx",
+      storeContactA: "Line OA: @safescreenofficial  |  โทร 096-228-6998",
       corpTitle: "ลูกค้าองค์กร",
       corpSubtitle: "ราคาพิเศษสำหรับการสั่งซื้อจำนวนมาก พร้อมบริการครบวงจรสำหรับองค์กร",
       corpWhyTitle: "ทำไมต้องเลือก SafeScreen Corporate?",
@@ -491,6 +584,37 @@ const translations: Record<LangCode, Translations> = {
       corpFormSuccessDesc: "ทีม B2B ของเราจะติดต่อกลับภายใน 1 วันทำการ",
       corpFormSuccessEmail: "อีเมล:",
       corpFormResubmit: "ส่งใบเสนอราคาใหม่",
+      corpHeroTag: "For B2B",
+      corpStat1Val: "500+", corpStat1Sub: "Corporate Clients",
+      corpStat2Val: "เริ่มต้น 1 ชิ้น", corpStat2Sub: "ไม่มีขั้นต่ำ",
+      corpStat3Val: "1 วัน", corpStat3Sub: "ตอบกลับภายใน",
+      corpUseCaseTitle: "เหมาะสำหรับใคร?",
+      corpUC1Badge: "Data Protection", corpUC1Title: "Office & Open Space",
+      corpUC1Desc: "พนักงานทำงานในพื้นที่โล่ง มีคนเดินผ่านหรือนั่งใกล้กัน ข้อมูลบริษัทและอีเมลภายในเสี่ยงถูกมองเห็น",
+      corpUC1Scenario: "\"HR เปิดไฟล์เงินเดือนในห้องประชุมโล่ง\"",
+      corpUC2Badge: "Financial Compliance", corpUC2Title: "ธนาคาร & สถาบันการเงิน",
+      corpUC2Desc: "เจ้าหน้าที่เปิดข้อมูลบัญชีลูกค้า วงเงินกู้ หรือข้อมูลการลงทุน ภายใต้กฎหมายกำกับดูแลอย่างเข้มงวด",
+      corpUC2Scenario: "\"Teller เปิดข้อมูลบัญชี ขณะลูกค้าอื่นยืนรอ\"",
+      corpUC3Badge: "Patient Privacy · PDPA", corpUC3Title: "โรงพยาบาล & คลินิก",
+      corpUC3Desc: "แพทย์และพยาบาลเปิดข้อมูลผู้ป่วย ผลตรวจ และประวัติการรักษา ที่เป็นข้อมูลอ่อนไหวตาม PDPA",
+      corpUC3Scenario: "\"พยาบาลเปิดแฟ้มผู้ป่วย ขณะห้องตรวจมีผู้รอ\"",
+      corpUC4Badge: "Workspace Privacy", corpUC4Title: "Co-working Space",
+      corpUC4Desc: "ผู้เช่าพื้นที่จากหลายบริษัท ข้อมูลของแต่ละคนเสี่ยงถูกมองจากคนที่นั่งข้างๆ",
+      corpUC4Scenario: "\"Startup founder เปิด Pitch Deck ข้างๆ คู่แข่ง\"",
+      corpUC5Badge: "Corporate Fleet", corpUC5Title: "Corporate Office",
+      corpUC5Desc: "ลูกค้าองค์กรขนาดกลาง–ใหญ่ ต้องการฟิล์มสำหรับพนักงาน Remote / Hybrid Work จัดซื้อครั้งเดียวทั้ง Fleet",
+      corpUC5Scenario: "\"IT Admin สั่ง 200 ชิ้นพร้อมใบกำกับภาษี\"",
+      corpUC6Badge: "Education", corpUC6Title: "สถาบันการศึกษา",
+      corpUC6Desc: "จัดซื้อสำหรับนักเรียน นักศึกษา หรืออาจารย์ที่ใช้ Laptop ในห้องเรียนและห้องสมุด",
+      corpUC6Scenario: "\"นักศึกษาเปิดโจทย์สอบในห้องสมุด\"",
+      corpPricingTag: "Bulk Discount", corpPricingTitle: "Volume Pricing",
+      corpPricingColQty: "จำนวนสั่งซื้อ", corpPricingColDiscount: "ส่วนลด", corpPricingColNote: "หมายเหตุ",
+      corpTier1Range: "1–9 ชิ้น", corpTier1Discount: "ราคาปกติ",
+      corpTier2Range: "10–49 ชิ้น", corpTier2Discount: "ลด 5%", corpTier2Badge: "Popular",
+      corpTier3Range: "50–99 ชิ้น", corpTier3Discount: "ลด 10%", corpTier3Badge: "Best Value",
+      corpTier4Range: "100+ ชิ้น", corpTier4Discount: "Custom Quote", corpTier4Badge: "Enterprise",
+      corpPricingNote: "*ราคาขึ้นอยู่กับรุ่นสินค้าและปริมาณ ทีมงานจะยืนยันราคาสุดท้ายหลังรับใบเสนอราคา",
+      corpPhoneCTA: "โทรหาทีม B2B ได้เลย",
       aiSubtitle: "เลือกอุปกรณ์ ขนาดหน้าจอ และประเภทฟิล์ม เราจะแนะนำสินค้าที่เหมาะสมให้คุณ",
       aiStepDevice: "อุปกรณ์",
       aiStepSize: "ขนาดหน้าจอ",
@@ -523,6 +647,62 @@ const translations: Record<LangCode, Translations> = {
       flashStartsIn: "เริ่มใน",
       flashNextDesc: "เตรียมตัวให้พร้อม! ดีลรอบถัดไปกำลังจะมาพร้อมสินค้าใหม่และส่วนลดสุดพิเศษ ราคาจะเผยเมื่อรอบเริ่ม",
       viewAllPromos: "← ดูโปรโมชั่นทั้งหมด",
+
+      storeFindUs: "Find Us Here",
+      storeNavigate: "Navigate",
+      storeMapSubtitle: "Smoosh สามย่าน, กรุงเทพฯ",
+
+      aboutPhoneLabel: "โทรศัพท์",
+      aboutAddressLabel: "ที่อยู่บริษัท",
+      aboutBlogTag: "KNOWLEDGE BASE",
+      aboutBlogTitle: "บทความที่น่าสนใจ",
+      aboutBlogSubtitle: "ความรู้เกี่ยวกับฟิล์มกันมอง การดูแลสายตา และเทคโนโลยีหน้าจอ",
+      aboutBlogViewAll: "ดูบทความทั้งหมด",
+
+      reviewsTag: "Customer Reviews",
+      reviewsTitle: "ลูกค้าพูดถึง Safescreen",
+      reviewsSubtitle: "รีวิวจริงจากลูกค้าที่ซื้อและใช้งานจริง · Shopee Verified",
+      reviewsShopeeBtn: "ดูบน Shopee",
+      reviewsCount: "10,000+ รีวิว",
+
+      expressShipFrom: "ส่งจาก",
+      expressShopNow: "Shop Express Now",
+      expressPricingTitle: "อัตราค่าจัดส่ง Express",
+      expressCtaTitle: "สินค้าพร้อมส่ง Express",
+      expressCtaSubtitle: "ฟิล์มกันเสือกทุกรุ่น พร้อมส่งด่วน ไม่ต้องรอนาน",
+      expressCtaBtn: "ดูสินค้า Express",
+
+      aiTitle: "AI Compatibility Checker",
+      aiSelectSize: "เลือกขนาดหน้าจอ",
+      aiSelectFilm: "เลือกประเภทฟิล์ม",
+      aiBack: "← กลับ",
+      aiFoundTitle: "✅ รองรับ! สินค้าที่แนะนำ",
+      aiFoundDesc: "สินค้านี้เหมาะกับ",
+      aiAddToCart: "หยิบใส่ตะกร้า",
+      aiAdded: "เพิ่มแล้ว ✓",
+      aiViewMore: "ดูเพิ่มเติม",
+      aiViewAll: "ดูสินค้าทั้งหมด",
+      aiNotFoundTitle: "ยังไม่มีสินค้ารองรับ combination นี้",
+      aiNotFoundDesc: "ยังอยู่ในแผนพัฒนา — ลองเลือก combination อื่น หรือติดต่อทีมงานเพื่อขอข้อมูลเพิ่มเติม",
+      aiContactTeam: "ติดต่อทีมงาน",
+      aiReset: "เริ่มใหม่",
+      aiPrivacyDesc: "กันคนแอบมอง มุมมองแคบ 30°",
+      aiAntiBlueDesc: "กรองแสงสีฟ้า ถนอมสายตา",
+      aiPaperlikeDesc: "เหมือนกระดาษ — เหมาะสำหรับวาด/เขียนด้วย Apple Pencil",
+      aiComingSoon: "เร็วๆ นี้",
+
+      blogTitle: "Blog",
+      blogSubtitle: "ความรู้เกี่ยวกับฟิล์มกันเสือก การดูแลหน้าจอ และเทคโนโลยีที่เกี่ยวข้อง",
+      blogReadMore: "อ่านต่อ →",
+      blogSubscribeTitle: "รับบทความใหม่ก่อนใคร",
+      blogSubscribeSubtitle: "สมัครรับ Newsletter ทิปส์ดูแลหน้าจอและโปรโมชันพิเศษ",
+      blogSubscribeBtn: "สมัคร",
+
+      blogBackToList: "กลับไปหน้า Blog",
+      blogBackOther: "บทความอื่นๆ",
+      blogCtaTitle: "ยังไม่รู้จะเลือกรุ่นไหน?",
+      blogCtaSubtitle: "ลอง AI Compatibility Checker เลือกอุปกรณ์ ขนาดหน้าจอ และประเภทฟิล์ม แล้วเราจะแนะนำสินค้าที่เหมาะสมให้ทันที",
+      blogCtaBtn: "ลอง AI Checker →",
     },
   },
 
@@ -600,8 +780,8 @@ const translations: Record<LangCode, Translations> = {
       heroTag: "Our Story",
       heroTitle: "Protect Your Privacy, Anywhere, Anytime.",
       heroSubtitle: "We believe privacy is a fundamental right — it should never be traded away.",
-      stat1Num: "3", stat1Label: "Years in Market",
-      stat2Num: "20,000+", stat2Label: "Orders Nationwide",
+      stat1Num: "20,000+", stat1Label: "Orders Nationwide",
+      stat2Num: "10,000+", stat2Label: "Shopee Reviews",
       stat3Num: "4.9★", stat3Label: "Customer Rating",
       stat4Num: "500+", stat4Label: "Corporate Clients",
       originTag: "Origin Story",
@@ -620,6 +800,7 @@ const translations: Record<LangCode, Translations> = {
       why3Icon: "✦", why3Title: "CHOICE BY DESIGN",
       why3Body: "Designed so you decide when you want privacy — not stuck once applied. You're in control, not the film.",
       contactTag: "Contact Us", contactTitle: "Get in Touch", contactHours: "Available every day 9:00–22:00",
+      companyAddress: "Ruay Samoe Co., Ltd.\n38 Moo 4, Soi Krathumlom 27, Phutthamonthon Sai 4 Rd.\nKrathumlom, Sampran, Nakhon Pathom 73220, Thailand",
       faqTag: "FAQ", faqTitle: "Frequently Asked Questions", faqSubtitle: "Common questions about our products and services",
       faqReadMore: "Read more", faqCollapse: "Collapse", faqViewAll: "View all questions",
       faq1Q: "How do I install the magnetic film?",
@@ -699,6 +880,9 @@ const translations: Record<LangCode, Translations> = {
       products: "Products",
       services: "Services",
       help: "Help",
+      privacyPolicy: "Privacy Policy",
+      termsOfService: "Terms of Service",
+      copyright: "Prices and offers are subject to change without notice. © 2026 Ruay Samoe Co., Ltd. (Safescreen) · safescreentech.com · All rights reserved.",
       links: {
         storeFront: "Store Locations",
         corporate: "Corporate Clients",
@@ -769,7 +953,7 @@ const translations: Record<LangCode, Translations> = {
       storeSvc2Title: "Installation",       storeSvc2Desc: "Professional staff apply the film carefully — no bubbles guaranteed",
       storeSvc3Title: "Exchange & Return",  storeSvc3Desc: "Exchange for a new item within 7 days for manufacturing defects",
       storeContactQ: "Have questions about our store or want to ask before visiting?",
-      storeContactA: "Line OA: @safescreenofficial  |  Tel. 02-xxx-xxxx",
+      storeContactA: "Line OA: @safescreenofficial  |  Tel. 096-228-6998",
       corpTitle: "Corporate Clients",
       corpSubtitle: "Special pricing for bulk orders with complete corporate services",
       corpWhyTitle: "Why Choose SafeScreen Corporate?",
@@ -803,6 +987,37 @@ const translations: Record<LangCode, Translations> = {
       corpFormSuccessDesc: "Our B2B team will contact you within 1 business day.",
       corpFormSuccessEmail: "Email:",
       corpFormResubmit: "Submit Another Quotation",
+      corpHeroTag: "For B2B",
+      corpStat1Val: "500+", corpStat1Sub: "Corporate Clients",
+      corpStat2Val: "Min. 1 unit", corpStat2Sub: "No minimum",
+      corpStat3Val: "1 Day", corpStat3Sub: "Response time",
+      corpUseCaseTitle: "Who Is It For?",
+      corpUC1Badge: "Data Protection", corpUC1Title: "Office & Open Space",
+      corpUC1Desc: "Employees work in open areas with people walking by or sitting nearby. Company data and internal emails are at risk of being seen.",
+      corpUC1Scenario: "\"HR opens salary files in an open meeting room\"",
+      corpUC2Badge: "Financial Compliance", corpUC2Title: "Bank & Financial Institution",
+      corpUC2Desc: "Staff access customer account info, credit lines, or investment data under strict regulatory oversight.",
+      corpUC2Scenario: "\"Teller views account details while another customer waits\"",
+      corpUC3Badge: "Patient Privacy · PDPA", corpUC3Title: "Hospital & Clinic",
+      corpUC3Desc: "Doctors and nurses open patient records, test results, and treatment history — all sensitive PDPA data.",
+      corpUC3Scenario: "\"Nurse opens patient file while the exam room has others waiting\"",
+      corpUC4Badge: "Workspace Privacy", corpUC4Title: "Co-working Space",
+      corpUC4Desc: "Renters from multiple companies — each person's data is at risk of being seen by those sitting nearby.",
+      corpUC4Scenario: "\"Startup founder opens pitch deck next to a competitor\"",
+      corpUC5Badge: "Corporate Fleet", corpUC5Title: "Corporate Office",
+      corpUC5Desc: "Mid-to-large organizations need films for Remote/Hybrid Work employees — single bulk purchase for the entire fleet.",
+      corpUC5Scenario: "\"IT Admin orders 200 units with tax invoice\"",
+      corpUC6Badge: "Education", corpUC6Title: "Educational Institution",
+      corpUC6Desc: "Bulk purchase for students, college students, or faculty using laptops in classrooms and libraries.",
+      corpUC6Scenario: "\"Student opens exam paper in the library\"",
+      corpPricingTag: "Bulk Discount", corpPricingTitle: "Volume Pricing",
+      corpPricingColQty: "Order Quantity", corpPricingColDiscount: "Discount", corpPricingColNote: "Note",
+      corpTier1Range: "1–9 units", corpTier1Discount: "Regular Price",
+      corpTier2Range: "10–49 units", corpTier2Discount: "5% Off", corpTier2Badge: "Popular",
+      corpTier3Range: "50–99 units", corpTier3Discount: "10% Off", corpTier3Badge: "Best Value",
+      corpTier4Range: "100+ units", corpTier4Discount: "Custom Quote", corpTier4Badge: "Enterprise",
+      corpPricingNote: "*Prices depend on product model and quantity. Our team will confirm the final price after receiving your quotation.",
+      corpPhoneCTA: "Call our B2B team directly",
       aiSubtitle: "Select device, screen size, and film type — we'll recommend the right product for you",
       aiStepDevice: "Device",
       aiStepSize: "Screen Size",
@@ -835,6 +1050,62 @@ const translations: Record<LangCode, Translations> = {
       flashStartsIn: "Starts in",
       flashNextDesc: "Get ready! The next round is coming with new items and special discounts. Prices will be revealed when the round begins.",
       viewAllPromos: "← View All Promotions",
+
+      storeFindUs: "Find Us Here",
+      storeNavigate: "Navigate",
+      storeMapSubtitle: "Smoosh Sam Yan, Bangkok",
+
+      aboutPhoneLabel: "Phone",
+      aboutAddressLabel: "Company Address",
+      aboutBlogTag: "KNOWLEDGE BASE",
+      aboutBlogTitle: "Interesting Articles",
+      aboutBlogSubtitle: "Knowledge about privacy films, eye care, and screen technology",
+      aboutBlogViewAll: "View All Articles",
+
+      reviewsTag: "Customer Reviews",
+      reviewsTitle: "What Customers Say About Safescreen",
+      reviewsSubtitle: "Real reviews from verified buyers · Shopee Verified",
+      reviewsShopeeBtn: "View on Shopee",
+      reviewsCount: "10,000+ Reviews",
+
+      expressShipFrom: "Ships from",
+      expressShopNow: "Shop Express Now",
+      expressPricingTitle: "Express Delivery Rates",
+      expressCtaTitle: "Products Ready for Express",
+      expressCtaSubtitle: "All privacy film models, ready for express delivery — no long wait",
+      expressCtaBtn: "View Express Products",
+
+      aiTitle: "AI Compatibility Checker",
+      aiSelectSize: "Select Screen Size",
+      aiSelectFilm: "Select Film Type",
+      aiBack: "← Back",
+      aiFoundTitle: "✅ Compatible! Recommended Product",
+      aiFoundDesc: "This product is compatible with your",
+      aiAddToCart: "Add to Cart",
+      aiAdded: "Added ✓",
+      aiViewMore: "View Details",
+      aiViewAll: "View All Products",
+      aiNotFoundTitle: "No product available for this combination yet",
+      aiNotFoundDesc: "Still in development — try another combination or contact our team for more info",
+      aiContactTeam: "Contact Team",
+      aiReset: "Start Over",
+      aiPrivacyDesc: "Blocks side viewing from 30°",
+      aiAntiBlueDesc: "Filters blue light, protects eyes",
+      aiPaperlikeDesc: "Paper-like feel — great for drawing/writing with Apple Pencil",
+      aiComingSoon: "Coming Soon",
+
+      blogTitle: "Blog",
+      blogSubtitle: "Knowledge about privacy films, screen care, and related technology",
+      blogReadMore: "Read more →",
+      blogSubscribeTitle: "Get New Articles First",
+      blogSubscribeSubtitle: "Subscribe to our Newsletter for screen care tips and special promotions",
+      blogSubscribeBtn: "Subscribe",
+
+      blogBackToList: "Back to Blog",
+      blogBackOther: "Other Articles",
+      blogCtaTitle: "Not sure which model to choose?",
+      blogCtaSubtitle: "Try the AI Compatibility Checker — select your device, screen size, and film type and we'll recommend the right product instantly",
+      blogCtaBtn: "Try AI Checker →",
     },
   },
 };
