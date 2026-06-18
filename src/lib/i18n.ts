@@ -2,7 +2,7 @@ export type LangCode = "TH" | "EN";
 
 export interface Translations {
   _lang: LangCode;
-  nav: { home: string; shop: string; cart: string; me: string; allProducts: string; express: string; store: string; corporate: string; loginRegister: string; pointsLabel: string };
+  nav: { home: string; shop: string; cart: string; me: string; allProducts: string; express: string; store: string; corporate: string; aiChecker: string; about: string; loginRegister: string; pointsLabel: string };
   shopDropdown: { all: string; paper: string; privacy: string; antiBlue: string; nano: string };
   header: {
     cart: string; checkoutAddress: string; checkout: string; payment: string;
@@ -305,7 +305,7 @@ export interface Translations {
 const translations: Record<LangCode, Translations> = {
   TH: {
     _lang: "TH",
-    nav: { home: "หน้าแรก", shop: "Shop", cart: "Cart", me: "Profile", allProducts: "สินค้าทั้งหมด", express: "จัดส่งด่วน 2 ชม.", store: "หน้าร้าน", corporate: "สำหรับองค์กร", loginRegister: "เข้าสู่ระบบ / สมัคร", pointsLabel: "แต้ม" },
+    nav: { home: "หน้าแรก", shop: "Shop", cart: "Cart", me: "Profile", allProducts: "สินค้าทั้งหมด", express: "Express", store: "หน้าร้าน", corporate: "B2B", aiChecker: "AI Checker", about: "เกี่ยวกับเรา", loginRegister: "เข้าสู่ระบบ / สมัคร", pointsLabel: "แต้ม" },
     shopDropdown: { all: "ดูสินค้าทั้งหมด", paper: "ฟิล์มเนื้อกระดาษ", privacy: "ฟิล์มกันการมอง", antiBlue: "ฟิล์มกันแสงสีฟ้า", nano: "ฟิล์มนาโน" },
     header: {
       cart: "ตะกร้าสินค้า",
@@ -482,7 +482,7 @@ const translations: Record<LangCode, Translations> = {
       copyright: "Prices and offers are subject to change without notice. © 2026 Ruay Samoe Co., Ltd. (Safescreen) · safescreentech.com · All rights reserved.",
       links: {
         storeFront: "หน้าร้าน",
-        corporate: "ลูกค้าองค์กร",
+        corporate: "B2B",
         howToOrder: "วิธีสั่งซื้อ",
         shipping: "การจัดส่ง",
         returns: "นโยบายการคืนสินค้า",
@@ -708,7 +708,7 @@ const translations: Record<LangCode, Translations> = {
 
   EN: {
     _lang: "EN",
-    nav: { home: "Home", shop: "Shop", cart: "Cart", me: "Profile", allProducts: "All Products", express: "2-Hr Delivery", store: "Store Locations", corporate: "Corporate", loginRegister: "Sign In / Register", pointsLabel: "pts" },
+    nav: { home: "Home", shop: "Shop", cart: "Cart", me: "Profile", allProducts: "All Products", express: "Express", store: "Store Locations", corporate: "B2B", aiChecker: "AI Checker", about: "About Us", loginRegister: "Sign In / Register", pointsLabel: "pts" },
     shopDropdown: { all: "All Products", paper: "Paper-like Film", privacy: "Privacy Film", antiBlue: "Anti-Blue Light Film", nano: "Nano Film" },
     header: {
       cart: "Shopping Cart",
@@ -885,7 +885,7 @@ const translations: Record<LangCode, Translations> = {
       copyright: "Prices and offers are subject to change without notice. © 2026 Ruay Samoe Co., Ltd. (Safescreen) · safescreentech.com · All rights reserved.",
       links: {
         storeFront: "Store Locations",
-        corporate: "Corporate Clients",
+        corporate: "B2B",
         howToOrder: "How to Order",
         shipping: "Shipping",
         returns: "Return Policy",
