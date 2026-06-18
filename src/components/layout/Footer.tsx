@@ -53,8 +53,15 @@ export function Footer() {
             <Link href="/privacy" className="hover:text-[var(--km-text)] transition-colors">{t.privacyPolicy}</Link>
             <Link href="/terms" className="hover:text-[var(--km-text)] transition-colors">{t.termsOfService}</Link>
         </div>
-        <p className="mt-3 text-center text-[13px] text-[var(--km-text-muted)] leading-relaxed">
+        {/* Desktop: single line */}
+        <p className="mt-3 hidden md:block text-center text-[13px] text-[var(--km-text-muted)] leading-relaxed">
           {t.copyright}
+        </p>
+        {/* Mobile: 3 lines */}
+        <p className="mt-3 md:hidden text-center text-[13px] text-[var(--km-text-muted)] leading-[1.8]">
+          Prices and offers are subject to change without notice.<br />
+          © 2026 Ruay Samoe Co., Ltd. (Safescreen)<br />
+          · safescreentech.com · All rights reserved.
         </p>
       </div>
     </footer>

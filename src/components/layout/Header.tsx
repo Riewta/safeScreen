@@ -268,12 +268,17 @@ export function Header() {
           </Link>
 
           {/* Desktop Nav */}
-          <nav className="hidden md:flex items-center gap-2 flex-1 h-full">
+          <nav className="hidden md:flex items-center flex-1 h-full">
             <ShopDropdown />
+            <span className="h-3.5 w-px bg-[var(--km-border)] opacity-60 mx-2 shrink-0" />
             <NavItem label="Express" href="/express" />
+            <span className="h-3.5 w-px bg-[var(--km-border)] opacity-60 mx-2 shrink-0" />
             <NavItem label="Store" href="/store" />
+            <span className="h-3.5 w-px bg-[var(--km-border)] opacity-60 mx-2 shrink-0" />
             <NavItem label="B2B" href="/corporate" />
+            <span className="h-3.5 w-px bg-[var(--km-border)] opacity-60 mx-2 shrink-0" />
             <NavItem label="AI Checker" href="/ai-checker" />
+            <span className="h-3.5 w-px bg-[var(--km-border)] opacity-60 mx-2 shrink-0" />
             <NavItem label="About Us" href="/about" />
           </nav>
 

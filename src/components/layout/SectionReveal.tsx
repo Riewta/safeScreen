@@ -13,6 +13,8 @@ export function SectionReveal() {
   useEffect(() => {
     // Defer until after React hydration is complete
     const timer = setTimeout(() => {
+      // Double-rAF ensures we run after the browser has painted the hydrated tree
+      requestAnimationFrame(() => requestAnimationFrame(() => {
       const sections = Array.from(document.querySelectorAll("section"));
 
       const observer = new IntersectionObserver(
@@ -39,6 +41,7 @@ export function SectionReveal() {
       });
 
       return () => observer.disconnect();
+      })); // end double-rAF
     }, 50);
 
     return () => clearTimeout(timer);
