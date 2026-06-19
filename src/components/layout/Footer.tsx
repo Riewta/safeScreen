@@ -39,7 +39,16 @@ export function Footer() {
         <div className="flex flex-col-reverse md:grid md:grid-cols-[2fr_1fr_1fr] gap-4 md:gap-16">
           <div className="mt-4 md:mt-0">
             <Image src="/logo.svg" alt="SafeScreen" width={220} height={28} className="h-7 w-auto mb-2" unoptimized />
-            <p className="text-sm text-[var(--km-text-secondary)] leading-relaxed mb-4 whitespace-pre-line">{t.tagline}</p>
+            <div className="mb-4 flex flex-col gap-1">
+              {t.tagline.split("\n").map((line, i, arr) => (
+                <p
+                  key={i}
+                  className="text-[13px] text-[var(--km-text-secondary)]"
+                >
+                  {line}
+                </p>
+              ))}
+            </div>
             <SocialLinks />
             <a href="https://www.dbd.go.th" target="_blank" rel="noopener noreferrer" className="inline-block mt-4">
               <Image src="/dbd-logo.png" alt="DBD – Department of Business Development" width={56} height={56} className="h-10 w-auto opacity-80 hover:opacity-100 transition-opacity" />

@@ -473,7 +473,7 @@ const translations: Record<LangCode, Translations> = {
       ordersEmpty: "ไม่มีคำสั่งซื้อในสถานะนี้",
     },
     footer: {
-      tagline: "ฟิล์มกันเสือกสำหรับแล็ปท็อปคุณภาพสูง\nระบบแม่เหล็ก Easy Snap ติดง่าย ถอดง่าย",
+      tagline: "ฟิล์มแม่เหล็ก MacBook / Laptop / iPad / Monitor ของแท้ 100%\nติดตั้งง่าย ถอดได้ทันที · จัดส่งรวดเร็ว\nProtect Your Privacy, Anywhere, Anytime.",
       products: "ผลิตภัณฑ์",
       services: "บริการ",
       help: "ช่วยเหลือ",
@@ -876,7 +876,7 @@ const translations: Record<LangCode, Translations> = {
       ordersEmpty: "No orders in this status",
     },
     footer: {
-      tagline: "Premium magnetic privacy screen films for laptops.\nEasy Snap magnetic system — attach and remove in seconds.",
+      tagline: "Genuine magnetic privacy films for MacBook / Laptop / iPad / Monitor · 100% authentic\nEasy snap-on, instant removal · Fast delivery\nProtect Your Privacy, Anywhere, Anytime.",
       products: "Products",
       services: "Services",
       help: "Help",
