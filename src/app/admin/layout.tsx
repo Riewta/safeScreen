@@ -2,7 +2,9 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { useEffect } from "react";
+import { useAdminAuthStore } from "@/stores/adminAuth.store";
 
 const TABS = [
   { href: "/admin/products",  label: "Products"  },
@@ -11,7 +13,25 @@ const TABS = [
 ];
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
-  const pathname = usePathname();
+  const pathname      = usePathname();
+  const router        = useRouter();
+  const isLoggedIn    = useAdminAuthStore((s) => s.isAdminLoggedIn);
+  const logout        = useAdminAuthStore((s) => s.logout);
+
+  const isLoginPage = pathname === "/admin/login";
+
+  // Guard: redirect to admin login if not authenticated
+  useEffect(() => {
+    if (!isLoginPage && !isLoggedIn) {
+      router.replace("/admin/login");
+    }
+  }, [isLoggedIn, isLoginPage, router]);
+
+  // Login page — render with no chrome
+  if (isLoginPage) return <>{children}</>;
+
+  // Not authenticated yet (before redirect fires)
+  if (!isLoggedIn) return null;
 
   return (
     <div className="min-h-screen bg-[var(--km-surface)]" style={{ fontFamily: "var(--km-font)" }}>
@@ -25,12 +45,20 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             Admin
           </span>
         </div>
-        <Link
-          href="/"
-          className="text-[13px] text-[var(--km-text-muted)] hover:text-[var(--km-text)] transition-colors"
-        >
-          ← Back to Store
-        </Link>
+        <div className="flex items-center gap-4">
+          <Link
+            href="/"
+            className="text-[13px] text-[var(--km-text-muted)] hover:text-[var(--km-text)] transition-colors"
+          >
+            ← Back to Store
+          </Link>
+          <button
+            onClick={() => { logout(); router.replace("/admin/login"); }}
+            className="text-[13px] text-[var(--km-text-muted)] hover:text-[#DC2626] transition-colors"
+          >
+            Logout
+          </button>
+        </div>
       </div>
 
       {/* Tab bar */}
