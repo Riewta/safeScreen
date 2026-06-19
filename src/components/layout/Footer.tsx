@@ -51,7 +51,7 @@ export function Footer() {
             </div>
             <SocialLinks />
             <a href="https://www.dbd.go.th" target="_blank" rel="noopener noreferrer" className="inline-block mt-4">
-              <Image src="/dbd-logo.png" alt="DBD – Department of Business Development" width={56} height={56} className="h-10 w-auto opacity-80 hover:opacity-100 transition-opacity" />
+              <Image src="/dbd-logo.png" alt="DBD – Department of Business Development" width={56} height={56} className="h-10 w-auto opacity-80 hover:opacity-100 transition-opacity" style={{ clipPath: "inset(0 0 0 4px)" }} />
             </a>
           </div>
           {Object.entries(FOOTER_LINKS).map(([title, links]) => (
