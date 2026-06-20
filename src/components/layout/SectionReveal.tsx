@@ -4,24 +4,21 @@ import { useEffect } from "react";
 import { usePathname } from "next/navigation";
 
 /**
- * Global scroll-reveal: every <section> on the page gets a slide-up
- * animation when it enters the viewport. No UI changes needed per page.
+ * Global scroll-reveal using data attributes instead of classList,
+ * so React never detects a className mismatch during hydration.
  */
 export function SectionReveal() {
   const pathname = usePathname();
 
   useEffect(() => {
-    // Defer until after React hydration is complete
     const timer = setTimeout(() => {
-      // Double-rAF ensures we run after the browser has painted the hydrated tree
-      requestAnimationFrame(() => requestAnimationFrame(() => {
       const sections = Array.from(document.querySelectorAll("section"));
 
       const observer = new IntersectionObserver(
         (entries) => {
           entries.forEach((entry) => {
             if (entry.isIntersecting) {
-              (entry.target as HTMLElement).classList.add("section-revealed");
+              (entry.target as HTMLElement).setAttribute("data-reveal", "visible");
               observer.unobserve(entry.target);
             }
           });
@@ -32,17 +29,16 @@ export function SectionReveal() {
       sections.forEach((section) => {
         const rect = section.getBoundingClientRect();
         if (rect.top < window.innerHeight * 0.95) {
-          // Already visible — show immediately, no animation
-          section.classList.add("section-revealed", "section-no-anim");
+          section.setAttribute("data-reveal", "visible");
+          section.setAttribute("data-no-anim", "true");
         } else {
-          section.classList.add("section-hidden");
+          section.setAttribute("data-reveal", "hidden");
           observer.observe(section);
         }
       });
 
       return () => observer.disconnect();
-      })); // end double-rAF
-    }, 50);
+    }, 100);
 
     return () => clearTimeout(timer);
   }, [pathname]);

@@ -42,7 +42,7 @@ export function SplashScreen() {
       >
         {/* Brand logo */}
         <Image
-          src="/logo.svg"
+          src="/brand/logo.svg"
           alt="SafeScreen"
           width={360}
           height={46}

@@ -72,7 +72,7 @@ export function BottomNav() {
         {/* Top bar */}
         <div className="flex items-center justify-between px-5" style={{ paddingTop: "max(16px, env(safe-area-inset-top))", paddingBottom: 8 }}>
           <Link href="/" onClick={closeDrawer}>
-            <Image src="/logo.svg" alt="SafeScreen" width={220} height={28} className="h-7 w-auto" priority unoptimized />
+            <Image src="/brand/logo.svg" alt="SafeScreen" width={220} height={28} className="h-7 w-auto" priority unoptimized />
           </Link>
           <button onClick={closeDrawer} className="w-12 h-12 flex items-center justify-center" aria-label="ปิดเมนู">
             <X size={20} weight="bold" className="text-[var(--km-text)]" />

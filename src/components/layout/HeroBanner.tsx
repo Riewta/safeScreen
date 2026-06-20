@@ -6,7 +6,7 @@ import { useState, useEffect, useRef } from "react";
 
 const SLIDES = [
   { type: "image" as const, src: "/banner_promotions/21-9.png", href: "/products" },
-  { type: "video" as const, src: "/banner_video.mp4" },
+  { type: "video" as const, src: "/video/banner_video.mp4" },
 ];
 
 const AUTO_PLAY_INTERVAL = 6000;

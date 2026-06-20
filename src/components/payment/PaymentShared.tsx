@@ -120,7 +120,7 @@ export function JCBLogo({ className = "" }: { className?: string }) {
 export function PromptPayLogo({ className = "" }: { className?: string }) {
   return (
     <img
-      src="/thai_qr_icon.png"
+      src="/payment/thai_qr_icon.png"
       alt="Thai QR Payment"
       className={`object-contain rounded-lg ${className}`}
     />

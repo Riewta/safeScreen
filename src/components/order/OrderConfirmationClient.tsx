@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useSearchParams, useRouter } from "next/navigation";
 import { ChevronRight, ShoppingBag, UserPlus } from "lucide-react";
 import Lottie from "lottie-react";
-import successAnim from "@/../public/Success.json";
+import successAnim from "@/../public/animations/Success.json";
 import { useAuthStore } from "@/stores/auth.store";
 import { useUIStore } from "@/stores/ui.store";
 

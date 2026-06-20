@@ -39,7 +39,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       <div className="bg-white border-b border-[var(--km-border)] px-6 h-14 flex items-center justify-between sticky top-0 z-50">
         <div className="flex items-center gap-3">
           <Link href="/admin">
-            <Image src="/logo.svg" alt="SafeScreen" width={220} height={28} className="h-6 w-auto" unoptimized />
+            <Image src="/brand/logo.svg" alt="SafeScreen" width={220} height={28} className="h-6 w-auto" unoptimized />
           </Link>
           <span className="text-[11px] font-medium tracking-widest uppercase text-[var(--km-text-muted)] border border-[var(--km-border)] px-2 py-0.5 rounded">
             Admin

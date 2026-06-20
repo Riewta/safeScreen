@@ -24,7 +24,7 @@ function CardLogo() {
       {/* Try image logo first, fallback to text */}
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
-        src="/logo.svg"
+        src="/brand/logo.svg"
         alt="SAFESCREEN"
         className="h-8 object-contain"
         onError={(e) => {

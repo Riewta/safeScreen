@@ -264,7 +264,7 @@ export function Header() {
         <div className="flex-1 flex items-center h-full">
           {/* Logo */}
           <Link href="/" className={`${title ? "hidden md:flex" : "flex"} md:static md:translate-x-0 md:mr-6 items-center flex-shrink-0`}>
-            <Image src="/logo.svg" alt="SafeScreen" width={220} height={28} className="h-6 md:h-5 w-auto" priority unoptimized suppressHydrationWarning />
+            <Image src="/brand/logo.svg" alt="SafeScreen" width={220} height={28} className="h-6 md:h-5 w-auto" priority unoptimized suppressHydrationWarning />
           </Link>
 
           {/* Desktop Nav */}
