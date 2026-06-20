@@ -3,14 +3,17 @@ import { persist } from "zustand/middleware";
 import { useUserStore } from "./user.store";
 import { useOrdersStore } from "./orders.store";
 import { useWishlistStore } from "./wishlist.store";
+import { authService } from "@/services/auth.service";
 
 interface AuthStore {
   isLoggedIn:   boolean;
   email:        string;
   name:         string;
+  /** Auth token returned by authService.login() — null when logged out */
+  token:        string | null;
   accessToken:  string | null;
   refreshToken: string | null;
-  login:        (email: string, name?: string) => void;
+  login:        (email: string, name?: string) => Promise<void>;
   logout:       () => void;
   setTokens:    (tokens: { accessToken: string; refreshToken: string }) => void;
 }
@@ -29,6 +32,7 @@ export const useAuthStore = create<AuthStore>()(
       isLoggedIn:   false,
       email:        "",
       name:         "",
+      token:        null,
       accessToken:  null,
       refreshToken: null,
 
@@ -36,12 +40,24 @@ export const useAuthStore = create<AuthStore>()(
         set({ accessToken, refreshToken });
       },
 
-      login: (email, name) => {
-        set({ isLoggedIn: true, email, name: name ?? email.split("@")[0] });
+      login: async (email, name) => {
+        // Delegates to authService — swap mock → real by setting NEXT_PUBLIC_API_URL
+        const result = await authService.login({ email });
+        const resolvedName = name ?? result.user.name ?? email.split("@")[0];
+
+        set({
+          isLoggedIn:   true,
+          email,
+          name:         resolvedName,
+          token:        result.token,
+          accessToken:  result.token,
+          refreshToken: result.refreshToken ?? null,
+        });
+
         useUserStore.getState().updateProfile({
           ...MOCK_LOGGED_IN_PROFILE,
           email,
-          name: name ?? MOCK_LOGGED_IN_PROFILE.name,
+          name: resolvedName,
         });
         useOrdersStore.getState().seedIfEmpty();
         const pendingId = useWishlistStore.getState().consumePending();
@@ -49,7 +65,14 @@ export const useAuthStore = create<AuthStore>()(
       },
 
       logout: () => {
-        set({ isLoggedIn: false, email: "", name: "", accessToken: null, refreshToken: null });
+        set({
+          isLoggedIn:   false,
+          email:        "",
+          name:         "",
+          token:        null,
+          accessToken:  null,
+          refreshToken: null,
+        });
         useUserStore.getState().updateProfile({
           name:   "",
           email:  "",

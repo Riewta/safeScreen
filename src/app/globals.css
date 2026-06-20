@@ -396,21 +396,21 @@ html, body {
   }
 }
 
-/* ── Global section scroll reveal ───────────────────────── */
-.section-hidden {
+/* ── Global section scroll reveal (data-attribute based — no className mutation) ── */
+section[data-reveal="hidden"] {
   opacity: 0;
   transform: translateY(28px);
   transition: opacity 0.55s cubic-bezier(0.16, 1, 0.3, 1),
               transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.section-revealed {
+section[data-reveal="visible"] {
   opacity: 1;
   transform: translateY(0);
   transition: opacity 0.55s cubic-bezier(0.16, 1, 0.3, 1),
               transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.section-no-anim {
+section[data-reveal="visible"][data-no-anim="true"] {
   transition: none !important;
 }

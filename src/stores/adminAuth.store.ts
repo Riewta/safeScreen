@@ -1,16 +1,13 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-
-// Mock admin credentials
-const ADMIN_CREDENTIALS = {
-  email: "admin@safescreentech.com",
-  password: "admin1234",
-};
+import { adminService } from "@/services/admin.service";
 
 interface AdminAuthState {
   isAdminLoggedIn: boolean;
   adminEmail: string | null;
-  login: (email: string, password: string) => { success: boolean; error?: string };
+  /** Auth token returned by adminService.login() — null when logged out */
+  token: string | null;
+  login: (email: string, password: string) => Promise<{ success: boolean; error?: string }>;
   logout: () => void;
 }
 
@@ -19,19 +16,21 @@ export const useAdminAuthStore = create<AdminAuthState>()(
     (set) => ({
       isAdminLoggedIn: false,
       adminEmail: null,
+      token: null,
 
-      login: (email, password) => {
-        if (
-          email.toLowerCase() === ADMIN_CREDENTIALS.email &&
-          password === ADMIN_CREDENTIALS.password
-        ) {
-          set({ isAdminLoggedIn: true, adminEmail: email });
+      login: async (email, password) => {
+        // Delegates to adminService — swap mock → real by setting NEXT_PUBLIC_API_URL
+        try {
+          const result = await adminService.login({ email, password });
+          set({ isAdminLoggedIn: true, adminEmail: email, token: result.token });
           return { success: true };
+        } catch (err) {
+          const message = err instanceof Error ? err.message : "อีเมลหรือรหัสผ่านไม่ถูกต้อง";
+          return { success: false, error: message };
         }
-        return { success: false, error: "อีเมลหรือรหัสผ่านไม่ถูกต้อง" };
       },
 
-      logout: () => set({ isAdminLoggedIn: false, adminEmail: null }),
+      logout: () => set({ isAdminLoggedIn: false, adminEmail: null, token: null }),
     }),
     { name: "karmart-admin-auth" }
   )

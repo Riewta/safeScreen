@@ -188,7 +188,7 @@ export default function ExpressPage() {
         <div className="max-w-4xl mx-auto px-4 py-10">
           <div className="relative w-full rounded-3xl overflow-hidden shadow-2xl">
             <Image
-              src="/Banner_4_PNG.png"
+              src="/banners/Banner_4_PNG.png"
               alt="Now at Smoosh สามย่าน – SafeScreen Express"
               width={1080}
               height={1080}

@@ -65,7 +65,7 @@ export default function AdminLoginPage() {
     if (!email || !password) { setError("กรุณากรอกอีเมลและรหัสผ่าน"); return; }
     setLoading(true);
     await new Promise((r) => setTimeout(r, 800));
-    const result = login(email, password);
+    const result = await login(email, password);
     setLoading(false);
     if (result.success) {
       router.replace("/admin/products");
@@ -90,7 +90,7 @@ export default function AdminLoginPage() {
           <div className="mb-7">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src="/logo.svg"
+              src="/brand/logo.svg"
               alt="SAFESCREEN"
               className="h-8 object-contain"
               onError={(e) => {
