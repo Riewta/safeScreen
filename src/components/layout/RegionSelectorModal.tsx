@@ -54,7 +54,7 @@ export function RegionSelectorModal() {
   useEffect(() => {
     if (regionModalOpen) {
       if (typeof window !== "undefined") {
-        const savedRegion = localStorage.getItem("karmart_selected_region") || country.code || "TH";
+        const savedRegion = localStorage.getItem("safescreen_selected_region") || country.code || "TH";
         setSelectedRegion(savedRegion);
       }
       setSelectedLang(country.code || "TH");
@@ -66,7 +66,7 @@ export function RegionSelectorModal() {
   useEffect(() => {
     // Show only once per browser session
     if (typeof window !== "undefined") {
-      const prompted = sessionStorage.getItem("karmart_region_prompted");
+      const prompted = sessionStorage.getItem("safescreen_region_prompted");
       if (prompted !== "true") {
         // Set defaults from active store or detect region from browser locale
         const detectedLang = navigator.language.includes("th") ? "TH" : "EN";
@@ -97,11 +97,11 @@ export function RegionSelectorModal() {
 
   const handleConfirm = () => {
     // 1. Persist selection to sessionStorage so they are not prompted again in this session
-    sessionStorage.setItem("karmart_region_prompted", "true");
+    sessionStorage.setItem("safescreen_region_prompted", "true");
     
     // 2. Also cache actual selections in localStorage for persistence
-    localStorage.setItem("karmart_selected_region", selectedRegion);
-    localStorage.setItem("karmart_selected_currency", selectedCurrency);
+    localStorage.setItem("safescreen_selected_region", selectedRegion);
+    localStorage.setItem("safescreen_selected_currency", selectedCurrency);
     
     // 3. Map language to update the locale store translation language (TH / EN / CN)
     const matchedStoreCountry = COUNTRIES.find((c) => c.code === selectedLang) || COUNTRIES[0];
@@ -161,7 +161,7 @@ export function RegionSelectorModal() {
         }}
       >
         {/* Close Button (only visible if prompted before) */}
-        {typeof window !== "undefined" && sessionStorage.getItem("karmart_region_prompted") === "true" && (
+        {typeof window !== "undefined" && sessionStorage.getItem("safescreen_region_prompted") === "true" && (
           <button
             type="button"
             onClick={closeRegionModal}

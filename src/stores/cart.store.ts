@@ -204,7 +204,7 @@ export const useCartStore = create<CartStore>()(
       removeCoupon: () => set({ coupon: null, couponDiscount: 0 }),
     }),
     {
-      name: "karmart-cart",
+      name: "safescreen-cart",
       version: 4,
       migrate: (): { items: CartItem[]; selectedIds: string[]; buyNowItem: CartItem | null; coupon: string | null; couponDiscount: number } => ({ items: [], selectedIds: [], buyNowItem: null, coupon: null, couponDiscount: 0 }),
       partialize: (s) => ({

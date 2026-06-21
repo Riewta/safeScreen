@@ -66,6 +66,6 @@ export const useTaxInvoiceStore = create<TaxInvoiceStore>()(
 
       clear: () => set({ profiles: [], selectedId: null }),
     }),
-    { name: "karmart-tax-invoice-v2" }
+    { name: "safescreen-tax-invoice-v2" }
   )
 );

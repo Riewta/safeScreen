@@ -111,7 +111,7 @@ export const useCheckoutStore = create<CheckoutStore>()(
         }),
     }),
     {
-      name: "karmart-checkout",
+      name: "safescreen-checkout",
       partialize: (s) => ({
         addresses:         s.addresses,
         selectedAddressId: s.selectedAddressId,

@@ -83,7 +83,7 @@ export const useNotificationsStore = create<NotificationsStore>()(
       clearAll: () => set({ notifications: [] }),
     }),
     {
-      name: "karmart-notifications",
+      name: "safescreen-notifications",
     }
   )
 );

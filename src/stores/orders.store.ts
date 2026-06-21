@@ -1094,7 +1094,7 @@ export const useOrdersStore = create<OrdersStore>()(
         get().reviews.filter((r) => r.productId === productId),
     }),
     {
-      name: "karmart-orders",
+      name: "safescreen-orders",
       version: 15,
       migrate: () => ({ orders: SEED_ORDERS, reviews: [] }),
       partialize: (s) => ({ orders: s.orders, reviews: s.reviews }),

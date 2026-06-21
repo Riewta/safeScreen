@@ -5,7 +5,7 @@ import Link from "next/link";
 import { Cookie } from "lucide-react";
 import { useLang } from "@/contexts/lang";
 
-const STORAGE_KEY = "karmart-cookie-consent";
+const STORAGE_KEY = "safescreen-cookie-consent";
 type ConsentState = "accepted" | "declined" | null;
 
 export function CookieBanner() {

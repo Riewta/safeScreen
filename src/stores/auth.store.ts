@@ -83,6 +83,6 @@ export const useAuthStore = create<AuthStore>()(
         useOrdersStore.getState().clearOrders();
       },
     }),
-    { name: "karmart-auth" }
+    { name: "safescreen-auth" }
   )
 );

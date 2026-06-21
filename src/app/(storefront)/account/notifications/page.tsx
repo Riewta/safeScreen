@@ -25,7 +25,7 @@ const useNotifPrefs = create<NotifPrefs>()(
       system: true,
       toggle: (key) => set((s) => ({ [key]: !s[key] })),
     }),
-    { name: "karmart-notif-prefs" }
+    { name: "safescreen-notif-prefs" }
   )
 );
 
