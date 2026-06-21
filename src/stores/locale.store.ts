@@ -69,7 +69,7 @@ export const useLocaleStore = create<LocaleStore>()(
       setRegion: (r) => set({ region: r }),
     }),
     {
-      name: "karmart-locale",
+      name: "safescreen-locale",
       version: 2,
       migrate: (persistedState: unknown) => {
         const s = persistedState as Partial<LocaleStore>;

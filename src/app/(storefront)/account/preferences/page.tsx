@@ -35,7 +35,7 @@ function PreferencesContent() {
   // Load initial value based on active states
   useEffect(() => {
     if (type === "region") {
-      const savedRegion = (typeof window !== "undefined" && localStorage.getItem("karmart_selected_region")) || country.code || "TH";
+      const savedRegion = (typeof window !== "undefined" && localStorage.getItem("safescreen_selected_region")) || country.code || "TH";
       setSelectedValue(savedRegion);
     } else if (type === "lang") {
       setSelectedValue(country.code || "TH");
@@ -62,8 +62,8 @@ function PreferencesContent() {
 
     if (type === "region") {
       if (typeof window !== "undefined") {
-        localStorage.setItem("karmart_selected_region", selectedValue);
-        sessionStorage.setItem("karmart_region_prompted", "true");
+        localStorage.setItem("safescreen_selected_region", selectedValue);
+        sessionStorage.setItem("safescreen_region_prompted", "true");
       }
 
       // Cascade defaults for Region Selection
@@ -72,7 +72,7 @@ function PreferencesContent() {
       const defaultCurrency = found?.defaultCurrency || "THB";
 
       if (typeof window !== "undefined") {
-        localStorage.setItem("karmart_selected_currency", defaultCurrency);
+        localStorage.setItem("safescreen_selected_currency", defaultCurrency);
       }
 
       const matchedStoreCountry = COUNTRIES.find((c) => c.code === defaultLang) || COUNTRIES[0];
@@ -90,7 +90,7 @@ function PreferencesContent() {
 
     } else if (type === "currency") {
       if (typeof window !== "undefined") {
-        localStorage.setItem("karmart_selected_currency", selectedValue);
+        localStorage.setItem("safescreen_selected_currency", selectedValue);
       }
 
       const matchedStoreCountry = COUNTRIES.find((c) => c.code === country.code) || COUNTRIES[0];

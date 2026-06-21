@@ -13,7 +13,7 @@ export class ApiError extends Error {
 function getAccessToken(): string | null {
   if (typeof window === "undefined") return null;
   try {
-    const raw = localStorage.getItem("karmart-auth");
+    const raw = localStorage.getItem("safescreen-auth");
     if (!raw) return null;
     return (JSON.parse(raw) as { state?: { accessToken?: string } }).state?.accessToken ?? null;
   } catch {

@@ -32,6 +32,6 @@ export const useAdminAuthStore = create<AdminAuthState>()(
 
       logout: () => set({ isAdminLoggedIn: false, adminEmail: null, token: null }),
     }),
-    { name: "karmart-admin-auth" }
+    { name: "safescreen-admin-auth" }
   )
 );

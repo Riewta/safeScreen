@@ -60,7 +60,7 @@ export default function AccountPage() {
 
   React.useEffect(() => {
     if (typeof window !== "undefined") {
-      setActiveRegion(localStorage.getItem("karmart_selected_region") || country.code || "TH");
+      setActiveRegion(localStorage.getItem("safescreen_selected_region") || country.code || "TH");
     }
   }, [country.code]);
 

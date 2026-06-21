@@ -36,6 +36,6 @@ export const useWishlistStore = create<WishlistStore>()(
         return id;
       },
     }),
-    { name: "karmart-wishlist" }
+    { name: "safescreen-wishlist" }
   )
 );
